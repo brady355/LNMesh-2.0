@@ -1,0 +1,14 @@
+[Unit]
+Description=Bitcoin Core (regtest) for LNMesh
+Requires=lnmesh-mesh.service
+After=lnmesh-mesh.service
+
+[Service]
+User=bitcoin
+Group=bitcoin
+ExecStart=/usr/local/bin/bitcoind -datadir=/var/lib/bitcoind
+Restart=on-failure
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target

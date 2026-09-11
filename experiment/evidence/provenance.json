@@ -1,0 +1,38 @@
+{
+  "recorded_utc": "2026-09-08T00:15:37.361506+00:00",
+  "controller_platform": "Windows-11-10.0.26200-SP0",
+  "controller_python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "controller_timezone": "America/Chicago",
+  "archive": {
+    "filename": "LNMesh-2026-09-05.tar.gz",
+    "bytes": 152771,
+    "sha256": "2609eff4c7b12d9cc5d70a981f4629350d37c567058320668d7002d65eb4c616"
+  },
+  "python_ast_checked": [
+    "analyze.py",
+    "build_report.py",
+    "experiment.py",
+    "make_figures.py",
+    "report_layout.py",
+    "runner.py",
+    "supplement.py",
+    "verification.py",
+    "scripts\\measure.py"
+  ],
+  "bash_syntax_checked": [
+    "scripts\\configure-bitcoin.sh",
+    "scripts\\configure-lnd.sh",
+    "scripts\\configure-mesh.sh",
+    "scripts\\configure-time.sh",
+    "scripts\\create-breach-node.sh",
+    "scripts\\final-status.sh",
+    "scripts\\gateway-no-forward.sh",
+    "scripts\\install-base.sh",
+    "scripts\\install-binaries.sh",
+    "scripts\\isolate-leaf.sh",
+    "scripts\\persist-mesh-mac.sh",
+    "scripts\\preflight-root.sh",
+    "scripts\\verify-isolation.sh",
+    "scripts\\verify-mesh.sh"
+  ]
+}

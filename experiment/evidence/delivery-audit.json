@@ -1,0 +1,62 @@
+{
+  "checked_utc": "2026-09-08T00:19:14.013641+00:00",
+  "planned_payments": 150,
+  "additional_functional_payments": 1,
+  "breach_state_advancing_payments": 3,
+  "unique_regular_payment_hashes": 151,
+  "all_regular_payments_settled": true,
+  "all_regular_routes_one_hop": true,
+  "all_regular_payments_one_attempt": true,
+  "all_regular_fees_zero": true,
+  "ping_packets_received": 600,
+  "tcp_trials": 9,
+  "pdf_pages": 17,
+  "pdf_visual_review": "All 17 rendered pages inspected; modified pages rechecked after final edits.",
+  "report_dependencies": {
+    "reportlab": "4.4.9",
+    "matplotlib": "3.11.1",
+    "markdown": "3.10.3",
+    "pypdf": "6.10.0"
+  },
+  "remote_event_count": 1056,
+  "nonzero_remote_events": 28,
+  "unmatched_start_records": 0,
+  "known_early_stdout_hash_mismatches": [
+    {
+      "id": "20260907T232911.718985Z-c-ddf514",
+      "label": "privileged-preflight",
+      "host": "c",
+      "mismatched": [
+        "stdout"
+      ]
+    },
+    {
+      "id": "20260907T232911.718985Z-b-59ecef",
+      "label": "privileged-preflight",
+      "host": "b",
+      "mismatched": [
+        "stdout"
+      ]
+    },
+    {
+      "id": "20260907T233012.549045Z-a-b95528",
+      "label": "install-base-packages",
+      "host": "a",
+      "mismatched": [
+        "stdout"
+      ]
+    },
+    {
+      "id": "20260907T233012.550021Z-c-2ef2cb",
+      "label": "install-base-packages",
+      "host": "c",
+      "mismatched": [
+        "stdout"
+      ]
+    }
+  ],
+  "local_execution_notes": [
+    "One inline PowerShell invocation of a final read-only disposable-node verifier failed local quoting before SSH; the check was rerun successfully from supplement.py.",
+    "The final launcher was syntax-checked; its complete sequence was not replayed on freshly erased Pis."
+  ]
+}

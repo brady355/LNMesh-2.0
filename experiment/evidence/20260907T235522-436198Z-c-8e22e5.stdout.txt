@@ -1,0 +1,59 @@
+{
+    "channels": [
+        {
+            "active": true,
+            "remote_pubkey": "0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae",
+            "channel_point": "6908228319e87e2d1d1d3b405fc6b750e48db087658102b45b43469f7e055ccc:1",
+            "chan_id": "cc5c057e9f46435bb402816587b08de450b7c65f403b1d1d2d7ee81983220868",
+            "scid": "1263338860380161",
+            "scid_str": "1149x1x1",
+            "capacity": "500000",
+            "local_balance": "200000",
+            "remote_balance": "296530",
+            "commit_fee": "2810",
+            "commit_weight": "1116",
+            "fee_per_kw": "2500",
+            "unsettled_balance": "0",
+            "total_satoshis_sent": "0",
+            "total_satoshis_received": "0",
+            "num_updates": "0",
+            "pending_htlcs": [],
+            "csv_delay": 1008,
+            "private": true,
+            "initiator": false,
+            "chan_status_flags": "ChanStatusDefault",
+            "local_chan_reserve_sat": "5000",
+            "remote_chan_reserve_sat": "5000",
+            "static_remote_key": false,
+            "commitment_type": "ANCHORS",
+            "lifetime": "4",
+            "uptime": "4",
+            "close_address": "",
+            "push_amount_sat": "200000",
+            "thaw_height": 0,
+            "local_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "5000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "495000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "remote_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "5000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "495000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "alias_scids": [],
+            "zero_conf": false,
+            "zero_conf_confirmed_scid": "0",
+            "peer_alias": "unable to lookup peer alias: alias for node not found",
+            "peer_scid_alias": "0",
+            "memo": "",
+            "custom_channel_data": ""
+        }
+    ]
+}

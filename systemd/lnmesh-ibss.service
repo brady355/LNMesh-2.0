@@ -1,0 +1,15 @@
+[Unit]
+Description=LNMesh IBSS and batman-adv underlay
+After=network-pre.target
+Before=network.target lightningd.service
+Wants=network-pre.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=-/etc/lnmesh/lnmesh.env
+ExecStart=/usr/local/lib/lnmesh/ibss-batman.sh start
+ExecStop=/usr/local/lib/lnmesh/ibss-batman.sh stop
+
+[Install]
+WantedBy=multi-user.target

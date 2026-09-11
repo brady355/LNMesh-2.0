@@ -1,0 +1,42 @@
+2026-09-07T23:31:58,672315282+00:00
+PING 10.10.0.1 (10.10.0.1) from 10.10.0.2 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.1: icmp_seq=1 ttl=64 time=0.684 ms
+64 bytes from 10.10.0.1: icmp_seq=2 ttl=64 time=7.43 ms
+64 bytes from 10.10.0.1: icmp_seq=3 ttl=64 time=6.20 ms
+
+--- 10.10.0.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2030ms
+rtt min/avg/max/mdev = 0.684/4.770/7.429/2.933 ms
+PING 10.10.0.2 (10.10.0.2) from 10.10.0.2 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=0.021 ms
+64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=0.014 ms
+64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=0.014 ms
+
+--- 10.10.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2029ms
+rtt min/avg/max/mdev = 0.014/0.016/0.021/0.003 ms
+PING 10.10.0.3 (10.10.0.3) from 10.10.0.2 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.3: icmp_seq=1 ttl=64 time=1.92 ms
+64 bytes from 10.10.0.3: icmp_seq=2 ttl=64 time=8.45 ms
+64 bytes from 10.10.0.3: icmp_seq=3 ttl=64 time=10.3 ms
+
+--- 10.10.0.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.920/6.890/10.304/3.595 ms
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:3c:09:e6 (bat0/7a:10:33:e5:ac:5e BATMAN_IV)]
+IF             Neighbor              last-seen
+        wlan0	  2c:cf:67:3c:07:ac    0.780s
+        wlan0	  2c:cf:67:f4:eb:c5    0.608s
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:3c:09:e6 (bat0/7a:10:33:e5:ac:5e BATMAN_IV)]
+   Originator        last-seen (#/255) Nexthop           [outgoingIF]
+   2c:cf:67:f4:eb:c5    0.500s   (198) 2c:cf:67:3c:07:ac [     wlan0]
+ * 2c:cf:67:f4:eb:c5    0.500s   (255) 2c:cf:67:f4:eb:c5 [     wlan0]
+   2c:cf:67:3c:07:ac    0.676s   (194) 2c:cf:67:f4:eb:c5 [     wlan0]
+ * 2c:cf:67:3c:07:ac    0.676s   (255) 2c:cf:67:3c:07:ac [     wlan0]
+Joined IBSS ee:43:62:1b:10:dc (on wlan0)
+	SSID: lnmesh-20260907
+	freq: 2412.0
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             10.17.4.56/23 fe80::1075:3ed8:5d19:f1ca/64 
+wlan0            UP             fe80::2ecf:67ff:fe3c:9e6/64 
+bat0             UNKNOWN        10.10.0.2/24 fe80::7810:33ff:fee5:ac5e/64 

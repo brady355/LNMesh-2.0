@@ -1,0 +1,3 @@
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+set -euo pipefail
+/usr/local/bin/lnmesh-measure /usr/local/bin/lncli-mesh payinvoice --force --json --timeout 30s lnbcrt50u1p4f7n3gpp5mmpscqtw92dzj6my30vzwmg9c42nmf6mv8ncvszddw66k8pxnsuqdp0vfshxetvd9hx2ttrdpskjm3dwf6kumnfdenjqc3dvvsrzvccqzzsxqyz5vqsp52rcr8ygku353729npsmf37apg7z5wsvdts42f9aw97hwpq7u40ys9qxpqysgq7xm7tvktzdzt6pkvu6e99whz44wys2nr6fqx2juyww7zng099wr9efzq49lfplym6wyuy2qev0y7ue2z0zederjarwf4tkatuhp3yrsq5en9s8

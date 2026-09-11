@@ -1,0 +1,639 @@
+2026-09-08T00:13:39,534788023+00:00
+ Static hostname: pi1gateway
+       Icon name: computer
+      Machine ID: 441c56f3587145e5a5a37a0da1e9b1dd
+         Boot ID: 516f9d5384904f0b9115b9049b51addc
+Operating System: Debian GNU/Linux 13 (trixie)
+          Kernel: Linux 6.18.34+rpt-rpi-2712
+    Architecture: arm64
+Linux pi1gateway 6.18.34+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.18.34-1+rpt1 (2026-06-09) aarch64 GNU/Linux
+batctl	2025.0-2
+ca-certificates	20250419
+chrony	4.6.1-3+deb13u2
+curl	8.14.1-2+deb13u4
+gnupg	2.4.7-21+deb13u1
+iperf3	3.18-2+deb13u2
+jq	1.7.1-6+deb13u3
+libsctp1:arm64	1.0.21+dfsg-1
+python3	3.13.5-1
+tcpdump	4.99.5-2
+active
+active
+active
+enabled
+enabled
+enabled
+active
+net.ipv4.ip_forward = 0
+net.ipv6.conf.all.forwarding = 0
+{
+  "chain": "regtest",
+  "blocks": 1156,
+  "headers": 1156,
+  "bestblockhash": "03b951739b87ccef2f8cd2b787d1408c09ff48d87f7fa08fb2dd760deedde44b",
+  "bits": "207fffff",
+  "target": "7fffff0000000000000000000000000000000000000000000000000000000000",
+  "difficulty": 4.656542373906925e-10,
+  "time": 1788825470,
+  "mediantime": 1788825316,
+  "verificationprogress": 1,
+  "initialblockdownload": false,
+  "chainwork": "000000000000000000000000000000000000000000000000000000000000090a",
+  "size_on_disk": 364168,
+  "pruned": false,
+  "warnings": [
+  ]
+}
+{
+  "txindex": {
+    "synced": true,
+    "best_block_height": 1156
+  },
+  "basic block filter index": {
+    "synced": true,
+    "best_block_height": 1156
+  }
+}
+[
+  {
+    "addr": "10.10.0.2:40738",
+    "inbound": true,
+    "subver": "/btcwire:0.5.0/neutrino:0.12.0-beta/",
+    "startingheight": 1156,
+    "connection_type": "inbound",
+    "bytesrecv": 1487,
+    "bytessent": 442
+  },
+  {
+    "addr": "10.10.0.3:49334",
+    "inbound": true,
+    "subver": "/btcwire:0.5.0/neutrino:0.12.0-beta/",
+    "startingheight": 1156,
+    "connection_type": "inbound",
+    "bytesrecv": 959,
+    "bytessent": 320
+  }
+]
+{
+  "version": "0.19.2-beta commit=v0.19.2-beta",
+  "commit_hash": "a839456493037a6af51cbf16db8be6182d614171",
+  "identity_pubkey": "0230b0c300e03818338183dea06ab1ce43f7533dc5e524df2c2052cfc66a97916d",
+  "alias": "lnmesh-a",
+  "chains": [
+    {
+      "chain": "bitcoin",
+      "network": "regtest"
+    }
+  ],
+  "synced_to_chain": true,
+  "block_height": 1156,
+  "block_hash": "03b951739b87ccef2f8cd2b787d1408c09ff48d87f7fa08fb2dd760deedde44b",
+  "num_active_channels": 2,
+  "num_inactive_channels": 0,
+  "num_pending_channels": 0,
+  "num_peers": 2
+}
+{
+    "channels": [
+        {
+            "active": true,
+            "remote_pubkey": "0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae",
+            "channel_point": "cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0",
+            "chan_id": "a8edf80d79dc35f8b33211c05ec7cf24e945dd54c12a0722896aaa96a3c5a4ce",
+            "scid": "1250144720846848",
+            "scid_str": "1137x1x0",
+            "capacity": "1000000",
+            "local_balance": "596530",
+            "remote_balance": "400000",
+            "commit_fee": "2810",
+            "commit_weight": "1116",
+            "fee_per_kw": "2500",
+            "unsettled_balance": "0",
+            "total_satoshis_sent": "0",
+            "total_satoshis_received": "0",
+            "num_updates": "0",
+            "pending_htlcs": [],
+            "csv_delay": 1008,
+            "private": true,
+            "initiator": true,
+            "chan_status_flags": "ChanStatusDefault",
+            "local_chan_reserve_sat": "10000",
+            "remote_chan_reserve_sat": "10000",
+            "static_remote_key": false,
+            "commitment_type": "ANCHORS",
+            "lifetime": "132",
+            "uptime": "102",
+            "close_address": "",
+            "push_amount_sat": "400000",
+            "thaw_height": 0,
+            "local_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "10000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "990000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "remote_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "10000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "990000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "alias_scids": [],
+            "zero_conf": false,
+            "zero_conf_confirmed_scid": "0",
+            "peer_alias": "lnmesh-b",
+            "peer_scid_alias": "0",
+            "memo": "",
+            "custom_channel_data": ""
+        },
+        {
+            "active": true,
+            "remote_pubkey": "030b7a54e192c3c99b05b97e3a90e3598e44173726b0f0a889e07c3bc82495f2c1",
+            "channel_point": "198b923d80e741f24d66661aadbdaa0dab094a2ec20e6711f94c0114cfd48ed5:0",
+            "chan_id": "d58ed4cf14014cf911670ec22e4a09ab0daabdad1a66664df241e7803d928b19",
+            "scid": "131941395398656",
+            "scid_str": "120x1x0",
+            "capacity": "1000000",
+            "local_balance": "596530",
+            "remote_balance": "400000",
+            "commit_fee": "2810",
+            "commit_weight": "1116",
+            "fee_per_kw": "2500",
+            "unsettled_balance": "0",
+            "total_satoshis_sent": "0",
+            "total_satoshis_received": "0",
+            "num_updates": "0",
+            "pending_htlcs": [],
+            "csv_delay": 1008,
+            "private": true,
+            "initiator": true,
+            "chan_status_flags": "ChanStatusDefault",
+            "local_chan_reserve_sat": "10000",
+            "remote_chan_reserve_sat": "10000",
+            "static_remote_key": false,
+            "commitment_type": "ANCHORS",
+            "lifetime": "132",
+            "uptime": "94",
+            "close_address": "",
+            "push_amount_sat": "400000",
+            "thaw_height": 0,
+            "local_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "10000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "990000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "remote_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "10000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "990000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "alias_scids": [],
+            "zero_conf": false,
+            "zero_conf_confirmed_scid": "0",
+            "peer_alias": "lnmesh-c",
+            "peer_scid_alias": "0",
+            "memo": "",
+            "custom_channel_data": ""
+        }
+    ]
+}
+{
+    "total_balance": "1483587352934",
+    "confirmed_balance": "1483587352934",
+    "unconfirmed_balance": "0",
+    "locked_balance": "0",
+    "reserved_balance_anchor_chan": "0",
+    "account_balance": {
+        "default": {
+            "confirmed_balance": "1483587352934",
+            "unconfirmed_balance": "0"
+        }
+    }
+}
+{
+    "balance": "1193060",
+    "pending_open_balance": "0",
+    "local_balance": {
+        "sat": "1193060",
+        "msat": "1193060000"
+    },
+    "remote_balance": {
+        "sat": "800000",
+        "msat": "800000000"
+    },
+    "unsettled_local_balance": {
+        "sat": "0",
+        "msat": "0"
+    },
+    "unsettled_remote_balance": {
+        "sat": "0",
+        "msat": "0"
+    },
+    "pending_open_local_balance": {
+        "sat": "0",
+        "msat": "0"
+    },
+    "pending_open_remote_balance": {
+        "sat": "0",
+        "msat": "0"
+    },
+    "custom_channel_data": "02000000"
+}
+{
+    "total_limbo_balance": "0",
+    "pending_open_channels": [],
+    "pending_closing_channels": [],
+    "pending_force_closing_channels": [],
+    "waiting_close_channels": []
+}
+{
+    "channels": [
+        {
+            "channel_point": "6e1b28f974579138d8cc31ad1ad9f21eaf627a2c6f37e42851e3d946b07a1b72:0",
+            "chan_id": "721b7ab046d9e35128e4376f2c7a62af1ef2d91aad31ccd838915774f9281b6e",
+            "scid": "112150186098688",
+            "scid_str": "102x1x0",
+            "chain_hash": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+            "closing_tx_hash": "d166db642dac138b247cc6d9faabe632fcfedf60088203ff913ce47a24b3a6fc",
+            "remote_pubkey": "0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae",
+            "capacity": "1000000",
+            "close_height": 126,
+            "settled_balance": "599200",
+            "time_locked_balance": "0",
+            "close_type": "COOPERATIVE_CLOSE",
+            "open_initiator": "INITIATOR_LOCAL",
+            "close_initiator": "INITIATOR_REMOTE",
+            "resolutions": [],
+            "alias_scids": [],
+            "zero_conf_confirmed_scid": "0",
+            "custom_channel_data": ""
+        }
+    ]
+}
+{
+    "peers": [
+        {
+            "pub_key": "0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae",
+            "address": "10.10.0.2:48962",
+            "bytes_sent": "3470",
+            "bytes_recv": "2764",
+            "sat_sent": "0",
+            "sat_recv": "0",
+            "inbound": true,
+            "ping_time": "6269",
+            "sync_type": "ACTIVE_SYNC",
+            "features": {
+                "0": {
+                    "name": "data-loss-protect",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "8": {
+                    "name": "tlv-onion",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "12": {
+                    "name": "static-remote-key",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "23": {
+                    "name": "anchors-zero-fee-htlc-tx",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "25": {
+                    "name": "route-blinding",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "27": {
+                    "name": "shutdown-any-segwit",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "31": {
+                    "name": "amp",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "2023": {
+                    "name": "script-enforced-lease",
+                    "is_required": false,
+                    "is_known": true
+                }
+            },
+            "errors": [],
+            "flap_count": 10,
+            "last_flap_ns": "1788826316948485743",
+            "last_ping_payload": "00000020f58b7a67ae78a55b0ea618ce23a134c6dd42c7cbc33b93ba74351bea350d0709cbb6a7755cd1206408c58f955e3a022557f4bb692af598ddc5a94f25d4b2a33c7e4f9f6affff7f2003000000"
+        },
+        {
+            "pub_key": "030b7a54e192c3c99b05b97e3a90e3598e44173726b0f0a889e07c3bc82495f2c1",
+            "address": "10.10.0.3:9735",
+            "bytes_sent": "3739",
+            "bytes_recv": "2082",
+            "sat_sent": "0",
+            "sat_recv": "0",
+            "inbound": false,
+            "ping_time": "12194",
+            "sync_type": "ACTIVE_SYNC",
+            "features": {
+                "0": {
+                    "name": "data-loss-protect",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "8": {
+                    "name": "tlv-onion",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "12": {
+                    "name": "static-remote-key",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "23": {
+                    "name": "anchors-zero-fee-htlc-tx",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "25": {
+                    "name": "route-blinding",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "27": {
+                    "name": "shutdown-any-segwit",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "31": {
+                    "name": "amp",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "2023": {
+                    "name": "script-enforced-lease",
+                    "is_required": false,
+                    "is_known": true
+                }
+            },
+            "errors": [],
+            "flap_count": 8,
+            "last_flap_ns": "1788826325002485973",
+            "last_ping_payload": "00000020f58b7a67ae78a55b0ea618ce23a134c6dd42c7cbc33b93ba74351bea350d0709cbb6a7755cd1206408c58f955e3a022557f4bb692af598ddc5a94f25d4b2a33c7e4f9f6affff7f2003000000"
+        }
+    ]
+}
+[{"ifindex":1,"ifname":"lo","flags":["LOOPBACK","UP","LOWER_UP"],"mtu":65536,"qdisc":"noqueue","operstate":"UNKNOWN","group":"default","txqlen":1000,"link_type":"loopback","address":"00:00:00:00:00:00","broadcast":"00:00:00:00:00:00","addr_info":[{"family":"inet","local":"127.0.0.1","prefixlen":8,"scope":"host","label":"lo","valid_life_time":4294967295,"preferred_life_time":4294967295},{"family":"inet6","local":"::1","prefixlen":128,"scope":"host","noprefixroute":true,"valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":2,"ifname":"eth0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UP","group":"default","txqlen":1000,"link_type":"ether","address":"2c:cf:67:f4:eb:c4","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet","local":"10.17.4.55","prefixlen":23,"broadcast":"10.17.5.255","scope":"global","dynamic":true,"noprefixroute":true,"label":"eth0","valid_life_time":86267,"preferred_life_time":86267},{"family":"inet6","local":"fe80::f329:88d2:7b8e:da8","prefixlen":64,"scope":"link","noprefixroute":true,"valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":3,"ifname":"wlan0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","master":"bat0","operstate":"UP","group":"default","txqlen":1000,"link_type":"ether","address":"2c:cf:67:f4:eb:c5","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet6","local":"fe80::2ecf:67ff:fef4:ebc5","prefixlen":64,"scope":"link","protocol":"kernel_ll","valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":4,"ifname":"bat0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UNKNOWN","group":"default","txqlen":1000,"link_type":"ether","address":"42:dd:83:e7:7e:8b","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet","local":"10.10.0.1","prefixlen":24,"scope":"global","label":"bat0","valid_life_time":4294967295,"preferred_life_time":4294967295},{"family":"inet6","local":"fe80::40dd:83ff:fee7:7e8b","prefixlen":64,"scope":"link","protocol":"kernel_ll","valid_life_time":4294967295,"preferred_life_time":4294967295}]}]
+[{"dst":"default","gateway":"10.17.4.1","dev":"eth0","protocol":"dhcp","prefsrc":"10.17.4.55","metric":100,"flags":[]},{"dst":"10.10.0.0/24","dev":"bat0","protocol":"kernel","scope":"link","prefsrc":"10.10.0.1","flags":[]},{"dst":"10.17.4.0/23","dev":"eth0","protocol":"kernel","scope":"link","prefsrc":"10.17.4.55","metric":100,"flags":[]}]
+[{"dst":"fe80::/64","dev":"bat0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"},{"dst":"fe80::/64","dev":"wlan0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"},{"dst":"fe80::/64","dev":"eth0","protocol":"kernel","metric":1024,"flags":[],"pref":"medium"}]
+[{"ifindex":1,"ifname":"lo","flags":["LOOPBACK","UP","LOWER_UP"],"mtu":65536,"qdisc":"noqueue","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"loopback","address":"00:00:00:00:00:00","broadcast":"00:00:00:00:00:00","stats64":{"rx":{"bytes":363973,"packets":2241,"errors":0,"dropped":0,"over_errors":0,"multicast":0},"tx":{"bytes":363973,"packets":2241,"errors":0,"dropped":0,"carrier_errors":0,"collisions":0}}},{"ifindex":2,"ifname":"eth0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"2c:cf:67:f4:eb:c4","broadcast":"ff:ff:ff:ff:ff:ff","stats64":{"rx":{"bytes":239586,"packets":1371,"errors":0,"dropped":0,"over_errors":0,"multicast":57},"tx":{"bytes":376819,"packets":1427,"errors":0,"dropped":0,"carrier_errors":0,"collisions":0}}},{"ifindex":3,"ifname":"wlan0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","master":"bat0","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"2c:cf:67:f4:eb:c5","broadcast":"ff:ff:ff:ff:ff:ff","stats64":{"rx":{"bytes":198304,"packets":1397,"errors":0,"dropped":0,"over_errors":0,"multicast":0},"tx":{"bytes":143514,"packets":976,"errors":0,"dropped":0,"carrier_errors":0,"collisions":0}}},{"ifindex":4,"ifname":"bat0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"42:dd:83:e7:7e:8b","broadcast":"ff:ff:ff:ff:ff:ff","stats64":{"rx":{"bytes":150528,"packets":594,"errors":0,"dropped":0,"over_errors":0,"multicast":0},"tx":{"bytes":98843,"packets":521,"errors":0,"dropped":81,"carrier_errors":0,"collisions":0}}}]
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+IF             Neighbor              last-seen
+        wlan0	  2c:cf:67:3c:07:ac    0.352s
+        wlan0	  2c:cf:67:3c:09:e6    0.516s
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+   Originator        last-seen (#/255) Nexthop           [outgoingIF]
+   2c:cf:67:3c:09:e6    0.400s   (178) 2c:cf:67:3c:07:ac [     wlan0]
+ * 2c:cf:67:3c:09:e6    0.400s   (242) 2c:cf:67:3c:09:e6 [     wlan0]
+   2c:cf:67:3c:07:ac    0.244s   (185) 2c:cf:67:3c:09:e6 [     wlan0]
+ * 2c:cf:67:3c:07:ac    0.244s   (233) 2c:cf:67:3c:07:ac [     wlan0]
+Interface wlan0
+	ifindex 3
+	wdev 0x1
+	addr 2c:cf:67:f4:eb:c5
+	ssid lnmesh-20260907
+	type IBSS
+	wiphy 0
+	channel 1 (2412 MHz), width: 20 MHz, center1: 2412 MHz
+	txpower 31.00 dBm
+Joined IBSS 72:b0:72:7c:36:0f (on wlan0)
+	SSID: lnmesh-20260907
+	freq: 2412.0
+global
+country US: DFS-FCC
+	(902 - 904 @ 2), (N/A, 30), (N/A)
+	(904 - 920 @ 16), (N/A, 30), (N/A)
+	(920 - 928 @ 8), (N/A, 30), (N/A)
+	(2400 - 2472 @ 40), (N/A, 30), (N/A)
+	(5150 - 5250 @ 80), (N/A, 23), (N/A), AUTO-BW
+	(5250 - 5350 @ 80), (N/A, 24), (0 ms), DFS, AUTO-BW
+	(5470 - 5730 @ 160), (N/A, 24), (0 ms), DFS
+	(5730 - 5850 @ 80), (N/A, 30), (N/A), AUTO-BW
+	(5850 - 5895 @ 40), (N/A, 27), (N/A), NO-OUTDOOR, AUTO-BW, PASSIVE-SCAN
+	(5925 - 7125 @ 320), (N/A, 12), (N/A), NO-OUTDOOR, PASSIVE-SCAN
+	(57240 - 71000 @ 2160), (N/A, 40), (N/A)
+
+phy#0
+country 99: DFS-UNSET
+	(2402 - 2482 @ 40), (6, 20), (N/A)
+	(2474 - 2494 @ 20), (6, 20), (N/A)
+	(5140 - 5360 @ 160), (6, 20), (N/A)
+	(5460 - 5860 @ 160), (6, 20), (N/A)
+
+0: hci0: Bluetooth
+	Soft blocked: no
+	Hard blocked: no
+1: phy0: Wireless LAN
+	Soft blocked: no
+	Hard blocked: no
+Reference ID    : D890E4B3 (216.144.228.179)
+Stratum         : 3
+Ref time (UTC)  : Tue Sep 08 00:12:37 2026
+System time     : 0.000338725 seconds slow of NTP time
+Last offset     : -0.000405688 seconds
+RMS offset      : 0.000405688 seconds
+Frequency       : 0.690 ppm slow
+Residual freq   : -0.528 ppm
+Skew            : 1.522 ppm
+Root delay      : 0.050115731 seconds
+Root dispersion : 0.000726622 seconds
+Update interval : 64.4 seconds
+Leap status     : Normal
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^- 139.177.202.26                2   6    37    62    -13ms[  -13ms] +/-   87ms
+^- 23.186.168.127                2   6    37    63    +10ms[  +10ms] +/-   57ms
+^* 216.144.228.179               2   6    37    63  -2282us[-2688us] +/-   26ms
+^+ 155.248.202.205               2   6    37    63  +6138us[+5733us] +/-   68ms
+ESTAB 0      0          10.10.0.1:9735     10.10.0.2:48962 users:(("lnd",pid=1013,fd=46))                                       
+ESTAB 0      0          10.10.0.1:18444    10.10.0.2:40738 users:(("bitcoind",pid=998,fd=37))                                   
+ESTAB 0      0          10.10.0.1:37364    10.10.0.3:9735  users:(("lnd",pid=1013,fd=47))                                       
+ESTAB 0      0          10.10.0.1:18444    10.10.0.3:49334 users:(("bitcoind",pid=998,fd=38))                                   
+    PID COMMAND         ELAPSED   RSS    VSZ %CPU %MEM
+    998 bitcoind            137 56112 2014112 0.1  0.6
+   1013 lnd                 137 119744 1564832 2.8  1.4
+               total        used        free      shared  buff/cache   available
+Mem:      8454012928   653312000  7069892608    36175872   843939840  7800700928
+Swap:     2147467264           0  2147467264
+Filesystem        1B-blocks       Used    Available Use% Mounted on
+/dev/mmcblk0p2 121231208448 7718551552 108511068160   7% /
+7584406	/var/lib/lnd
+20118730	/var/lib/bitcoind
+temp=46.6'C
+throttled=0x0
+--- sanitized configuration ---
+[Application Options]
+alias=lnmesh-a
+listen=10.10.0.1:9735
+externalip=10.10.0.1
+rpclisten=127.0.0.1:10009
+restlisten=127.0.0.1:8080
+noseedbackup=true
+debuglevel=info
+
+[Bitcoin]
+bitcoin.regtest=true
+bitcoin.node=bitcoind
+bitcoin.defaultremotedelay=1008
+
+[Bitcoind]
+bitcoind.rpchost=127.0.0.1:18443
+bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
+bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
+regtest=1
+server=1
+txindex=1
+blockfilterindex=1
+peerblockfilters=1
+dbcache=256
+listenonion=0
+discover=0
+dnsseed=0
+fixedseeds=0
+zmqpubrawblock=tcp://127.0.0.1:28332
+zmqpubrawtx=tcp://127.0.0.1:28333
+[regtest]
+rpcbind=127.0.0.1
+rpcallowip=127.0.0.1
+rpcport=18443
+bind=10.10.0.1:18444
+# Welcome to the chrony configuration file. See chrony.conf(5) for more
+# information about usable directives.
+
+# Use Debian vendor zone.
+pool 2.debian.pool.ntp.org iburst
+
+# Use time sources from DHCP.
+sourcedir /run/chrony-dhcp
+
+# Use NTP sources found in /etc/chrony/sources.d.
+sourcedir /etc/chrony/sources.d
+
+# This directive specifies the location of the file containing ID/key pairs for
+# NTP authentication.
+keyfile /etc/chrony/chrony.keys
+
+# This directive specifies the file into which chronyd will store the rate
+# information.
+driftfile /var/lib/chrony/chrony.drift
+
+# Save NTS keys and cookies.
+ntsdumpdir /var/lib/chrony
+
+# Uncomment the following line to turn logging on.
+#log tracking measurements statistics
+
+# Log files location.
+logdir /var/log/chrony
+
+# Stop bad estimates upsetting machine clock.
+maxupdateskew 100.0
+
+# This directive enables kernel synchronisation (every 11 minutes) of the
+# real-time clock. Note that it can't be used along with the 'rtcfile' directive.
+rtcsync
+
+# Step the system clock instead of slewing it if the adjustment is larger than
+# one second, but only in the first three clock updates.
+makestep 1 3
+
+# Get TAI-UTC offset and leap seconds from the system tz database.
+# This directive must be commented out when using time sources serving
+# leap-smeared time.
+leapseclist /usr/share/zoneinfo/leap-seconds.list
+
+# Include configuration files found in /etc/chrony/conf.d.
+confdir /etc/chrony/conf.d
+
+allow 10.10.0.0/24
+d736703c5ba9346f810118b0382df13ee0d080aec277f448c441e265b7abfe15  /usr/local/bin/lnd
+df9b488ae7713357f88ca4fd4bbf4b941194103d7b3801b12ede4151f47285e4  /usr/local/bin/lncli
+54ed8d266ae6518249d2a9f75b0a46ba69a01b29d3a7a5f73bb71df4ca8be84b  /usr/local/bin/bitcoind
+d5e8964178599140d733626fc8651d83aed99cba8e54dc9c93d03efa9f8758d2  /usr/local/bin/bitcoin-cli
+cea5c4224e77a4815be75d36e119acaf7ad354b03e7cd193ff39bfa45d237974  /usr/local/sbin/lnmesh-mesh
+ac930f43e085cdc2b2b998a6c3c36aed8997d611ca269a68abe0b7e7aabb582f  /usr/local/bin/lnmesh-measure
+--- package change history ---
+
+Start-Date: 2026-09-07  18:30:19
+Commandline: apt-get install -y --no-install-recommends batctl chrony jq iperf3 libsctp1 tcpdump python3 curl ca-certificates gnupg
+Requested-By: brady (1000)
+Install: tcpdump:arm64 (4.99.5-2), libonig5:arm64 (6.9.9-1+b1, automatic), chrony:arm64 (4.6.1-3+deb13u2), batctl:arm64 (2025.0-2), libiperf0:arm64 (3.18-2+deb13u2, automatic), libsctp1:arm64 (1.0.21+dfsg-1), iperf3:arm64 (3.18-2+deb13u2), jq:arm64 (1.7.1-6+deb13u3), libjq1:arm64 (1.7.1-6+deb13u3, automatic)
+Upgrade: gpg:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), gpg-agent:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), libcurl3t64-gnutls:arm64 (8.14.1-2+deb13u3, 8.14.1-2+deb13u4), gpgv:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), libcurl4t64:arm64 (8.14.1-2+deb13u3, 8.14.1-2+deb13u4), gpgsm:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), dirmngr:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), gnupg-utils:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), curl:arm64 (8.14.1-2+deb13u3, 8.14.1-2+deb13u4), gpg-wks-client:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4), gpgconf:arm64 (2.4.7-21+deb13u1+b3, 2.4.7-21+deb13u1+b4)
+Remove: systemd-timesyncd:arm64 (257.13-1~deb13u1)
+End-Date: 2026-09-07  18:30:29
+2026-09-08T00:13:40,512665679+00:00

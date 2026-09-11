@@ -1,0 +1,32 @@
+# LNMesh entries for ~/.ssh/config. Replace addresses and users with yours
+# (same values as hosts.env). During bring-up (Phases 1 to 5) B and C are
+# reached directly over Ethernet; after Phase 6.2 they are reached through A
+# over the mesh, and the direct entries stay as a fallback.
+
+Host lnmesh-a
+  HostName 192.168.1.11
+  User pi
+
+# bring-up: direct over Ethernet
+Host lnmesh-b-lan
+  HostName 192.168.1.12
+  User pi
+Host lnmesh-c-lan
+  HostName 192.168.1.13
+  User pi
+
+# final: through A over the mesh (Phase 6.2)
+Host lnmesh-b
+  HostName 10.10.0.2
+  User pi
+  ProxyJump lnmesh-a
+Host lnmesh-c
+  HostName 10.10.0.3
+  User pi
+  ProxyJump lnmesh-a
+
+Host lnmesh-*
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+  StrictHostKeyChecking accept-new
+  ConnectTimeout 8

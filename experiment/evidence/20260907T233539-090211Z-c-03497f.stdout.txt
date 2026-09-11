@@ -1,0 +1,58 @@
+2026-09-07T23:35:38,549735903+00:00
+[{"ifindex":1,"ifname":"lo","flags":["LOOPBACK","UP","LOWER_UP"],"mtu":65536,"qdisc":"noqueue","operstate":"UNKNOWN","group":"default","txqlen":1000,"link_type":"loopback","address":"00:00:00:00:00:00","broadcast":"00:00:00:00:00:00","addr_info":[{"family":"inet","local":"127.0.0.1","prefixlen":8,"scope":"host","label":"lo","valid_life_time":4294967295,"preferred_life_time":4294967295},{"family":"inet6","local":"::1","prefixlen":128,"scope":"host","noprefixroute":true,"valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":2,"ifname":"eth0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UP","group":"default","txqlen":1000,"link_type":"ether","address":"2c:cf:67:3c:07:ab","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[]},{"ifindex":3,"ifname":"wlan0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","master":"bat0","operstate":"UP","group":"default","txqlen":1000,"link_type":"ether","address":"2c:cf:67:3c:07:ac","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet6","local":"fe80::2ecf:67ff:fe3c:7ac","prefixlen":64,"scope":"link","protocol":"kernel_ll","valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":6,"ifname":"bat0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UNKNOWN","group":"default","txqlen":1000,"link_type":"ether","address":"fa:44:a1:34:a7:71","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet","local":"10.10.0.3","prefixlen":24,"scope":"global","label":"bat0","valid_life_time":4294967295,"preferred_life_time":4294967295},{"family":"inet6","local":"fe80::f844:a1ff:fe34:a771","prefixlen":64,"scope":"link","protocol":"kernel_ll","valid_life_time":4294967295,"preferred_life_time":4294967295}]}]
+[{"dst":"10.10.0.0/24","dev":"bat0","protocol":"kernel","scope":"link","prefsrc":"10.10.0.3","flags":[]}]
+[{"dst":"fe80::/64","dev":"bat0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"},{"dst":"fe80::/64","dev":"wlan0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"}]
+0: hci0: Bluetooth
+	Soft blocked: yes
+	Hard blocked: no
+1: phy0: Wireless LAN
+	Soft blocked: no
+	Hard blocked: no
+PASS unreachable 10.17.4.1
+PASS unreachable 1.1.1.1
+PASS unreachable 8.8.8.8
+PASS HTTPS unavailable https://example.com
+PASS HTTPS unavailable https://1.1.1.1
+PING 10.10.0.1 (10.10.0.1) from 10.10.0.3 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.1: icmp_seq=1 ttl=64 time=1.09 ms
+64 bytes from 10.10.0.1: icmp_seq=2 ttl=64 time=6.93 ms
+64 bytes from 10.10.0.1: icmp_seq=3 ttl=64 time=6.72 ms
+
+--- 10.10.0.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.091/4.913/6.930/2.704 ms
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^* 10.10.0.1                     3   4   377     7  -4039us[-4265us] +/-   27ms
+{
+  "alias": "lnmesh-c",
+  "identity_pubkey": "030b7a54e192c3c99b05b97e3a90e3598e44173726b0f0a889e07c3bc82495f2c1",
+  "chains": [
+    {
+      "chain": "bitcoin",
+      "network": "regtest"
+    }
+  ],
+  "block_height": 0,
+  "num_active_channels": 0,
+  "num_pending_channels": 0
+}
+{
+    "total_balance": "0",
+    "confirmed_balance": "0",
+    "unconfirmed_balance": "0",
+    "locked_balance": "0",
+    "reserved_balance_anchor_chan": "0",
+    "account_balance": {
+        "default": {
+            "confirmed_balance": "0",
+            "unconfirmed_balance": "0"
+        }
+    }
+}
+{
+    "channels": []
+}
+ESTAB 0      0          10.10.0.3:39684    10.10.0.1:18444 users:(("lnd",pid=5746,fd=45))                                       
+PASS isolation and mesh access verified; automatic LAN recovery cancelled
+2026-09-07T23:35:41,861292330+00:00

@@ -1,0 +1,1 @@
+Created symlink '/etc/systemd/system/multi-user.target.wants/bitcoind.service' → '/etc/systemd/system/bitcoind.service'.

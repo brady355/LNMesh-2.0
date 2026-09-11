@@ -1,0 +1,1 @@
+PASS Bash syntax for 14 scripts

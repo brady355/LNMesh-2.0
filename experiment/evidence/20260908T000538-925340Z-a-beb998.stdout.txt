@@ -1,0 +1,30 @@
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+IF             Neighbor              last-seen
+        wlan0	  2c:cf:67:3c:09:e6    0.496s
+        wlan0	  2c:cf:67:3c:07:ac    0.328s
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+   Client             VID Flags Last ttvn     Via        ttvn  (CRC       )
+ * 33:33:ff:07:7e:04   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0x1a490b47)
+ * 82:d6:e3:11:03:bf   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+ * 33:33:ff:11:03:bf   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   33:33:00:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0x1a490b47)
+ * 33:33:00:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   01:00:5e:00:00:01   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0x1a490b47)
+ * 01:00:5e:00:00:01   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   01:00:5e:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0x1a490b47)
+ * 01:00:5e:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+ * a2:8a:1f:07:7e:04   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0x1a490b47)
+   33:33:00:00:00:01   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0x1a490b47)
+ * 33:33:00:00:00:01   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+Distributed ARP Table (bat0):
+          IPv4             MAC        VID   last-seen
+ *       10.10.0.2 82:d6:e3:11:03:bf   -1      1:35
+ *       10.10.0.1 42:dd:83:e7:7e:8b   -1      0:17
+ *       10.10.0.3 a2:8a:1f:07:7e:04   -1      0:02
+10.17.4.54 dev eth0 lladdr 10:7c:61:b5:bb:8a REACHABLE 
+10.17.4.57 dev eth0 lladdr 2c:cf:67:3c:07:ab STALE 
+10.17.4.1 dev eth0 lladdr 04:f4:1c:1f:92:2c STALE 
+10.17.4.56 dev eth0 lladdr 2c:cf:67:3c:09:e5 STALE 
+10.10.0.2 dev bat0 lladdr 82:d6:e3:11:03:bf REACHABLE 
+10.10.0.3 dev bat0 lladdr fa:44:a1:34:a7:71 REACHABLE 

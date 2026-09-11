@@ -1,0 +1,13 @@
+2026-09-07T23:32:05,535762064+00:00
+lnd-linux-arm64-v0.19.2-beta.tar.gz: OK
+lnd version 0.19.2-beta commit=v0.19.2-beta
+d736703c5ba9346f810118b0382df13ee0d080aec277f448c441e265b7abfe15  /usr/local/bin/lnd
+df9b488ae7713357f88ca4fd4bbf4b941194103d7b3801b12ede4151f47285e4  /usr/local/bin/lncli
+2940770b0c8da7c9ed876d2d1617aae092f8cd0ba237ca6fa0d677406b12034b  lnd-linux-arm64-v0.19.2-beta.tar.gz
+bitcoin-29.1-aarch64-linux-gnu.tar.gz: OK
+Bitcoin Core daemon version v29.1.0
+Copyright (C) 2009-2025 The Bitcoin Core developers
+54ed8d266ae6518249d2a9f75b0a46ba69a01b29d3a7a5f73bb71df4ca8be84b  /usr/local/bin/bitcoind
+d5e8964178599140d733626fc8651d83aed99cba8e54dc9c93d03efa9f8758d2  /usr/local/bin/bitcoin-cli
+d6be913e1abc5effe57f50630b4bff2f89b38c092182c47f1fcde0ae12afc71c  bitcoin-29.1-aarch64-linux-gnu.tar.gz
+2026-09-07T23:32:23,899852665+00:00

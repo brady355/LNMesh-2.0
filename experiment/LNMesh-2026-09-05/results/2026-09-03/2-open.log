@@ -1,0 +1,34 @@
+
+##### 2-open start 2026-09-03T20:32:21-05:00
+== Demo 2: offline open
+-- b: on-chain confirmed=2000000 sat, channel local=400000 sat, height=113
+-- c: on-chain confirmed=2000000 sat, channel local=0 sat, height=113
+[20:32:25] b$ lncli-mesh openchannel --node_key 03d2650dba1d9cc29b6d9f0d8b1c7bac437f884ef39dfa671d3198cb40e3e0f199 --local_amt 1000000  --private --sat_per_vbyte 1
+{
+    "funding_txid": "83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90"
+}
+>> B pendingchannels channel point: 83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90:1
+[20:32:26] a$ bcli getrawmempool
+[
+  "83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90"
+]
+>> funding txid 83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90 is in A's mempool
+[20:32:26] a$ mine 6
+mined 6, height 119
+>> funding tx confirmed at height 114
+[20:32:32] b$ lncli-mesh listchannels | jq -c '.channels[] | {peer: .remote_pubkey[0:10], active, capacity, local_balance, channel_point}'
+{"peer":"0216fff02e","active":true,"capacity":"1000000","local_balance":"400000","channel_point":"8d01d5db8ac1c2cba89b825dc980328085757adf454303880dc59c3a906c12a1:0"}
+{"peer":"03d2650dba","active":true,"capacity":"1000000","local_balance":"996530","channel_point":"83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90:1"}
+[20:32:32] c$ lncli-mesh listchannels | jq -c '.channels[] | {peer: .remote_pubkey[0:10], active, capacity, local_balance, channel_point}'
+{"peer":"0273d7f102","active":true,"capacity":"1000000","local_balance":"0","channel_point":"83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90:1"}
+[20:32:33] a$ lncli-mesh openchannel --node_key 03d2650dba1d9cc29b6d9f0d8b1c7bac437f884ef39dfa671d3198cb40e3e0f199 --local_amt 1000000 --push_amt 400000 --private --sat_per_vbyte 1
+{
+    "funding_txid": "11347494531fb5d28478817fa50173877a0ee5086505fe0609f705fd155c0e2f"
+}
+[20:32:34] a$ mine 6
+mined 6, height 125
+A-C active
+-- a: on-chain confirmed=129993999378 sat, channel local=1193060 sat, height=125
+-- b: on-chain confirmed=999845 sat, channel local=1396530 sat, height=125
+-- c: on-chain confirmed=2000000 sat, channel local=400000 sat, height=125
+##### 2-open end 2026-09-03T20:32:41-05:00

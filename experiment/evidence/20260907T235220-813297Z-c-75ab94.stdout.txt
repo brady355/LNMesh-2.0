@@ -1,0 +1,67 @@
+{
+    "memo": "baseline-chain-running b-c 17",
+    "r_preimage": "[REDACTED]",
+    "r_hash": "5792fe6f5524fa3e5d3ef61b70c69e6fe57c72ef4bffef94d02ac1c8f2fee897",
+    "value": "5000",
+    "value_msat": "5000000",
+    "settled": true,
+    "creation_date": "1788825139",
+    "settle_date": "1788825139",
+    "payment_request": "lnbcrt50u1p4f7n3npp527f0um64ynaruhf77cdhp357dljhcuh0f0l7l9xs9tqu3uh7aztsdp0vfshxetvd9hx2ttrdpskjm3dwf6kumnfdenjqc3dvvsrzdccqzzsxqyz5vqsp5436q2e5ysavp9dtut597hz6tpxu7cm2w0uk32eqjnzlpmwa5x8ys9qxpqysgqmd8l5h76l26jv3huj364xe9qedeu7smfe78rcdx24twz8rmfysjpdcwye8jh66dg386c66ypc9wp3zu4xz536u4ufpnux6srfpv5tjgpzzgdky",
+    "description_hash": "",
+    "expiry": "86400",
+    "fallback_addr": "",
+    "cltv_expiry": "80",
+    "route_hints": [],
+    "private": false,
+    "add_index": "47",
+    "settle_index": "47",
+    "amt_paid": "5000000",
+    "amt_paid_sat": "5000",
+    "amt_paid_msat": "5000000",
+    "state": "SETTLED",
+    "htlcs": [
+        {
+            "chan_id": "1256741790613505",
+            "htlc_index": "16",
+            "amt_msat": "5000000",
+            "accept_height": 1148,
+            "accept_time": "1788825139",
+            "resolve_time": "1788825139",
+            "expiry_height": 1231,
+            "state": "SETTLED",
+            "custom_records": {},
+            "mpp_total_amt_msat": "5000000",
+            "amp": null,
+            "custom_channel_data": ""
+        }
+    ],
+    "features": {
+        "8": {
+            "name": "tlv-onion",
+            "is_required": true,
+            "is_known": true
+        },
+        "14": {
+            "name": "payment-addr",
+            "is_required": true,
+            "is_known": true
+        },
+        "17": {
+            "name": "multi-path-payments",
+            "is_required": false,
+            "is_known": true
+        },
+        "25": {
+            "name": "route-blinding",
+            "is_required": false,
+            "is_known": true
+        }
+    },
+    "is_keysend": false,
+    "payment_addr": "ac74056684875812b57c5d0beb8b4b09b9ec6d4e7f2d15641298be1dbbb431c9",
+    "is_amp": false,
+    "amp_invoice_state": {},
+    "is_blinded": false,
+    "blinded_path_config": null
+}

@@ -1,0 +1,6 @@
+{
+    "r_hash": "5cbcef62d6174cb9244aaa43a3a16a04f6503182e939d1d6dda186fc6925870e",
+    "payment_request": "lnbcrt100u1p4f7nglpp5tj7w7ckkzaxtjfz24fp68gt2qnm9qvvzayuar4ka5xr0c6f9su8qdpqvd5xz6tw94e82mnwd9hxwgrp943zqv3jcqzzsxqyz5vqsp5puvyr6m2mhz4k8tcr25s4jy9tn6z8cs4ylks9j0aet6kmkmy0jvq9qxpqysgq0yhufefrtgnq7c6adzhqxa8a6gvev5d50fv4saqysdrp28ts2s7xv9r5mmhnaerfvz0hdfkduk8ergvy2jwclqk3um5mfmryp809tvcqj0cca0",
+    "add_index": "22",
+    "payment_addr": "0f1841eb6addc55b1d781aa90ac8855cf423e21527ed02c9fdcaf56ddb647c98"
+}

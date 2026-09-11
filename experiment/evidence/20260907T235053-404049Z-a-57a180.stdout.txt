@@ -1,0 +1,42 @@
+{
+  "chain": "regtest",
+  "blocks": 1136,
+  "headers": 1136,
+  "bestblockhash": "57698eba5db4ea387d66a58f89c3e513b844958a0c24bb212c0591e169d39a43",
+  "bits": "207fffff",
+  "target": "7fffff0000000000000000000000000000000000000000000000000000000000",
+  "difficulty": 4.656542373906925e-10,
+  "time": 1788825163,
+  "mediantime": 1788825162,
+  "verificationprogress": 1,
+  "initialblockdownload": false,
+  "chainwork": "00000000000000000000000000000000000000000000000000000000000008e2",
+  "size_on_disk": 356086,
+  "pruned": false,
+  "warnings": [
+  ]
+}
+{
+  "synced_to_chain": true,
+  "block_height": 1136,
+  "block_hash": "57698eba5db4ea387d66a58f89c3e513b844958a0c24bb212c0591e169d39a43",
+  "best_header_timestamp": "1788825163"
+}
+2026-09-07T18:50:52.029201-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.029 [INF] FNDG: Recv'd fundingResponse for pending_id(108011933e83240d029c4969c92497615fa3e22e3e337680addedb1ac4dab437)
+2026-09-07T18:50:52.035984-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.035 [INF] FNDG: pendingChan(108011933e83240d029c4969c92497615fa3e22e3e337680addedb1ac4dab437): remote party proposes num_confs=3, csv_delay=1008
+2026-09-07T18:50:52.036070-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.036 [INF] FNDG: Generated ChannelPoint(cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0) for pending_id(108011933e83240d029c4969c92497615fa3e22e3e337680addedb1ac4dab437)
+2026-09-07T18:50:52.169254-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.169 [INF] FNDG: Broadcasting funding tx for ChannelPoint(cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0): 02000000000101d342c40b363d4a31505c04fad121e9b211b753c4a4d8e909ac26e9c30decf81b0000000000000000000240420f0000000000220020620a72b16e07e7b1793e2b6dba27f388821a8bb3530f7b99810a766ee0fcb2441fbaf62901000000225120411183f9d02e1b8e04b4f6e84ad0204e3a01eaed30c50f0c84ea6771ecf5dd620140031324330aff4410240c57c77d5e93949f9377a9713bef598d143e5f350fa7906931edf9c34e89a7dc7020bd9ac660dddf8f8dd2930c2a5320fd50db9881a36b00000000
+2026-09-07T18:50:52.170089-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.170 [INF] BTWL: Inserting unconfirmed transaction cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8
+2026-09-07T18:50:52.170636-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.170 [WRN] BTWL: Transaction cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8 not accepted by mempool: txn-already-in-mempool
+2026-09-07T18:50:52.189173-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.189 [INF] CNCT: Creating new chainWatcher and ChannelArbitrator for ChannelPoint(cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0)
+2026-09-07T18:50:52.189260-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.189 [INF] NTFN: New confirmation subscription: conf_id=7, txid=cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8, num_confs=6 height_hint=1136
+2026-09-07T18:50:52.219537-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.219 [INF] FNDG: Finalizing pending_id(108011933e83240d029c4969c92497615fa3e22e3e337680addedb1ac4dab437) over ChannelPoint(cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0), waiting for channel open on-chain
+2026-09-07T18:50:52.219537-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.219 [INF] CNCT: ChannelArbitrator(cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0): starting state=StateDefault, trigger=chainTrigger, triggerHeight=1136
+2026-09-07T18:50:52.219697-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.219 [INF] CNCT: Close observer for ChannelPoint(cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0) active
+2026-09-07T18:50:52.219697-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.219 [INF] NTFN: New confirmation subscription: conf_id=8, txid=cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8, num_confs=3 height_hint=1136
+2026-09-07T18:50:52.219697-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.219 [INF] FNDG: Waiting for funding tx (cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8) to reach 3 confirmations
+2026-09-07T18:50:52.219766-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.219 [INF] CHBU: Updating on-disk multi SCB backup: num_old_chans=1, num_new_chans=2
+2026-09-07T18:50:52.228019-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.227 [WRN] CHBU: Replacing disk backup for ChannelPoint(198b923d80e741f24d66661aadbdaa0dab094a2ec20e6711f94c0114cfd48ed5:0) w/ newer version
+2026-09-07T18:50:52.233197-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.233 [INF] CHBU: Updating backup file at /var/lib/lnd/data/chain/bitcoin/regtest/channel.backup
+2026-09-07T18:50:52.238546-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.238 [INF] CHBU: Swapping old multi backup file from /var/lib/lnd/data/chain/bitcoin/regtest/temp-dont-use.backup to /var/lib/lnd/data/chain/bitcoin/regtest/channel.backup
+2026-09-07T18:50:52.238614-05:00 pi1gateway lnd[6100]: 2026-09-07 18:50:52.238 [INF] CHBU: Archiving old channel backup to /var/lib/lnd/data/chain/bitcoin/regtest/chan-backup-archives

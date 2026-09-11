@@ -1,0 +1,11 @@
+[Unit]
+Description=LNMesh Bitcoin Core prune-retention guard
+After=bitcoind.service
+Requires=bitcoind.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+EnvironmentFile=/etc/lnmesh/lnmesh.env
+ExecStart=/usr/local/lib/lnmesh/retention-guard.sh

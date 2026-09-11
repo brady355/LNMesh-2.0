@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="477.54pt" height="221.015429pt" viewBox="0 0 477.54 221.015429" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-07T19:18:57.182883</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 221.015429 
+L 477.54 221.015429 
+L 477.54 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 192.456 78.252576 
+L 285.084 78.252576 
+Q 287.86284 78.252576 287.86284 75.576994 
+L 287.86284 26.524646 
+Q 287.86284 23.849063 285.084 23.849063 
+L 192.456 23.849063 
+Q 189.67716 23.849063 189.67716 26.524646 
+L 189.67716 75.576994 
+Q 189.67716 78.252576 192.456 78.252576 
+z
+" clip-path="url(#p17d0f4e8bd)" style="fill: #f1f4f7; stroke: #233447; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 39.6198 194.194489 
+L 173.9304 194.194489 
+Q 176.70924 194.194489 176.70924 191.518907 
+L 176.70924 142.466559 
+Q 176.70924 139.790976 173.9304 139.790976 
+L 39.6198 139.790976 
+Q 36.84096 139.790976 36.84096 142.466559 
+L 36.84096 191.518907 
+Q 36.84096 194.194489 39.6198 194.194489 
+z
+" clip-path="url(#p17d0f4e8bd)" style="fill: #f1f4f7; stroke: #233447; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 303.6096 194.194489 
+L 437.9202 194.194489 
+Q 440.69904 194.194489 440.69904 191.518907 
+L 440.69904 142.466559 
+Q 440.69904 139.790976 437.9202 139.790976 
+L 303.6096 139.790976 
+Q 300.83076 139.790976 300.83076 142.466559 
+L 300.83076 191.518907 
+Q 300.83076 194.194489 303.6096 194.194489 
+z
+" clip-path="url(#p17d0f4e8bd)" style="fill: #f1f4f7; stroke: #233447; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 204.0345 75.576994 
+L 136.8792 142.466559 
+" clip-path="url(#p17d0f4e8bd)" style="fill: none; stroke: #23628c; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 273.5055 75.576994 
+L 340.6608 142.466559 
+" clip-path="url(#p17d0f4e8bd)" style="fill: none; stroke: #23628c; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 173.9304 166.992733 
+L 303.6096 166.992733 
+" clip-path="url(#p17d0f4e8bd)" style="fill: none; stroke: #23628c; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(203.039531 41.646523)">A  pi1gateway</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(190.717656 53.649257)">Bitcoin Core + LND</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(214.915313 65.65121)">10.10.0.1</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(92.421975 157.588436)">B  pi2</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(67.411819 169.59117)">LND + Neutrino</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(82.920412 181.593124)">10.10.0.2</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(356.350838 157.588436)">C  pi3</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(331.401619 169.59117)">LND + Neutrino</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'" transform="translate(346.910213 181.593124)">10.10.0.3</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'" transform="translate(216.555469 105.017214)">Wi-Fi IBSS</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'" transform="translate(211.497188 115.819674)">batman-adv</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'" transform="translate(195.0975 126.621432)">2412 MHz / 20 MHz</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle" x="238.77" y="203.559029" transform="rotate(-0 238.77 203.559029)">Leaves have no Ethernet IP or default route; gateway IP forwarding is disabled.</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 238.77 20.207026 
+Q 238.77 22.364826 238.77 24.522627 
+" style="fill: none; stroke: #000000; stroke-linecap: round"/>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle" x="238.77" y="14.038594" transform="rotate(-0 238.77 14.038594)">LAN and internet</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p17d0f4e8bd">
+   <rect x="7.2" y="8.687429" width="463.14" height="205.128"/>
+  </clipPath>
+ </defs>
+</svg>

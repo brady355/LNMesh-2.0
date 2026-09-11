@@ -1,0 +1,1058 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>LNMesh research writeup</title><style>body{max-width:1000px;margin:50px auto;padding:0 25px;font:17px/1.65 system-ui;color:#15202b}h1,h2{line-height:1.2;color:#111}h2{margin-top:2.2em}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d9d9d9;padding:9px;text-align:left;overflow-wrap:anywhere}th{background:#233447;color:white}tr:nth-child(even){background:#f1f4f7}img{max-width:100%}code{font-size:.85em;overflow-wrap:anywhere}a{color:#175b9b}@media print{body{margin:0;font-size:11pt}}</style><main><h1>LNMesh regtest replication on three Raspberry Pi 5 nodes</h1>
+<p>Experimental writeup for paper development. Deployment and measurements began on 7 September 2026. All amounts below are simulated regtest satoshis. A, B, and C denote pi1gateway, pi2, and pi3 respectively.</p>
+<p>The implementation demonstrated funding, channel opening, payment, cooperative closing, force closing, and breach response while the two leaf Pis had no routed internet access. The gateway provided their only Bitcoin peer. All 150 payments in the five planned measurement series succeeded, including 30 while Bitcoin Core was stopped. The stale commitment experiment produced a confirmed breach response, and the primary three-node triangle recovered after individual reboots.</p>
+<table>
+<thead>
+<tr>
+<th>Demonstration</th>
+<th>Observed result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inbound funding</td>
+<td>B received 400,000 sat of channel balance while its on-chain wallet remained at zero.</td>
+</tr>
+<tr>
+<td>On-chain funding and opening</td>
+<td>B and C each received 2,000,000 sat; B opened a 1,000,000-sat channel to C through A.</td>
+</tr>
+<tr>
+<td>Payments</td>
+<td>90 of 90 10,000-sat payments succeeded across B-C, B-A, and A-B.</td>
+</tr>
+<tr>
+<td>Cooperative and force closes</td>
+<td>B recovered 400,000 sat cooperatively and 696,263 sat after the force-close sweep.</td>
+</tr>
+<tr>
+<td>Chain outage</td>
+<td>30 of 30 matched 5,000-sat payments succeeded with Bitcoin Core stopped.</td>
+</tr>
+<tr>
+<td>Breach response</td>
+<td>Revoked state at height 1155; justice at 1156; gap 1 block.</td>
+</tr>
+</tbody>
+</table>
+<p>These results establish feasibility in this particular local regtest configuration. They do not establish wide-area wireless performance, a new Lightning protocol, mainnet safety, censorship resistance, long-duration reliability, or successful multi-hop rerouting. The devices were a few inches apart on one table, according to the operator; exact spacing was not measured.</p>
+<p>The supplied archive contains results dated 3 September 2026. Those are historical reference material. All numerical results in this writeup come from the new command journal and outcome records generated during this deployment. No historical log was counted as a fresh trial.</p>
+<h2>System design and physical setup</h2>
+<p><img alt="Figure 1. Operational topology. Each solid link represents possible direct mesh communication. The experiment did not force a two-hop radio path." src="figures/topology.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>A gateway</th>
+<th>B leaf</th>
+<th>C leaf</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hostname</td>
+<td>pi1gateway</td>
+<td>pi2</td>
+<td>pi3</td>
+</tr>
+<tr>
+<td>Pi model revision</td>
+<td>Pi 5 Model B Rev 1.1</td>
+<td>Pi 5 Model B Rev 1.0</td>
+<td>Pi 5 Model B Rev 1.0</td>
+</tr>
+<tr>
+<td>Reported RAM</td>
+<td>8,454,012,928 bytes</td>
+<td>8,454,012,928 bytes</td>
+<td>8,454,012,928 bytes</td>
+</tr>
+<tr>
+<td>Bring-up LAN address</td>
+<td>10.17.4.55/23</td>
+<td>10.17.4.56/23</td>
+<td>10.17.4.57/23</td>
+</tr>
+<tr>
+<td>Mesh address</td>
+<td>10.10.0.1/24</td>
+<td>10.10.0.2/24</td>
+<td>10.10.0.3/24</td>
+</tr>
+<tr>
+<td>On-chain backend</td>
+<td>Local Bitcoin Core RPC</td>
+<td>Neutrino to A:18444</td>
+<td>Neutrino to A:18444</td>
+</tr>
+<tr>
+<td>Primary Lightning listener</td>
+<td>10.10.0.1:9735</td>
+<td>10.10.0.2:9735</td>
+<td>10.10.0.3:9735</td>
+</tr>
+</tbody>
+</table>
+<p>All three run 64-bit Debian GNU/Linux 13 Trixie with Raspberry Pi kernel 6.18.34+rpt-rpi-2712. The onboard brcmfmac radio is configured for IBSS at 2412 MHz with a 20 MHz channel. batman-adv supplies bat0; the observed routing algorithm is BATMAN_IV. The configured SSID is lnmesh-20260907. US regulatory settings were present during preflight. No external Wi-Fi adapter, container, custom Lightning daemon, or source compilation was required.</p>
+<p>Physical placement is operator-reported: a few inches apart on a table. Antenna orientation, exact coordinates, RF noise, interference, power-supply models, SD-card performance, room dimensions, and obstruction geometry were not independently measured. This is a close-range tabletop deployment, not a coverage experiment.</p>
+<h2>Software configuration and isolation</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Version or setting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bitcoin Core</td>
+<td>29.1.0; installed only on A</td>
+</tr>
+<tr>
+<td>LND</td>
+<td>0.19.2-beta; commit a839456493037a6af51cbf16db8be6182d614171</td>
+</tr>
+<tr>
+<td>Mesh software</td>
+<td>batman-adv 2025.4; batctl Debian 2025.0-2</td>
+</tr>
+<tr>
+<td>Time service</td>
+<td>chrony 4.6.1-3+deb13u2</td>
+</tr>
+<tr>
+<td>Measurement tools</td>
+<td>iperf3 3.18-2+deb13u2; Python 3.13.5-1 on the Pis</td>
+</tr>
+<tr>
+<td>Bitcoin indexes</td>
+<td>txindex=1; blockfilterindex=1; peerblockfilters=1</td>
+</tr>
+<tr>
+<td>Lightning channel policy</td>
+<td>Private ANCHORS channels; 1,008-block remote delay; manual opening fee 1 sat/vbyte</td>
+</tr>
+<tr>
+<td>Wallet initialization</td>
+<td>noseedbackup=true, used only for this regtest experiment</td>
+</tr>
+<tr>
+<td>Administration</td>
+<td>PC SSH key as brady; password-authenticated sudo; sudoers unchanged</td>
+</tr>
+</tbody>
+</table>
+<p>Bitcoin and LND ARM64 archives were downloaded over HTTPS from the official release locations and verified against the corresponding SHA-256 manifests before installation [2, 3]. The checks demonstrate consistency with the downloaded manifests. Release signature verification was not performed, so these should not be described as independently authenticated builds.</p>
+<p>Gateway RPC and ZMQ listeners are bound to loopback; leaves use only the gateway Bitcoin P2P listener on bat0. LND RPC and REST endpoints are also bound to loopback. Each leaf has neutrino.connect=10.10.0.1:18444. The normal node identities are retained throughout the experiment. Service management uses systemd with restart policies.</p>
+<p>Before any funds or channels were created, B and C had zero wallet balances and empty channel lists. Their original Ethernet profiles were disabled and their addresses removed; IPv4 and IPv6 default routes were absent. Probes to the LAN router 10.17.4.1, public IPv4 addresses, a DNS-based HTTPS target, and a literal-IP HTTPS target failed. Mesh ping, SSH via A, and chrony synchronization to A still worked. Both IPv4 and IPv6 forwarding were disabled on A.</p>
+<p>Ethernet cables remained physically connected. Isolation here means software-enforced absence of an Ethernet IP address and default route, with forwarding disabled at the gateway. It does not mean an air gap or a physically unplugged cable. The negative probes are observations at the recorded checkpoints, not a packet capture proving every packet over the full run. Administrative SSH commands intentionally traverse the mesh through A.</p>
+<p>The IBSS join command requested one fixed BSSID, but iw link reported different BSSID values on the three radios. Their driver-level meaning was not resolved with an over-the-air capture. Connectivity is supported by observed batman-adv neighbors and successful traffic; this report does not claim that a shared effective BSSID was independently verified.</p>
+<h2>Measurement protocol and timestamp semantics</h2>
+<p>The controller records each remote command with its target, transport path, UTC start and end times, elapsed wall time, return code, script, stdout, stderr, and SHA-256 digests. The append-only events.jsonl file indexes these records. outcomes.jsonl records assertions and application data such as channel states, transaction identifiers, block heights, invoice settlement, and wallet balances. Raw JSON responses are retained; aggregate results are regenerated by analyze.py.</p>
+<table>
+<thead>
+<tr>
+<th>Measurement</th>
+<th>Operational definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local CLI payment duration</td>
+<td>On-payer monotonic time around runuser and lncli execution, including local startup, RPC, routing, and settlement. Excludes SSH setup, sudo authentication, invoice creation, and recipient verification.</td>
+</tr>
+<tr>
+<td>LND HTLC duration</td>
+<td>Latest resolve_time_ns minus earliest attempt_time_ns in the successful payment record. This is a second, application-reported duration.</td>
+</tr>
+<tr>
+<td>ICMP RTT</td>
+<td>100 echo requests in each ordered pair, 56-byte payload, 50 ms spacing, bound to bat0. Six series were run sequentially.</td>
+</tr>
+<tr>
+<td>TCP throughput</td>
+<td>iperf3 single-stream TCP, three 10-second trials per B-A, C-A, and B-C direction, with client and server bound to mesh addresses. Receiver throughput is reported in decimal Mbit/s.</td>
+</tr>
+<tr>
+<td>Statistics</td>
+<td>All samples retained. Mean, sample standard deviation, median, minimum, maximum, and a linearly interpolated 95th percentile. No inferential significance test.</td>
+</tr>
+</tbody>
+</table>
+<p>The 10,000-sat payment series consisted of 30 sequential trials for B-C, then 30 B-A, then 30 A-B. After closing and reopening channels, the baseline used 30 B-C payments of 5,000 sat with Bitcoin Core running, followed by 30 of the same amount with it stopped. There was no randomized condition order, independent deployment replication, warm-up exclusion, concurrent throughput workload, or power measurement. These are repeated observations within one deployment, not 30 independent systems.</p>
+<p>Pi wall clocks were synchronized by chrony; B and C used A as their sole time source. UTC timestamps identify when observations were made. The controller clock and Pi clocks are separate. Final clock-bracket samples are included in the evidence; cross-host wall-clock differences must not be interpreted as subsecond causal latency. Payment durations use a monotonic clock on one Pi and avoid this problem. System journals retain America/Chicago offsets; the controller and derived tables use explicit UTC offsets.</p>
+<p>Block heights, rather than elapsed wall time, determine CSV maturity and the breach confirmation gap. Regtest mining deliberately accelerates block production. A one-block justice gap does not predict mainnet elapsed time, and waiting for a mined batch to become visible is part of this harness, not a consensus latency measurement.</p>
+<h2>Measured mesh connectivity and TCP performance</h2>
+<p><img alt="Figure 2. Observed ICMP RTT distributions and individual TCP receiver throughput trials. Orange segments on the right show arithmetic means. RTT boxes show the interquartile range, median, and 1.5-IQR whiskers; dots beyond the whiskers are retained observations." src="figures/mesh-performance.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Received / sent</th>
+<th>RTT median (ms)</th>
+<th>RTT mean (ms)</th>
+<th>RTT P95 (ms)</th>
+<th>RTT max (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A to B</td>
+<td>100/100</td>
+<td>7.08</td>
+<td>6.78</td>
+<td>9.48</td>
+<td>19.60</td>
+</tr>
+<tr>
+<td>A to C</td>
+<td>100/100</td>
+<td>6.69</td>
+<td>5.76</td>
+<td>7.56</td>
+<td>8.22</td>
+</tr>
+<tr>
+<td>B to A</td>
+<td>100/100</td>
+<td>7.71</td>
+<td>7.22</td>
+<td>10.80</td>
+<td>16.90</td>
+</tr>
+<tr>
+<td>B to C</td>
+<td>100/100</td>
+<td>6.76</td>
+<td>6.23</td>
+<td>9.31</td>
+<td>9.93</td>
+</tr>
+<tr>
+<td>C to A</td>
+<td>100/100</td>
+<td>6.54</td>
+<td>5.47</td>
+<td>7.32</td>
+<td>8.07</td>
+</tr>
+<tr>
+<td>C to B</td>
+<td>100/100</td>
+<td>7.56</td>
+<td>6.97</td>
+<td>10.12</td>
+<td>11.90</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>TCP direction</th>
+<th>Mean (Mbit/s)</th>
+<th>Sample SD</th>
+<th>Minimum</th>
+<th>Maximum</th>
+<th>Retransmits, total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B to A</td>
+<td>39.36</td>
+<td>8.24</td>
+<td>33.33</td>
+<td>48.75</td>
+<td>14</td>
+</tr>
+<tr>
+<td>C to A</td>
+<td>33.94</td>
+<td>1.91</td>
+<td>32.26</td>
+<td>36.02</td>
+<td>6</td>
+</tr>
+<tr>
+<td>B to C</td>
+<td>25.64</td>
+<td>4.97</td>
+<td>20.52</td>
+<td>30.45</td>
+<td>21</td>
+</tr>
+</tbody>
+</table>
+<p>All 600 of 600 ICMP packets were received. Three TCP trials per direction expose substantial within-configuration variation; the data do not support a precise capacity estimate. These transfers were sequential and did not run during the payment timing series. They measure TCP application delivery, including protocol overhead and retransmission effects, rather than the radio PHY rate.</p>
+<p>Each Pi reported both other radios as batman-adv neighbors. No link was deliberately blocked to require forwarding through a third radio. Lightning payment routes were also direct. Thus this test validates operation on a mesh-capable network, but it does not measure forced multi-hop radio forwarding or Lightning route failover.</p>
+<h2>Funding and channel establishment while leaves were isolated</h2>
+<p>The experiment began with empty regtest wallets and no channels, after leaf isolation had been verified. A mined 101 blocks to its LND wallet address, producing 10,000,000,000 confirmed sat at that checkpoint. B and C remained at zero. Additional manually mined regtest coinbases later make A's wallet balance large; those are synthetic rewards, not external funds.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Recorded UTC, 7 Sep</th>
+<th>Observed state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial mining</td>
+<td>23:37:43</td>
+<td>Chain height 101; B and C on-chain wallets zero.</td>
+</tr>
+<tr>
+<td>Inbound channel to B</td>
+<td>23:38:38</td>
+<td>A opened 1,000,000 sat to B and pushed 400,000 sat; B still had zero on-chain sat.</td>
+</tr>
+<tr>
+<td>On-chain funding</td>
+<td>23:38:46</td>
+<td>B and C each had 2,000,000 confirmed on-chain sat.</td>
+</tr>
+<tr>
+<td>B opens to C</td>
+<td>23:38:57</td>
+<td>B-funded 1,000,000-sat channel; funding transaction reached A's mempool and confirmed.</td>
+</tr>
+<tr>
+<td>A opens to C</td>
+<td>23:39:05</td>
+<td>A-funded 1,000,000-sat channel, completing the initial triangle.</td>
+</tr>
+</tbody>
+</table>
+<p>Receiving a pushed channel balance demonstrated receipt of Lightning channel funds without a funded local on-chain wallet. It is distinct from receiving an on-chain transaction. In the next step, the leaves learned their on-chain funding through their sole configured Neutrino peer, A. B then originated the B-C funding transaction while still lacking an internet route. The harness checked that transaction in A's mempool before mining.</p>
+<table>
+<thead>
+<tr>
+<th>Open operation</th>
+<th>Capacity (sat)</th>
+<th>First inclusion height</th>
+<th>Observed confirmations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A to B</td>
+<td>1,000,000</td>
+<td>102</td>
+<td>6</td>
+</tr>
+<tr>
+<td>B to C</td>
+<td>1,000,000</td>
+<td>114</td>
+<td>6</td>
+</tr>
+<tr>
+<td>A to C</td>
+<td>1,000,000</td>
+<td>120</td>
+<td>6</td>
+</tr>
+<tr>
+<td>A to B (reopen)</td>
+<td>1,000,000</td>
+<td>1137</td>
+<td>6</td>
+</tr>
+<tr>
+<td>B to C (reopen)</td>
+<td>1,000,000</td>
+<td>1143</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>The harness mined six blocks after each primary channel funding transaction and waited for both endpoints to report an active channel. This describes the observation procedure; it is not a claim that the protocol required six confirmations. The advertised channels were private. Full transaction identifiers and output indexes appear in the transaction appendix and raw records.</p>
+<h2>Payment measurements with Bitcoin Core running</h2>
+<p><img alt="Figure 3. Empirical cumulative distributions for the three 30-payment series. Every invoice requested 10,000 sat. Each point belongs to the same three-node deployment." src="figures/payment-ecdf.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Success</th>
+<th>Median CLI (ms)</th>
+<th>Mean CLI (ms)</th>
+<th>P95 CLI (ms)</th>
+<th>Median HTLC (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B to C</td>
+<td>30/30</td>
+<td>351.73</td>
+<td>370.61</td>
+<td>499.28</td>
+<td>277.48</td>
+</tr>
+<tr>
+<td>B to A</td>
+<td>30/30</td>
+<td>419.41</td>
+<td>425.54</td>
+<td>535.20</td>
+<td>344.96</td>
+</tr>
+<tr>
+<td>A to B</td>
+<td>30/30</td>
+<td>408.88</td>
+<td>432.94</td>
+<td>594.64</td>
+<td>337.53</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Series</th>
+<th>On-Pi start UTC, 7 Sep</th>
+<th>On-Pi end UTC, 7 Sep</th>
+<th>CLI range (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B to C</td>
+<td>23:43:43</td>
+<td>23:45:14</td>
+<td>272.64 to 632.81</td>
+</tr>
+<tr>
+<td>B to A</td>
+<td>23:45:15</td>
+<td>23:46:30</td>
+<td>301.22 to 593.12</td>
+</tr>
+<tr>
+<td>A to B</td>
+<td>23:46:32</td>
+<td>23:48:12</td>
+<td>285.51 to 689.55</td>
+</tr>
+</tbody>
+</table>
+<p>All 90 sender records reported SUCCEEDED, and recipient invoice lookups confirmed settlement for the expected amount. The measured payments used one Lightning hop, one recorded attempt, and zero routing fee. The local CLI and LND HTLC intervals differ because the CLI interval also includes process startup and surrounding RPC work. Neither is a radio propagation delay measurement.</p>
+<p>Direction was not randomized, and the B-C series ran first. The differing sample distributions cannot isolate hardware, routing, thermal, interference, or order effects. Per-trial durations, fees, attempts, hops, payment hashes, and invoice settlement flags are provided in payments.csv. The ECDF retains every successful observation, including the slowest trial.</p>
+<h2>Matched payments during a Bitcoin Core outage</h2>
+<p><img alt="Figure 4. B-to-C payment timing with Bitcoin Core running and then stopped. Both conditions used 30 sequential 5,000-sat payments on the reopened B-C channel." src="figures/baseline-ecdf.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Success</th>
+<th>Median CLI (ms)</th>
+<th>Mean CLI (ms)</th>
+<th>P95 CLI (ms)</th>
+<th>Median HTLC (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Running</td>
+<td>30/30</td>
+<td>290.95</td>
+<td>320.96</td>
+<td>525.25</td>
+<td>216.08</td>
+</tr>
+<tr>
+<td>Stopped</td>
+<td>30/30</td>
+<td>289.02</td>
+<td>305.91</td>
+<td>405.21</td>
+<td>212.13</td>
+</tr>
+</tbody>
+</table>
+<p>Bitcoin Core was stopped on A after the running series. The harness checked its inactive state before payments and again after all 30 stopped-condition payments settled. B and C continued reporting height 1148. No blocks were mined during this interval. The two leaf LND processes and wireless network remained running.</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>On-Pi start UTC, 7 Sep</th>
+<th>On-Pi end UTC, 7 Sep</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Running</td>
+<td>23:51:39</td>
+<td>23:52:56</td>
+</tr>
+<tr>
+<td>Stopped</td>
+<td>23:52:59</td>
+<td>23:54:10</td>
+</tr>
+</tbody>
+</table>
+<p>The result demonstrates that these already established channels could update and settle payments during this short loss of the Bitcoin backend. It does not demonstrate safe channel opening or closing without chain access, indefinite disconnected operation, or protection from a hostile peer while chain monitoring is unavailable. The one gateway is also a single chain-data source.</p>
+<p>The median CLI durations were approximately 291 ms with Core running and 289 ms with it stopped. This small difference is descriptive. The sequential, unrandomized design does not show that stopping Core improves performance. Core was restarted after the series; A's LND was restarted to reconnect, and all three primary channels returned to active state.</p>
+<h2>Cooperative closing, force closing, and reopening</h2>
+<table>
+<thead>
+<tr>
+<th>Observation</th>
+<th>Cooperative B-A</th>
+<th>Force B-C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Closing node</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr>
+<td>Close type reported by B</td>
+<td>COOPERATIVE_CLOSE</td>
+<td>LOCAL_FORCE_CLOSE</td>
+</tr>
+<tr>
+<td>Commitment / close inclusion height</td>
+<td>126</td>
+<td>127</td>
+</tr>
+<tr>
+<td>CSV maturity height</td>
+<td>Not applicable</td>
+<td>1135</td>
+</tr>
+<tr>
+<td>Blocks remaining when checked</td>
+<td>Not applicable</td>
+<td>1008</td>
+</tr>
+<tr>
+<td>B wallet before (sat)</td>
+<td>999,845</td>
+<td>1,399,845</td>
+</tr>
+<tr>
+<td>B wallet after (sat)</td>
+<td>1,399,845</td>
+<td>2,096,108</td>
+</tr>
+<tr>
+<td>B wallet increase (sat)</td>
+<td>400,000</td>
+<td>696,263</td>
+</tr>
+<tr>
+<td>Outcome recorded UTC, 7 Sep</td>
+<td>23:49:43</td>
+<td>23:50:51</td>
+</tr>
+</tbody>
+</table>
+<p>B initiated the cooperative closure with A. The close transaction was observed, mined at height 126, and the closed-channel record classified it as COOPERATIVE_CLOSE. B's 400,000-sat channel balance became confirmed on-chain funds. The local close command took approximately 5.71 seconds; its completion does not by itself mean the close was confirmed.</p>
+<p>B then force-closed its original channel to C. At height 127, the pending-channel record showed a 1,008-block delay and maturity height 1135. The harness mined the remaining blocks and waited for the nodes to process them, then mined the sweep at height 1136. B reported LOCAL_FORCE_CLOSE with no remaining force-close limbo for this channel. The confirmed wallet increase was 696,263 sat, reflecting the recovered outputs after transaction fees.</p>
+<p>Following the 1,008-block batch, A's LND took about 47 seconds from the controller-observed mining return until the first sampled synchronized response. B and C were checked after A, so this run cannot compare their independent catch-up times. That delay is retained in the timeline and is not treated as a payment failure.</p>
+<p>The A-B and B-C channels were reopened with new funding transactions. A-C stayed open throughout. The matched baseline therefore used a reopened B-C channel; it was not run on the earlier channel that had been force-closed. Both endpoints were checked for active state before the baseline started.</p>
+<h2>Revoked-state breach response</h2>
+<p>A separate disposable LND process, X, ran on pi3 alongside its main node C. X had its own data directory and identity, P2P port 9736, RPC port 10010, and REST port 8081. B opened a private 500,000-sat channel to X and pushed 200,000 sat. The main C wallet and channel database were not rewound.</p>
+<p>With X stopped, the harness copied its channel.db. X restarted and paid B three invoices of 25,000 sat each. Its current local channel balance became 125,000 sat, while the snapshot still assigned it 200,000 sat. Restoring that snapshot was therefore economically favorable to X by 75,000 sat, before any punishment. B was temporarily stopped while X published the old commitment, preventing a channel reestablishment exchange from replacing the intended test condition.</p>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Observed value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revoked commitment included</td>
+<td>Height 1155</td>
+</tr>
+<tr>
+<td>Justice transaction included</td>
+<td>Height 1156</td>
+</tr>
+<tr>
+<td>Confirmation height gap</td>
+<td>1 block</td>
+</tr>
+<tr>
+<td>Victim close classification</td>
+<td>BREACH_CLOSE</td>
+</tr>
+<tr>
+<td>Revoked outputs spent by justice</td>
+<td>3, 2 (both principal outputs)</td>
+</tr>
+<tr>
+<td>Principal inputs to justice</td>
+<td>496,530 sat</td>
+</tr>
+<tr>
+<td>Justice transaction fee</td>
+<td>12,300 sat</td>
+</tr>
+<tr>
+<td>Confirmed output / B wallet increase</td>
+<td>484,230 sat</td>
+</tr>
+<tr>
+<td>X confirmed wallet balance</td>
+<td>0 sat</td>
+</tr>
+</tbody>
+</table>
+<p>After the revoked transaction confirmed, B restarted, detected the breach, and broadcast the justice transaction. The transaction spends both non-anchor principal outputs of the revoked commitment, including the output that the stale state assigned to X. Its 484,230-sat output equals the observed increase in B's confirmed wallet. B classified the channel as BREACH_CLOSE. The two 330-sat anchors are excluded from the principal-output claim.</p>
+<p>The funding transaction, revoked transaction, justice transaction, confirmation block hashes, full witness data, and wallet snapshots are retained. No claim is made about a third-party watchtower: B itself resumed monitoring and responded. X is stopped and not enabled at boot; its stale files are retained separately. The main three-node triangle was checked again after the test.</p>
+<p>A setup defect initially made X advertise port 9735 despite listening on 9736, causing a reconnection delay after its snapshot restart. The advertised port was corrected, and an explicit outbound connection was made before advancing state. This interruption is in the raw journal. The test used manually scheduled regtest blocks and a cooperative gateway miner; it does not measure detection under censorship or congested production fee conditions [4, 5].</p>
+<h2>Reboot persistence and the final operational state</h2>
+<p>The initial reboot of B exposed a deployment defect: bat0 received a different virtual MAC after reboot, while A retained an IP neighbor entry for the old address. The radio remained visible to batman-adv but IP traffic failed. Deleting A's stale neighbor entry restored B. C was also rebooted during that initial diagnostic sequence; its stale neighbor mapping was explicitly corrected. These assisted recoveries are not counted as automatic successes.</p>
+<p>The fix persists each current bat0 MAC in /etc/lnmesh/mesh.env and applies it before bringing bat0 up. Fresh deployment scripts now preserve an existing MAC or derive a stable locally administered MAC from the Wi-Fi interface. No extra network daemon was introduced. All three nodes were then rebooted individually with their persisted MACs, and identities, channel activity, leaf isolation, and application access were checked.</p>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Scheduled UTC, 8 Sep</th>
+<th>Fully checked UTC</th>
+<th>Observed recovery (s)</th>
+<th>Persistent bat0 MAC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B</td>
+<td>00:06:32</td>
+<td>00:07:51</td>
+<td>79.22</td>
+<td>82:d6:e3:11:03:bf</td>
+</tr>
+<tr>
+<td>C</td>
+<td>00:07:52</td>
+<td>00:09:23</td>
+<td>90.11</td>
+<td>a2:8a:1f:07:7e:04</td>
+</tr>
+<tr>
+<td>A</td>
+<td>00:10:52</td>
+<td>00:12:10</td>
+<td>77.61</td>
+<td>42:dd:83:e7:7e:8b</td>
+</tr>
+</tbody>
+</table>
+<p>Recovery time starts before the command that schedules a reboot three seconds later and ends after service, chain, channel, route, and MAC checks. It includes polling intervals, SSH setup, and channel reconnection; it is not OS boot time. Connection resets, temporary name-resolution failure, timeouts, and route unavailability during reboot are retained in the command journal.</p>
+<p>The first gateway retry reached its local services before the mesh management paths were usable; the harness stopped on an immediate leaf RPC error. A bounded path-readiness wait was added, and the gateway reboot was repeated successfully without another network configuration change. The table contains the completed checks after the MAC fix, including that repeated gateway trial.</p>
+<table>
+<thead>
+<tr>
+<th>Final node</th>
+<th>Height</th>
+<th>Active channels</th>
+<th>Pending / inactive</th>
+<th>Confirmed wallet (sat)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>1156</td>
+<td>2</td>
+<td>0 / 0</td>
+<td>1,483,587,352,934</td>
+</tr>
+<tr>
+<td>B</td>
+<td>1156</td>
+<td>2</td>
+<td>0 / 0</td>
+<td>1,079,969</td>
+</tr>
+<tr>
+<td>C</td>
+<td>1156</td>
+<td>2</td>
+<td>0 / 0</td>
+<td>2,299,876</td>
+</tr>
+</tbody>
+</table>
+<p>The three primary nodes retain their original public keys and form three unique active channels, reported at both endpoints. A final 1,000-sat B-C payment settled after the reboot checks. This functional payment is additional to the 150 planned measurement payments and the three state-advancing breach payments; it is not pooled into their distributions. X remains stopped. The leaves remain accessible through A over the mesh, with no Ethernet address or default route.</p>
+<h2>Final host and clock metadata</h2>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Controller UTC, 8 Sep</th>
+<th>LND RSS (MiB)</th>
+<th>LND CPU (%)</th>
+<th>Temp. (C)</th>
+<th>LND data bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>00:13:41</td>
+<td>116.94</td>
+<td>2.8</td>
+<td>46.6</td>
+<td>7,584,406</td>
+</tr>
+<tr>
+<td>B</td>
+<td>00:13:43</td>
+<td>90.88</td>
+<td>0.9</td>
+<td>47.2</td>
+<td>11,639,246</td>
+</tr>
+<tr>
+<td>C</td>
+<td>00:13:45</td>
+<td>86.34</td>
+<td>1.1</td>
+<td>47.7</td>
+<td>7,226,404</td>
+</tr>
+</tbody>
+</table>
+<p>RSS is the resident memory reported by ps, converted from KiB to MiB. CPU percentage is ps's process-lifetime average since the most recent restart, not an instantaneous sample or a benchmark averaged across the payment phase. These records were collected after reboot, during low application load and concurrent read-only transaction validation. They should not be used to infer peak resource demand or energy efficiency.</p>
+<p>At the gateway endpoint snapshot, Bitcoin Core RSS was 54.80 MiB and its data directory occupied 20,118,730 bytes. All Pis reported throttled=0x0 at this post-reboot checkpoint. That value does not prove an absence of throttling during the earlier pre-reboot measurements. Free filesystem space exceeded 108 billion bytes on each device.</p>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Chrony stratum</th>
+<th>Chrony system-time estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>3</td>
+<td>0.000338725 seconds slow of NTP time</td>
+</tr>
+<tr>
+<td>B</td>
+<td>4</td>
+<td>0.000137508 seconds slow of NTP time</td>
+</tr>
+<tr>
+<td>C</td>
+<td>4</td>
+<td>0.000541568 seconds slow of NTP time</td>
+</tr>
+</tbody>
+</table>
+<p>Chrony reported Normal leap status on all three. A used an external NTP source; B and C selected 10.10.0.1. These are chrony's own estimates and do not constitute an independent timing calibration.</p>
+<table>
+<thead>
+<tr>
+<th>Pi</th>
+<th>Samples</th>
+<th>Pi minus PC lower bound (s)</th>
+<th>Pi minus PC upper bound (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>3</td>
+<td>-1.047524</td>
+<td>-0.870424</td>
+</tr>
+<tr>
+<td>B</td>
+<td>3</td>
+<td>-1.048995</td>
+<td>-0.709172</td>
+</tr>
+<tr>
+<td>C</td>
+<td>3</td>
+<td>-1.045357</td>
+<td>-0.705514</td>
+</tr>
+</tbody>
+</table>
+<p>Each bracket surrounds one remote time.time_ns() response with controller UTC start/end times. The table intersects the three brackets per Pi, assuming its clock offset was stable over those seconds. It bounds the offset without assuming symmetric SSH delay. The Pis were roughly one second behind the PC clock. No wall-clock timestamps in the raw files were retroactively shifted; monotonic local payment durations remain the timing basis.</p>
+<p>The controller ran Windows 11 build 26200, PowerShell 7.6.5, and Python 3.12.14; the Pis used Debian Python package 3.13.5-1. Full kernel strings, boot identifiers, process lifetimes, interface counters, MAC addresses, service states, regulatory output, package versions, sanitized configurations, binary hashes, and apt change history are in the final-host-metadata records.</p>
+<h2>Evidence quality, provenance, and known irregularities</h2>
+<p>The final analyzed journal contains 1056 completed remote command records and 0 unmatched start records. It is an execution journal, not an externally witnessed or cryptographically signed laboratory record. SHA-256 checks provide file integrity and traceability, not proof that a remote machine reported truthfully. The raw evidence, derived tables, and this report are packaged with a file manifest.</p>
+<p>Four early stdout records fail their originally recorded hashes because the first filename scheme combined a decimal timestamp with Path.with_suffix(), causing concurrent records to share output paths. Their complete original per-host stdout cannot be recovered from those files. This was corrected before channel and payment testing; the affected preflight was repeated under unique names. Final package inventory and apt history establish installed versions, but do not reconstruct every lost installer line.</p>
+<table>
+<thead>
+<tr>
+<th>Affected host</th>
+<th>Stage</th>
+<th>Original event identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C</td>
+<td>privileged-preflight</td>
+<td>20260907T232911.718985Z-c-ddf514</td>
+</tr>
+<tr>
+<td>B</td>
+<td>privileged-preflight</td>
+<td>20260907T232911.718985Z-b-59ecef</td>
+</tr>
+<tr>
+<td>A</td>
+<td>install-base-packages</td>
+<td>20260907T233012.549045Z-a-b95528</td>
+</tr>
+<tr>
+<td>C</td>
+<td>install-base-packages</td>
+<td>20260907T233012.550021Z-c-2ef2cb</td>
+</tr>
+</tbody>
+</table>
+<p>Early Windows writes also converted LF to CRLF after hashing text. The audit accepts an exact byte hash or, for those older files, a single CRLF-to-LF normalization matching the recorded hash. Later writes explicitly preserve LF. After that normalization, the four stdout collisions above are the remaining mismatches. Current manifest hashes describe the actual files being delivered; they do not repair the older mismatches.</p>
+<p>Three early mesh validators returned nonzero after successful ping checks because sudo did not preserve SSH_CONNECTION and the script used set -u. The diagnostic expression was corrected and the full check rerun successfully. Two later connect commands returned already connected; the associated channel opens still completed. The disposable-node port defect and reboot recovery findings are described in their respective sections. Nonzero exits are retained, including expected reboot outages; there was no deletion of unsuccessful trials to improve the payment statistics.</p>
+<p>The source archive is LNMesh-2026-09-05.tar.gz, 152,771 bytes. Its SHA-256 is <code>2609eff4c7b12d9cc5d70a981f4629350d37c567058320668d7002d65eb4c616</code>. It is supplied by the operator, rather than downloaded as an independently verified research dataset. The historical archive is kept separately from the fresh evidence bundle.</p>
+<p>Passwords and live RPC credentials are not included in the delivered evidence. SSH private keys, wallet databases, seeds, and macaroon files were not copied into the bundle. Public node keys, local addresses, synthetic regtest transaction witnesses, and some synthetic payment data are retained for reproducibility. The measurement scripts and report were produced with AI-assisted execution and analysis and should be independently reviewed before publication.</p>
+<h2>Timeline of the fresh run</h2>
+<table>
+<thead>
+<tr>
+<th>Controller UTC</th>
+<th>Checkpoint</th>
+<th>Outcome record name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-09-07 23:37:43</td>
+<td>101 blocks mined</td>
+<td>gateway-initial-mining</td>
+</tr>
+<tr>
+<td>2026-09-07 23:38:38</td>
+<td>B has inbound balance, on-chain zero</td>
+<td>inbound-balance-with-zero-onchain</td>
+</tr>
+<tr>
+<td>2026-09-07 23:38:46</td>
+<td>B and C funded on-chain</td>
+<td>offline-onchain-funding</td>
+</tr>
+<tr>
+<td>2026-09-07 23:48:26</td>
+<td>90-payment series and snapshot complete</td>
+<td>after-payment-series</td>
+</tr>
+<tr>
+<td>2026-09-07 23:49:43</td>
+<td>Cooperative close recovery confirmed</td>
+<td>cooperative-close</td>
+</tr>
+<tr>
+<td>2026-09-07 23:50:51</td>
+<td>Force-close sweep recovery confirmed</td>
+<td>force-close</td>
+</tr>
+<tr>
+<td>2026-09-07 23:51:25</td>
+<td>Primary triangle reopened</td>
+<td>after-close-reopen</td>
+</tr>
+<tr>
+<td>2026-09-07 23:54:16</td>
+<td>30 stopped-backend payments verified</td>
+<td>chain-stopped-baseline</td>
+</tr>
+<tr>
+<td>2026-09-07 23:54:36</td>
+<td>Backend and triangle recovered</td>
+<td>after-baseline-recovery</td>
+</tr>
+<tr>
+<td>2026-09-07 23:57:30</td>
+<td>Revoked state advantage established</td>
+<td>breach-state-before-rewind</td>
+</tr>
+<tr>
+<td>2026-09-07 23:57:42</td>
+<td>Revoked commitment confirmed</td>
+<td>revoked-commitment-confirmed</td>
+</tr>
+<tr>
+<td>2026-09-07 23:58:00</td>
+<td>Breach response and wallet checks complete</td>
+<td>breach-response</td>
+</tr>
+<tr>
+<td>2026-09-07 23:58:11</td>
+<td>Main triangle checked after breach</td>
+<td>after-breach-main-triangle</td>
+</tr>
+<tr>
+<td>2026-09-08 00:05:28</td>
+<td>Initial assisted reboot findings recorded</td>
+<td>reboot-initial-run-correction</td>
+</tr>
+<tr>
+<td>2026-09-08 00:12:28</td>
+<td>Final post-reboot triangle snapshot</td>
+<td>final-active-triangle</td>
+</tr>
+</tbody>
+</table>
+<p>The experimental session crosses midnight UTC: functional experiments occurred on 7 September and final persistence checks on 8 September. Both fall on 7 September in America/Chicago (UTC-05:00). Checkpoint timestamps are observation times after their assertions, not necessarily transaction broadcast or first-detection times. Full precision and command start/end intervals are in timeline.csv and events.jsonl; payment on-Pi timestamps are separately labeled in payments.csv.</p>
+<p>The first structured privileged preflight starts near 23:29 UTC. Preliminary host discovery and authentication attempts preceded this journal; they are not reconstructed as fabricated command records. The user supplied the brady username and authorized password-authenticated sudo. Root command execution, file creation and fsync, kernel-module loading, and temporary-interface creation/removal were verified before installation and isolation.</p>
+<h2>Transaction and identity appendix</h2>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Full transaction ID; :index where applicable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>On-chain funding to B</td>
+<td><code>fbb2dae271d7950314e139f93584c6af978a2023263e638b6c9f51913ad50a6d</code></td>
+</tr>
+<tr>
+<td>On-chain funding to C</td>
+<td><code>2a67f7c5c2567800ba48760ae4a3028710429a6959f210ec25fa0bac014605a1</code></td>
+</tr>
+<tr>
+<td>A-B initial channel</td>
+<td><code>6e1b28f974579138d8cc31ad1ad9f21eaf627a2c6f37e42851e3d946b07a1b72:0</code></td>
+</tr>
+<tr>
+<td>B-C initial channel</td>
+<td><code>6d4a0f8487a7ccd0e67c4ef24bf96fd1b5a4a655be58962a56026862fe4d507b:1</code></td>
+</tr>
+<tr>
+<td>A-C initial channel</td>
+<td><code>198b923d80e741f24d66661aadbdaa0dab094a2ec20e6711f94c0114cfd48ed5:0</code></td>
+</tr>
+<tr>
+<td>A-B reopened channel</td>
+<td><code>cea4c5a396aa6a8922072ac154dd45e924cfc75ec01132b3f835dc790df8eda8:0</code></td>
+</tr>
+<tr>
+<td>B-C reopened channel</td>
+<td><code>428776bc41d7dc6c350c2a890aa19bf7b8b655f5c31be65e40d7833217a0568f:1</code></td>
+</tr>
+<tr>
+<td>B-A cooperative close</td>
+<td><code>d166db642dac138b247cc6d9faabe632fcfedf60088203ff913ce47a24b3a6fc</code></td>
+</tr>
+<tr>
+<td>B-C force-close commitment</td>
+<td><code>6e01af20d747b63a0846646738a9810cda42f6ee2d1fe468762c869cacfa662f</code></td>
+</tr>
+<tr>
+<td>Force-close sweep 1</td>
+<td><code>e5f452b008ac89e6d1be6228969a9921700b5a1cdf4ac9471fd1edf337051c07</code></td>
+</tr>
+<tr>
+<td>B-X breach-test channel</td>
+<td><code>6908228319e87e2d1d1d3b405fc6b750e48db087658102b45b43469f7e055ccc:1</code></td>
+</tr>
+<tr>
+<td>Revoked commitment</td>
+<td><code>e81de91942ca60c7d76919e4634a9f28f5e7cad70e838741e03800bbd8c6818e</code></td>
+</tr>
+<tr>
+<td>Justice transaction</td>
+<td><code>0342fed1606f900a8675b9f00430cf0c188b75ed628e9b0c65a20c519359f565</code></td>
+</tr>
+</tbody>
+</table>
+<p>Transaction IDs refer exclusively to the local regtest chain. A public Bitcoin explorer cannot resolve them. Channel points include the funding output index. Verbose Bitcoin RPC responses in the evidence include scripts and witness stacks; the breach proof also retains the two confirmation block hashes.</p>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Public Lightning identity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><code>0230b0c300e03818338183dea06ab1ce43f7533dc5e524df2c2052cfc66a97916d</code></td>
+</tr>
+<tr>
+<td>B</td>
+<td><code>0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae</code></td>
+</tr>
+<tr>
+<td>C</td>
+<td><code>030b7a54e192c3c99b05b97e3a90e3598e44173726b0f0a889e07c3bc82495f2c1</code></td>
+</tr>
+</tbody>
+</table>
+<p>The final unique channel points are the reopened A-B and B-C channels and the initial A-C channel. Transaction and identity values are copied from structured outcomes, not manually transcribed from screenshots.</p>
+<h2>Limits of interpretation and next experiments</h2>
+<p>The supported claim is that stock LND and Bitcoin Core completed the planned channel lifecycle demonstrations in one three-Pi regtest deployment, with two leaves using software-isolated Wi-Fi mesh connectivity and a single gateway chain peer. The experiments add reproducible observations, accounting, and a deployment repair. They do not establish novelty relative to the full literature.</p>
+<p>The original LNMesh paper by Kurt, Sahin, Harrilal-Parchment, and Akkaya describes offline Lightning payments over community wireless networks and studies channel-assignment strategies [1]. This writeup is an implementation and experimental record inspired by the supplied archive. It does not reproduce that paper's mobility simulations, large-scale topology results, or Bluetooth experiments. Claims in the archive about other backend failures are historical and were not counted as newly tested here.</p>
+<p>External validity is limited by one close-range tabletop placement, three similar devices, one radio channel, a small number of sequential trials, and one OS/software configuration. The experiment did not measure power use, mobility, range, wall attenuation, radio congestion, simultaneous payments, long-duration uptime, throughput under payment load, packet-level isolation throughout the run, or gateway redundancy. Reported process memory and temperatures are endpoint snapshots, not resource benchmarks.</p>
+<p>Security interpretation is limited by regtest and the gateway model. A controls mining and supplies the leaves' only Bitcoin peer. A dishonest or unavailable gateway can withhold fresh chain data or fail to relay transactions. Light-client validation does not guarantee timely visibility through a single withholding peer. The observed breach protection required B to resume monitoring and a miner to include justice in time; neither censorship nor deliberate chain-data withholding was tested. The 1,008-block delay is a chosen test parameter, not a proved safe deployment policy.</p>
+<p>For a paper, prioritize independent deployment repetitions and randomized condition order; measure exact spacing and RF conditions; force a documented two-hop radio path; test controlled packet loss and gateway outages; measure memory, CPU, and power under load; and repeat breach response with varied offline intervals and fee conditions. Preserve all failed attempts and preregister which endpoints constitute success. Field or production-network experiments would require a separately designed study.</p>
+<h2>Reproduction and operations</h2>
+<p>README.md and run.ps1 document the fresh-node sequence and mesh SSH commands. The scripts install pinned ARM64 binaries and systemd services without source compilation, containers, or changes to sudoers. Review state before resuming a failed phase: mining, opening channels, and stale-state restoration are stateful actions, not harmless reset commands. The supplied launcher was syntax-checked and its constituent operations were executed during this run; the final combined launcher was not replayed end to end on newly erased Pis.</p>
+<p>Use <code>experiment/run.ps1 -Phase status</code> from PowerShell for read-only status. Inside a Pi SSH session, <code>sudo lncli-mesh getinfo</code> inspects its node. On A, <code>sudo bcli getblockchaininfo</code> inspects regtest. The leaf recovery command <code>sudo /usr/local/sbin/lnmesh-restore-lan</code> re-enables the original Ethernet profile; doing so changes the offline condition. No continuous miner is installed.</p>
+<h2>References and delivered data</h2>
+<p>[1] <a href="https://arxiv.org/abs/2304.14559v1">Ahmet Kurt, Abdulhadi Sahin, Ricardo Harrilal-Parchment, and Kemal Akkaya. LNMesh: Who Said You need Internet to send Bitcoin? Offline Lightning Network Payments using Community Wireless Mesh Networks. arXiv:2304.14559v1, 2023; accepted to IEEE WoWMoM 2023.</a></p>
+<p>[2] <a href="https://bitcoincore.org/bin/bitcoin-core-29.1/">Bitcoin Core 29.1 official release artifacts and checksum manifest.</a></p>
+<p>[3] <a href="https://github.com/lightningnetwork/lnd/releases/tag/v0.19.2-beta">Lightning Network Daemon v0.19.2-beta release.</a></p>
+<p>[4] <a href="https://github.com/lightning/bolts/blob/master/03-transactions.md">Lightning BOLT #3: Bitcoin Transaction and Script Formats. Protocol reference; the linked master document can change.</a></p>
+<p>[5] <a href="https://github.com/lightningnetwork/lnd/blob/v0.19.2-beta/docs/safety.md">LND v0.19.2-beta safety documentation.</a></p>
+<p>[6] <a href="https://github.com/lightningnetwork/lnd/blob/v0.19.2-beta/sample-lnd.conf">LND v0.19.2-beta sample configuration, including Neutrino peer configuration and regtest-only noseedbackup setting.</a></p>
+<p>Primary references were consulted on 7-8 September 2026 UTC. They explain the existing implementations and protocol context. All performance, timing, wallet, transaction, and reboot results in this document come from the accompanying experiment records, not those references.</p>
+<table>
+<thead>
+<tr>
+<th>Delivered file or directory</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LNMesh-research-writeup.pdf</td>
+<td>Typeset report for review and sharing.</td>
+</tr>
+<tr>
+<td>LNMesh-research-writeup.md / .html</td>
+<td>Editable and browser-readable forms of the same content.</td>
+</tr>
+<tr>
+<td>payments.csv</td>
+<td>151 ordinary payment rows: 150 planned measurements plus one final functional check. The three breach-state payments remain in outcomes.jsonl.</td>
+</tr>
+<tr>
+<td>throughput.csv / ping_summary.csv</td>
+<td>Nine TCP trials and six 100-packet ICMP series.</td>
+</tr>
+<tr>
+<td>timeline.csv / analysis.json</td>
+<td>Command index and regenerable aggregate data.</td>
+</tr>
+<tr>
+<td>figures/<em>.png and </em>.svg</td>
+<td>Raster and editable vector exports of the four figures.</td>
+</tr>
+<tr>
+<td>evidence/</td>
+<td>Timestamped command scripts, stdout/stderr, structured outcomes, metadata, and provenance.</td>
+</tr>
+<tr>
+<td>SHA256SUMS.txt</td>
+<td>Hashes of the delivered source, evidence, and report files.</td>
+</tr>
+</tbody>
+</table></main></html>

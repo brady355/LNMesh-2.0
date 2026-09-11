@@ -1,0 +1,16 @@
+active
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             10.17.4.55/23 fe80::f329:88d2:7b8e:da8/64 
+wlan0            DOWN           
+bat0             UNKNOWN        10.10.0.1/24 fe80::40dd:83ff:fee7:7e8b/64 
+Interface wlan0
+	ifindex 3
+	wdev 0x1
+	addr 2c:cf:67:f4:eb:c5
+	ssid lnmesh-20260907
+	type IBSS
+	wiphy 0
+	channel 1 (2412 MHz), width: 20 MHz, center1: 2412 MHz
+	txpower 31.00 dBm
+batctl debian-2025.0-2 [batman-adv: 2025.4]
+wlan0: active

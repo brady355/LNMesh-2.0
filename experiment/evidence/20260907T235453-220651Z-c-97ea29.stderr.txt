@@ -1,0 +1,3 @@
+[lncli] could not load global options: could not load TLS cert file: open /var/lib/lnd-breach/tls.cert: no such file or directory
+[lncli] rpc error: code = Unknown desc = the RPC server is in the process of starting up, but not yet ready to accept calls
+[lncli] rpc error: code = Unknown desc = the RPC server is in the process of starting up, but not yet ready to accept calls

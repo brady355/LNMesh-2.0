@@ -1,0 +1,14 @@
+[Unit]
+Description=LNMesh forwarding isolation
+After=lnmesh-ibss.service
+Requires=lnmesh-ibss.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/lnmesh/lnmesh.env
+EnvironmentFile=/etc/lnmesh/ibss.env
+ExecStart=/usr/local/lib/lnmesh/configure-mesh-isolation.sh
+
+[Install]
+WantedBy=multi-user.target

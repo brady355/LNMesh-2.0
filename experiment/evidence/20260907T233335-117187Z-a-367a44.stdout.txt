@@ -1,0 +1,44 @@
+2026-09-07T23:33:37,111917541+00:00
+PING 10.10.0.1 (10.10.0.1) from 10.10.0.1 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.1: icmp_seq=1 ttl=64 time=0.021 ms
+64 bytes from 10.10.0.1: icmp_seq=2 ttl=64 time=0.019 ms
+64 bytes from 10.10.0.1: icmp_seq=3 ttl=64 time=0.016 ms
+
+--- 10.10.0.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2052ms
+rtt min/avg/max/mdev = 0.016/0.018/0.021/0.002 ms
+PING 10.10.0.2 (10.10.0.2) from 10.10.0.1 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=1.39 ms
+64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=7.31 ms
+64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=9.05 ms
+
+--- 10.10.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.386/5.912/9.045/3.278 ms
+PING 10.10.0.3 (10.10.0.3) from 10.10.0.1 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.3: icmp_seq=1 ttl=64 time=1.18 ms
+64 bytes from 10.10.0.3: icmp_seq=2 ttl=64 time=6.52 ms
+64 bytes from 10.10.0.3: icmp_seq=3 ttl=64 time=6.88 ms
+
+--- 10.10.0.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.182/4.861/6.882/2.605 ms
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+IF             Neighbor              last-seen
+        wlan0	  2c:cf:67:3c:09:e6    0.368s
+        wlan0	  2c:cf:67:3c:07:ac    0.468s
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+   Originator        last-seen (#/255) Nexthop           [outgoingIF]
+   2c:cf:67:3c:09:e6    0.260s   (188) 2c:cf:67:3c:07:ac [     wlan0]
+ * 2c:cf:67:3c:09:e6    0.260s   (243) 2c:cf:67:3c:09:e6 [     wlan0]
+   2c:cf:67:3c:07:ac    0.360s   (188) 2c:cf:67:3c:09:e6 [     wlan0]
+ * 2c:cf:67:3c:07:ac    0.360s   (247) 2c:cf:67:3c:07:ac [     wlan0]
+Joined IBSS f6:b6:4a:4d:ad:95 (on wlan0)
+	SSID: lnmesh-20260907
+	freq: 2412.0
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             10.17.4.55/23 fe80::f329:88d2:7b8e:da8/64 
+wlan0            UP             fe80::2ecf:67ff:fef4:ebc5/64 
+bat0             UNKNOWN        10.10.0.1/24 fe80::40dd:83ff:fee7:7e8b/64 
+SSH_CONNECTION=not-preserved-by-sudo
+2026-09-07T23:33:43,213885446+00:00

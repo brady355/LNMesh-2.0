@@ -1,0 +1,14 @@
+# Keep executable source portable when checked out on Windows or Linux.
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.ps1 text eol=crlf
+
+# Preserve archived source and experimental evidence exactly as hashed.
+experiment/** -text
+
+*.pdf binary
+*.png binary
+*.zip binary
+*.gz binary

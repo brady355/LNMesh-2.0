@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 0007
+if [[ -r /etc/lnmesh/lnmesh.env ]]; then
+  # shellcheck source=/dev/null
+  source /etc/lnmesh/lnmesh.env
+  export LN_MESH_ROLE LN_MESH_NETWORK LN_MESH_STATE_DIR
+fi
+export PYTHONPATH=/usr/local/lib/lnmesh/python
+exec /usr/bin/python3 -m lnmeshctl.worker "$@"

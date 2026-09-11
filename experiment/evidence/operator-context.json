@@ -1,0 +1,10 @@
+{
+  "source": "User statement during this deployment",
+  "physical_placement": "The three Pis are a few inches apart from each other on a table",
+  "exact_distances_measured": false,
+  "independent_rf_environment_survey": false,
+  "breach_test_authorized": true,
+  "authentication": "SSH key as brady, password-authenticated sudo; sudoers not changed",
+  "network_scope": "Bitcoin regtest only",
+  "historical_results": "Archive results dated 2026-09-03 are reference material and are not fresh results from this run"
+}

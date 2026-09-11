@@ -1,0 +1,139 @@
+
+##### 4-close start 2026-09-03T20:33:05-05:00
+== Demo 4: offline close
+-- b: on-chain confirmed=999845 sat, channel local=1386530 sat, height=125
+[20:33:07] b$ lncli-mesh closechannel --funding_txid 8d01d5db8ac1c2cba89b825dc980328085757adf454303880dc59c3a906c12a1 --output_index 0 --sat_per_vbyte 1 2>&1 | head -5
+Channel close successfully initiated
+Channel close transaction broadcasted: fd708e477a5d06a69a258e751a49c0c0d043a16f64fb19ab86e684df6b8b1218
+{
+    "closing_txid": "fd708e477a5d06a69a258e751a49c0c0d043a16f64fb19ab86e684df6b8b1218"
+}
+[20:33:09] a$ bcli getrawmempool
+[
+  "fd708e477a5d06a69a258e751a49c0c0d043a16f64fb19ab86e684df6b8b1218"
+]
+[20:33:09] a$ mine 1
+mined 1, height 126
+[20:33:13] b$ lncli-mesh closedchannels | jq -c '.channels[] | {peer: .remote_pubkey[0:10], close_type, closing_tx_hash, settled_balance, close_height}'
+{"peer":"0216fff02e","close_type":"COOPERATIVE_CLOSE","closing_tx_hash":"fd708e477a5d06a69a258e751a49c0c0d043a16f64fb19ab86e684df6b8b1218","settled_balance":"400000","close_height":126}
+>> B on-chain before coop close: 999845 sat, after: 1399845 sat
+-- b: on-chain confirmed=1399845 sat, channel local=986530 sat, height=126
+[20:33:16] b$ lncli-mesh closechannel --funding_txid 83c192cfe05615f8057575774057d03fbb22a76823a4ee7f3190980d08ba8b90 --output_index 1 --force 2>&1 | head -5
+Channel close successfully initiated
+Channel close transaction broadcasted: 01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622
+{
+    "closing_txid": "01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622"
+}
+[20:33:16] a$ bcli getrawmempool
+[
+  "01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622"
+]
+[20:33:16] a$ mine 1
+mined 1, height 127
+[20:33:21] b$ lncli-mesh pendingchannels | jq -c '.pending_force_closing_channels[] | {closing_txid, blocks_til_maturity, limbo_balance, maturity_height}'
+{"closing_txid":"01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622","blocks_til_maturity":1008,"limbo_balance":"986860","maturity_height":1135}
+>> mining 1008 blocks for the CSV delay
+[20:33:21] a$ mine 1008
+mined 1008, height 1135
+[20:33:52] a$ bcli getrawmempool
+[
+  "5c41a91785e8077bf591d0eb46aea8d6c43aef16b899473cf34e523254cba77f"
+]
+[20:33:52] a$ mine 1
+mined 1, height 1136
+[20:34:02] b$ lncli-mesh pendingchannels | jq -c '{force_closing: .pending_force_closing_channels}'
+{"force_closing":[]}
+[20:34:02] b$ lncli-mesh closedchannels | jq -c '.channels[] | select(.close_type=="LOCAL_FORCE_CLOSE") | {peer: .remote_pubkey[0:10], close_type, closing_tx_hash, settled_balance, close_height}'
+{"peer":"03d2650dba","close_type":"LOCAL_FORCE_CLOSE","closing_tx_hash":"01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622","settled_balance":"986530","close_height":127}
+>> B on-chain before force close: 1399845 sat, after sweep: 2386108 sat
+-- b: on-chain confirmed=2386108 sat, channel local=0 sat, height=1136
+== reopen B-C (from B) and A-B (from A, with push)
+[20:34:04] b$ lncli-mesh openchannel --node_key 03d2650dba1d9cc29b6d9f0d8b1c7bac437f884ef39dfa671d3198cb40e3e0f199 --local_amt 1000000  --private --sat_per_vbyte 1
+{
+    "funding_txid": "eaf95fa6adfd2abd7110e4cf32fe943bb7cbe23c7aa5cc9653bd5c451f32bb4c"
+}
+[20:34:06] a$ lncli-mesh openchannel --node_key 0273d7f102445b9bb25164fb53abe690816a622526e5c1591bf7ad98d39b8cfa51 --local_amt 1000000 --push_amt 400000 --private --sat_per_vbyte 1
+[lncli] rpc error: code = Unknown desc = channels cannot be created before the wallet is fully synced
+[20:34:06] a$ mine 6
+mined 6, height 1142
+!! channel a-b not active after 60 s
+-- a: on-chain confirmed=1482807103089 sat, channel local=596530 sat, height=1142
+-- b: on-chain confirmed=1385894 sat, channel local=996530 sat, height=1142
+-- c: on-chain confirmed=2009876 sat, channel local=400000 sat, height=1142
+##### 4-close end 2026-09-03T20:35:20-05:00
+
+##### 4-close start 2026-09-03T20:35:47-05:00
+== Demo 4: offline close
+== precondition: A-B and B-C must exist
+[20:35:48] a$ lncli-mesh openchannel --node_key 0273d7f102445b9bb25164fb53abe690816a622526e5c1591bf7ad98d39b8cfa51 --local_amt 1000000 --push_amt 400000 --private --sat_per_vbyte 1
+{
+    "funding_txid": "81529ea4874e1998ac951cb93f1459fe239c7763888851ca1b35508c264f03cd"
+}
+[20:35:48] a$ mine 6
+mined 6, height 1148
+-- b: on-chain confirmed=1385894 sat, channel local=1396530 sat, height=1148
+[20:35:55] b$ lncli-mesh closechannel --funding_txid 81529ea4874e1998ac951cb93f1459fe239c7763888851ca1b35508c264f03cd --output_index 0 --sat_per_vbyte 1 2>&1 | head -5
+Channel close successfully initiated
+Channel close transaction broadcasted: 5ba558bd8f37940ca6d423a6b52d995271e93b1212199a9f01602370139d8191
+{
+    "closing_txid": "5ba558bd8f37940ca6d423a6b52d995271e93b1212199a9f01602370139d8191"
+}
+[20:35:57] a$ bcli getrawmempool
+[
+  "5ba558bd8f37940ca6d423a6b52d995271e93b1212199a9f01602370139d8191"
+]
+[20:35:58] a$ mine 1
+mined 1, height 1149
+[20:36:02] b$ lncli-mesh closedchannels | jq -c '.channels[] | {peer: .remote_pubkey[0:10], close_type, closing_tx_hash, settled_balance, close_height}'
+{"peer":"0216fff02e","close_type":"COOPERATIVE_CLOSE","closing_tx_hash":"fd708e477a5d06a69a258e751a49c0c0d043a16f64fb19ab86e684df6b8b1218","settled_balance":"400000","close_height":126}
+{"peer":"03d2650dba","close_type":"LOCAL_FORCE_CLOSE","closing_tx_hash":"01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622","settled_balance":"986530","close_height":127}
+{"peer":"0216fff02e","close_type":"COOPERATIVE_CLOSE","closing_tx_hash":"5ba558bd8f37940ca6d423a6b52d995271e93b1212199a9f01602370139d8191","settled_balance":"400000","close_height":1149}
+>> B on-chain before coop close: 1385894 sat, after: 1785894 sat
+-- b: on-chain confirmed=1785894 sat, channel local=996530 sat, height=1149
+[20:36:04] b$ lncli-mesh closechannel --funding_txid eaf95fa6adfd2abd7110e4cf32fe943bb7cbe23c7aa5cc9653bd5c451f32bb4c --output_index 1 --force 2>&1 | head -5
+Channel close successfully initiated
+Channel close transaction broadcasted: 8210270104f9362d3a16c99b72dbd306485a3b2f87bd2b5aaa49df711d33e16d
+{
+    "closing_txid": "8210270104f9362d3a16c99b72dbd306485a3b2f87bd2b5aaa49df711d33e16d"
+}
+[20:36:05] a$ bcli getrawmempool
+[
+  "8210270104f9362d3a16c99b72dbd306485a3b2f87bd2b5aaa49df711d33e16d"
+]
+[20:36:05] a$ mine 1
+mined 1, height 1150
+[20:36:09] b$ lncli-mesh pendingchannels | jq -c '.pending_force_closing_channels[] | {closing_txid, blocks_til_maturity, limbo_balance, maturity_height}'
+{"closing_txid":"8210270104f9362d3a16c99b72dbd306485a3b2f87bd2b5aaa49df711d33e16d","blocks_til_maturity":1008,"limbo_balance":"996860","maturity_height":2158}
+>> mining 1008 blocks for the CSV delay
+[20:36:10] a$ mine 1008
+mined 1008, height 2158
+>> waiting for all wallets to rescan
+[20:37:05] a$ bcli getrawmempool
+[
+  "f836e81344a311117d3a93bdf2d3e4d2d88d5a595b84c5adb8d66ea9c02ca8e8"
+]
+[20:37:05] a$ mine 1
+mined 1, height 2159
+[20:37:14] b$ lncli-mesh pendingchannels | jq -c '{force_closing: .pending_force_closing_channels}'
+{"force_closing":[]}
+[20:37:14] b$ lncli-mesh closedchannels | jq -c '.channels[] | select(.close_type=="LOCAL_FORCE_CLOSE") | {peer: .remote_pubkey[0:10], close_type, closing_tx_hash, settled_balance, close_height}'
+{"peer":"03d2650dba","close_type":"LOCAL_FORCE_CLOSE","closing_tx_hash":"01f59baf6dbbc13b9377fecd959766416be3175e591f2bcc17620f15c826c622","settled_balance":"986530","close_height":127}
+{"peer":"03d2650dba","close_type":"LOCAL_FORCE_CLOSE","closing_tx_hash":"8210270104f9362d3a16c99b72dbd306485a3b2f87bd2b5aaa49df711d33e16d","settled_balance":"996530","close_height":1150}
+>> B on-chain before force close: 1785894 sat, after sweep: 2782157 sat
+-- b: on-chain confirmed=2782157 sat, channel local=0 sat, height=2159
+== reopen B-C (from B) and A-B (from A, with push)
+[20:37:19] b$ lncli-mesh openchannel --node_key 03d2650dba1d9cc29b6d9f0d8b1c7bac437f884ef39dfa671d3198cb40e3e0f199 --local_amt 1000000  --private --sat_per_vbyte 1
+{
+    "funding_txid": "e6080378d0bbb1dfc7ba7aa88a640fe02224e1d08a0a9d00d9dca174f0c1fc32"
+}
+[20:37:21] a$ lncli-mesh openchannel --node_key 0273d7f102445b9bb25164fb53abe690816a622526e5c1591bf7ad98d39b8cfa51 --local_amt 1000000 --push_amt 400000 --private --sat_per_vbyte 1
+{
+    "funding_txid": "9aace155d2a5fab2e558ba3e201daef271c0a8d39796d51234c11c6e3e0b0eeb"
+}
+[20:37:21] a$ mine 6
+mined 6, height 2165
+B-C and A-B active again
+-- a: on-chain confirmed=1494881512022 sat, channel local=1193060 sat, height=2165
+-- b: on-chain confirmed=1781943 sat, channel local=1396530 sat, height=2165
+-- c: on-chain confirmed=2009876 sat, channel local=400000 sat, height=2165
+##### 4-close end 2026-09-03T20:37:28-05:00

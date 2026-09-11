@@ -1,0 +1,3 @@
+MESH_IP=10.10.0.3
+MESH_MAC=a2:8a:1f:07:7e:04
+cea5c4224e77a4815be75d36e119acaf7ad354b03e7cd193ff39bfa45d237974  /usr/local/sbin/lnmesh-mesh

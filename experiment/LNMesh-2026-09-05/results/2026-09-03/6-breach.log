@@ -1,0 +1,108 @@
+
+##### 6-breach start 2026-09-03T20:55:12-05:00
+== Demo 6: breach response (regtest only)
+regtest confirmed on bitcoind and all three lnd
+-- b: on-chain confirmed=1781943 sat, channel local=1386530 sat, height=2165
+-- c: on-chain confirmed=2009876 sat, channel local=410000 sat, height=2165
+>> B-C capacity 1000000 sat
+== snapshot C's channel.db
+[20:55:19] c$ sudo systemctl stop lnd
+[20:55:20] c$ sudo cp /var/lib/lnd/data/graph/regtest/channel.db /root/channel.db.stale && ls -l /root/channel.db.stale
+ls: cannot access '/root/channel.db.stale': Permission denied
+[20:55:20] c$ sudo systemctl start lnd
+== advance the channel state (B pays C three times)
+[20:55:25] c$ lncli-mesh addinvoice --amt 50000 --memo 'advance state 1'   -> lnbcrt500u1p4f5fgdpp5dhrqzv7r9rw...
+[20:55:25] b$ lncli-mesh payinvoice --force lnbcrt500u1p4f5fgdpp5dhrqzv7r9rw442fpga9s807u4kfdcypjveg863wnxpgdegmekrjsdqcv9j8vctwvdjjqum5v96x2gp3cqzzsxqyz5vqsp5k0v9tq4vdz4qch2wer5fkfg4u9q367eldahlcp48x0mdlnuale5q9qxpqysgqg6ty8kygpl2mp9084vwel8ta3sr7kpngqnp2dszgfxj08uzham0z8pv70mn2qhcvsusmsdk0wyst9d6xgls8pqcggzpwgqm89qw2hggq6pch64 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT         | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| SUCCEEDED  |        0.024 |        0.239 | 50000        | 0   |     2248 | 2374945116061697 |       |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+Amount + fee:   50000 + 0 sat
+Payment hash:   6dc60133c328dd5aa921474b03bfdcad92dc103266507d45d33050dca379b0e5
+Payment status: SUCCEEDED, preimage: 283d514b0d230ec94b5bbcec0539a444e02fb35ac5e96cd2d1fae91c720f321e
+[20:55:25] c$ lncli-mesh addinvoice --amt 50000 --memo 'advance state 2'   -> lnbcrt500u1p4f5fgdpp5mkd2qysqur2...
+[20:55:25] b$ lncli-mesh payinvoice --force lnbcrt500u1p4f5fgdpp5mkd2qysqur20y77fpz8e2ra4muwgkpt98ttgl7rljzclah63er4sdqcv9j8vctwvdjjqum5v96x2gpjcqzzsxqyz5vqsp54nml4law7fkwv4zqzvqvue0gq32kldm64ldf26jy2wdsg6urtszs9qxpqysgqu8xfk2hzelhnhd4a69fyu5p7x95gla35l4jkhnz9qp384p279ke4mqfef750kjz66hwv830x77ta06mh89lf7ht83c3w30wt2n2gjccqergunr 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT         | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| SUCCEEDED  |        0.021 |        0.237 | 50000        | 0   |     2248 | 2374945116061697 |       |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+Amount + fee:   50000 + 0 sat
+Payment hash:   dd9aa01200e0d4f27bc9088f950fb5df1c8b05653ad68ff87f90b1fedf51c8eb
+Payment status: SUCCEEDED, preimage: 8c56d014f06c44d03ae5c0138cf9e45ee04586e34466d8cdf72a0857cc928dc8
+[20:55:26] c$ lncli-mesh addinvoice --amt 50000 --memo 'advance state 3'   -> lnbcrt500u1p4f5fgwpp59jsj3dwtuyd...
+[20:55:26] b$ lncli-mesh payinvoice --force lnbcrt500u1p4f5fgwpp59jsj3dwtuyd2kl2m42x2xzpfr88j6jxam588ajmufsgw9gkuerqqdqcv9j8vctwvdjjqum5v96x2gpncqzzsxqyz5vqsp58thdcjhmf3hxpk0l2t7rxav2de9x9zplgy8ge36pz872xs5cctfs9qxpqysgqe5nsct26xs3g4cee06wwdy4gxjvjdfceg5vjsyshxn8ha6s6qz79p7kygz68zd7fnkkmhdzcd7yhz9my4uh33a0q8t53w5fv9xkfzegqnvl80s 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT         | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| SUCCEEDED  |        0.022 |        0.246 | 50000        | 0   |     2248 | 2374945116061697 |       |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+Amount + fee:   50000 + 0 sat
+Payment hash:   2ca128b5cbe11aab7d5baa8ca3082919cf2d48dddd0e7ecb7c4c10e2a2dcc8c0
+Payment status: SUCCEEDED, preimage: 4d64b2b8e2efc58f97b70e4b31b1ec1072363454796c402e5c2808cb8690efda
+-- b: on-chain confirmed=1781943 sat, channel local=1236530 sat, height=2165
+-- c: on-chain confirmed=2009876 sat, channel local=560000 sat, height=2165
+== B goes away
+[20:55:30] b$ sudo systemctl stop lnd
+== C rewinds to the stale state and force-closes
+[20:55:31] c$ sudo systemctl stop lnd
+[20:55:31] c$ sudo cp /root/channel.db.stale /var/lib/lnd/data/graph/regtest/channel.db && sudo chown lnd:lnd /var/lib/lnd/data/graph/regtest/channel.db
+[20:55:31] c$ sudo systemctl start lnd
+[20:55:34] c$ lncli-mesh listchannels | jq -c '.channels[] | {peer: .remote_pubkey[0:10], active, local_balance, remote_balance}'
+{"peer":"0216fff02e","active":false,"local_balance":"400000","remote_balance":"596530"}
+{"peer":"0273d7f102","active":false,"local_balance":"10000","remote_balance":"986530"}
+[20:55:35] c$ lncli-mesh closechannel --funding_txid e6080378d0bbb1dfc7ba7aa88a640fe02224e1d08a0a9d00d9dca174f0c1fc32 --output_index 1 --force 2>&1 | head -5
+Channel close successfully initiated
+Channel close transaction broadcasted: 3df654c9511d29a9e476d23df2de6150adbf9466d33436b8c68dce1e62c21796
+{
+    "closing_txid": "3df654c9511d29a9e476d23df2de6150adbf9466d33436b8c68dce1e62c21796"
+}
+>> A mempool holds stale commitment: 3df654c9511d29a9e476d23df2de6150adbf9466d33436b8c68dce1e62c21796
+[20:55:44] a$ mine 1
+mined 1, height 2166
+>> stale commitment confirmed at height 2166
+== B returns
+[20:55:48] b$ sudo systemctl start lnd
+[20:55:54] b$ sudo journalctl -u lnd --since -10min --no-pager | grep -iE 'breach|justice' | cut -c1-200 | head -8
+Sep 03 20:50:29 lnmesh-b lnd[5416]: 2026-09-03 20:50:29.275 [INF] BRAR: Breach arbiter starting
+Sep 03 20:50:29 lnmesh-b lnd[5416]: 2026-09-03 20:50:29.277 [INF] BRAR: Starting contract observer, watching for breaches.
+Sep 03 20:51:10 lnmesh-b lnd[5416]: 2026-09-03 20:51:10.734 [INF] BRAR: Breach arbiter shutting down...
+Sep 03 20:51:14 lnmesh-b lnd[5778]: 2026-09-03 20:51:14.223 [INF] BRAR: Breach arbiter starting
+Sep 03 20:51:14 lnmesh-b lnd[5778]: 2026-09-03 20:51:14.224 [INF] BRAR: Starting contract observer, watching for breaches.
+Sep 03 20:55:30 lnmesh-b lnd[5778]: 2026-09-03 20:55:30.787 [INF] BRAR: Breach arbiter shutting down...
+Sep 03 20:55:52 lnmesh-b lnd[6386]: 2026-09-03 20:55:52.179 [INF] BRAR: Breach arbiter starting
+Sep 03 20:55:52 lnmesh-b lnd[6386]: 2026-09-03 20:55:52.180 [INF] BRAR: Starting contract observer, watching for breaches.
+>> A mempool holds justice tx: d2f884a7ae9c02776a984134bb56f40abe9d77308af7fef6c19eda7898c5c29d
+[20:55:55] a$ mine 1
+mined 1, height 2167
+>> justice tx confirmed at height 2167 (gap 1 block)
+[20:56:04] b$ lncli-mesh closedchannels | jq -c '.channels[] | select(.close_type=="BREACH_CLOSE") | {peer: .remote_pubkey[0:10], close_type, closing_tx_hash, settled_balance, close_height}'
+{"peer":"03d2650dba","close_type":"BREACH_CLOSE","closing_tx_hash":"3df654c9511d29a9e476d23df2de6150adbf9466d33436b8c68dce1e62c21796","settled_balance":"836530","close_height":2166}
+-- b: on-chain confirmed=2766173 sat, channel local=400000 sat, height=2167
+-- c: on-chain confirmed=2009876 sat, channel local=400000 sat, height=2167
+>> B wallet after breach: 2766173 sat. Capacity was 1000000 sat.
+== cleanup: reset C (section 8.3), close A-C from A, refund and reopen
+[20:56:09] c$ sudo systemctl stop lnd && sudo rm -rf /var/lib/lnd/data /var/lib/lnd/logs && sudo systemctl start lnd
+>> C new identity 03f9d3bf6701ef5446dc12a977f4ffc7bcd5fa2f6708629a71b71b60ac815bd14d
+[20:56:28] a$ lncli-mesh sendcoins --addr bcrt1pex99ye5ph2fgptgv6c74jrn7yy9xamtg9tqyl7ps793s3z84s3wsg7tzpv --amt 2000000 --sat_per_vbyte 1
+{
+    "txid": "c93eda415db1f08febfcca1c58b531d7b9c35b8368b0c8164b251c7a35301ac2"
+}
+[20:56:29] a$ mine 6
+mined 6, height 2173
+[20:56:37] b$ lncli-mesh openchannel --node_key 03f9d3bf6701ef5446dc12a977f4ffc7bcd5fa2f6708629a71b71b60ac815bd14d --local_amt 1000000  --private --sat_per_vbyte 1
+{
+    "funding_txid": "afd18fce3c57a6a81275b5ffc706f63d0370b335235bc22ed1e3e6eabc5ad353"
+}
+[20:56:39] a$ lncli-mesh openchannel --node_key 03f9d3bf6701ef5446dc12a977f4ffc7bcd5fa2f6708629a71b71b60ac815bd14d --local_amt 1000000 --push_amt 400000 --private --sat_per_vbyte 1
+{
+    "funding_txid": "279db9ff929c430f3fd2c229de669376b19daf656edfe4f54c6c4f3c1460aaba"
+}
+[20:56:39] a$ mine 6
+mined 6, height 2179
+B-C and A-C open again
+-- a: on-chain confirmed=1494887056625 sat, channel local=1789590 sat, height=2179
+-- b: on-chain confirmed=1765959 sat, channel local=1396530 sat, height=2179
+-- c: on-chain confirmed=2000000 sat, channel local=400000 sat, height=2179
+##### 6-breach end 2026-09-03T20:56:48-05:00

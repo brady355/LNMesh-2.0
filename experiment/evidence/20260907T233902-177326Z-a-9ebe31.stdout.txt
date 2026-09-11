@@ -1,0 +1,52 @@
+{
+  "txid": "198b923d80e741f24d66661aadbdaa0dab094a2ec20e6711f94c0114cfd48ed5",
+  "hash": "6c1b85ca9b309c8648808a9dc4f3ffb6b4a51b708fcad8c6dcf6c661f0df838f",
+  "version": 2,
+  "size": 205,
+  "vsize": 154,
+  "weight": 616,
+  "locktime": 0,
+  "vin": [
+    {
+      "txid": "cfa12a832b87c375d40ce6c9f172eb679ea4b8022bfb756947d9c8a12db552ad",
+      "vout": 0,
+      "scriptSig": {
+        "asm": "",
+        "hex": ""
+      },
+      "txinwitness": [
+        "fd25fb7f495b793c4bd4c60ec476df0de9f7f168b2deafb73a8b3c387af0314c0353dfd9e23a83d32cb0344b76edae51cff944da274b0e1aaebad5b8fb608d1e"
+      ],
+      "sequence": 0
+    }
+  ],
+  "vout": [
+    {
+      "value": 0.01000000,
+      "n": 0,
+      "scriptPubKey": {
+        "asm": "0 307c9f6e0aaf4dac90d8ae36d92c057993a24f32bfe7ba7d1bde8519587d8247",
+        "desc": "addr(bcrt1qxp7f7ms24ax6eyxc4cmdjtq90xf6ynejhlnm5lgmm6z3jkrasfrsev7czy)#cennnstq",
+        "hex": "0020307c9f6e0aaf4dac90d8ae36d92c057993a24f32bfe7ba7d1bde8519587d8247",
+        "address": "bcrt1qxp7f7ms24ax6eyxc4cmdjtq90xf6ynejhlnm5lgmm6z3jkrasfrsev7czy",
+        "type": "witness_v0_scripthash"
+      }
+    },
+    {
+      "value": 49.98999845,
+      "n": 1,
+      "scriptPubKey": {
+        "asm": "1 26daaaa2e1b41d3f20e80267158205a9cd27fdf077604ab43dd9621201bc2565",
+        "desc": "rawtr(26daaaa2e1b41d3f20e80267158205a9cd27fdf077604ab43dd9621201bc2565)#gycza8qn",
+        "hex": "512026daaaa2e1b41d3f20e80267158205a9cd27fdf077604ab43dd9621201bc2565",
+        "address": "bcrt1pymd24ghpkswn7g8gqfn3tqs948xj0l0swasy4dpam93pyqduy4jsv4g8ex",
+        "type": "witness_v1_taproot"
+      }
+    }
+  ],
+  "hex": "02000000000101ad52b52da1c8d9476975fb2b02b8a49e67eb72f1c9e60cd475c3872b832aa1cf0000000000000000000240420f0000000000220020307c9f6e0aaf4dac90d8ae36d92c057993a24f32bfe7ba7d1bde8519587d824725aff6290100000022512026daaaa2e1b41d3f20e80267158205a9cd27fdf077604ab43dd9621201bc25650140fd25fb7f495b793c4bd4c60ec476df0de9f7f168b2deafb73a8b3c387af0314c0353dfd9e23a83d32cb0344b76edae51cff944da274b0e1aaebad5b8fb608d1e00000000",
+  "blockhash": "7639a0271ba3cce434b195b4df215d8d64e7c57c67a040260e32ded974c2833c",
+  "confirmations": 6,
+  "time": 1788824338,
+  "blocktime": 1788824338
+}

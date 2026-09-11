@@ -1,0 +1,21 @@
+[Unit]
+Description=Core Lightning LNMesh leaf
+After=lnmesh-ibss.service network.target
+Requires=lnmesh-ibss.service
+ConditionPathExists=/etc/lnmesh/lightning.conf
+
+[Service]
+Type=simple
+User=lightning
+Group=lightning
+ExecStart=/usr/local/bin/lightningd --conf=/etc/lnmesh/lightning.conf --lightning-dir=/var/lib/lightning
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=300
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/lightning /var/lib/lnmesh
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,89 @@
+{
+    "status": "connection to 0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae@10.10.0.2:9735 initiated"
+}
+{
+    "peers": [
+        {
+            "pub_key": "0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae",
+            "address": "10.10.0.2:9735",
+            "bytes_sent": "806",
+            "bytes_recv": "807",
+            "sat_sent": "0",
+            "sat_recv": "0",
+            "inbound": false,
+            "ping_time": "-1",
+            "sync_type": "ACTIVE_SYNC",
+            "features": {
+                "0": {
+                    "name": "data-loss-protect",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "8": {
+                    "name": "tlv-onion",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "12": {
+                    "name": "static-remote-key",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "23": {
+                    "name": "anchors-zero-fee-htlc-tx",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "25": {
+                    "name": "route-blinding",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "27": {
+                    "name": "shutdown-any-segwit",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "31": {
+                    "name": "amp",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "2023": {
+                    "name": "script-enforced-lease",
+                    "is_required": false,
+                    "is_known": true
+                }
+            },
+            "errors": [],
+            "flap_count": 2,
+            "last_flap_ns": "1788825439733953091",
+            "last_ping_payload": ""
+        }
+    ]
+}

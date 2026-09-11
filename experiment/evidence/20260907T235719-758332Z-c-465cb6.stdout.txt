@@ -1,0 +1,14 @@
+2026-09-07T18:55:24.965532-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.965 [INF] CHBU: Updating backup file at /var/lib/lnd-breach/data/chain/bitcoin/regtest/channel.backup
+2026-09-07T18:55:24.969803-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.969 [INF] CHBU: Swapping old multi backup file from /var/lib/lnd-breach/data/chain/bitcoin/regtest/temp-dont-use.backup to /var/lib/lnd-breach/data/chain/bitcoin/regtest/channel.backup
+2026-09-07T18:55:24.969852-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.969 [INF] CHBU: Archiving old channel backup to /var/lib/lnd-breach/data/chain/bitcoin/regtest/chan-backup-archives
+2026-09-07T18:55:24.975221-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.975 [INF] SRVR: connMgr starting...
+2026-09-07T18:55:24.975316-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.975 [INF] CMGR: Server listening on 10.10.0.3:9736
+2026-09-07T18:55:24.976035-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.976 [INF] SRVR: Auto peer bootstrapping is disabled
+2026-09-07T18:55:24.976072-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.976 [INF] CHIO: BlockbeatDispatcher is starting with 1 consumer queues
+2026-09-07T18:55:24.976097-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.976 [INF] NTFN: New block epoch subscription
+2026-09-07T18:55:24.976224-05:00 pi3 lnd[12043]: 2026-09-07 18:55:24.976 [INF] CNCT: ChannelArbitrator(6908228319e87e2d1d1d3b405fc6b750e48db087658102b45b43469f7e055ccc:1) no close event
+2026-09-07T18:55:54.950800-05:00 pi3 lnd[12043]: 2026-09-07 18:55:54.950 [INF] GRPH: Initial zombie prune starting
+2026-09-07T18:55:54.951157-05:00 pi3 lnd[12043]: 2026-09-07 18:55:54.950 [INF] GRPH: Examining channel graph for zombie channels
+2026-09-07T18:55:54.951157-05:00 pi3 lnd[12043]: 2026-09-07 18:55:54.950 [INF] GRPH: Pruning 0 zombie channels
+listen=10.10.0.3:9736
+externalip=10.10.0.3

@@ -1,0 +1,6 @@
+net.ipv4.ip_forward = 0
+net.ipv6.conf.all.forwarding = 0
+[{"dst":"default","gateway":"10.17.4.1","dev":"eth0","protocol":"dhcp","prefsrc":"10.17.4.55","metric":100,"flags":[]},{"dst":"10.10.0.0/24","dev":"bat0","protocol":"kernel","scope":"link","prefsrc":"10.10.0.1","flags":[]},{"dst":"10.17.4.0/23","dev":"eth0","protocol":"kernel","scope":"link","prefsrc":"10.17.4.55","metric":100,"flags":[]}]
+[{"dst":"fe80::/64","dev":"bat0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"},{"dst":"fe80::/64","dev":"wlan0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"},{"dst":"fe80::/64","dev":"eth0","protocol":"kernel","metric":1024,"flags":[],"pref":"medium"}]
+ESTAB 0      0          10.10.0.1:18444    10.10.0.2:43544 users:(("bitcoind",pid=5796,fd=38))                                  
+ESTAB 0      0          10.10.0.1:18444    10.10.0.3:39684 users:(("bitcoind",pid=5796,fd=35))                                  

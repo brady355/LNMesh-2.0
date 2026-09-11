@@ -1,0 +1,67 @@
+{
+    "memo": "chain-running a-b 4",
+    "r_preimage": "[REDACTED]",
+    "r_hash": "759c28e69038039110e9ebb3c93c1f198eae6c944138a38aeceed387eda93bb3",
+    "value": "10000",
+    "value_msat": "10000000",
+    "settled": true,
+    "creation_date": "1788824802",
+    "settle_date": "1788824803",
+    "payment_request": "lnbcrt100u1p4f7n8zpp5wkwz3e5s8qpezy8faweuj0qlrx82umy5gyu28zhvamfc0mdf8wesdqlvd5xz6tw94e82mnwd9hxwgrp943zqdqcqzzsxqyz5vqsp5h5709nalp5re7kauxkefyuq0cm0mcha9v87f8tu2kff989y9p6fs9qxpqysgq9w69ezrtkur9994qg39hlwyejyqnrzkanc3npqq24zlavpyelkep66autyw2jwcytyq58sj8ymp8hjqjq79fepfmyqpzamqjqp0hwvqq46qn30",
+    "description_hash": "",
+    "expiry": "86400",
+    "fallback_addr": "",
+    "cltv_expiry": "80",
+    "route_hints": [],
+    "private": false,
+    "add_index": "4",
+    "settle_index": "4",
+    "amt_paid": "10000000",
+    "amt_paid_sat": "10000",
+    "amt_paid_msat": "10000000",
+    "state": "SETTLED",
+    "htlcs": [
+        {
+            "chan_id": "112150186098688",
+            "htlc_index": "3",
+            "amt_msat": "10000000",
+            "accept_height": 125,
+            "accept_time": "1788824803",
+            "resolve_time": "1788824803",
+            "expiry_height": 208,
+            "state": "SETTLED",
+            "custom_records": {},
+            "mpp_total_amt_msat": "10000000",
+            "amp": null,
+            "custom_channel_data": ""
+        }
+    ],
+    "features": {
+        "8": {
+            "name": "tlv-onion",
+            "is_required": true,
+            "is_known": true
+        },
+        "14": {
+            "name": "payment-addr",
+            "is_required": true,
+            "is_known": true
+        },
+        "17": {
+            "name": "multi-path-payments",
+            "is_required": false,
+            "is_known": true
+        },
+        "25": {
+            "name": "route-blinding",
+            "is_required": false,
+            "is_known": true
+        }
+    },
+    "is_keysend": false,
+    "payment_addr": "bd3cf2cfbf0d079f5bbc35b292700fc6dfbc5fa561fc93af8ab2525394850e93",
+    "is_amp": false,
+    "amp_invoice_state": {},
+    "is_blinded": false,
+    "blinded_path_config": null
+}

@@ -1,0 +1,1 @@
+{"hostname": "pi2", "started_utc": "2026-09-07T23:38:46.537009+00:00", "ended_utc": "2026-09-07T23:38:49.859189+00:00", "elapsed_ns": 3322144656, "returncode": 0, "result": {"funding_txid": "6d4a0f8487a7ccd0e67c4ef24bf96fd1b5a4a655be58962a56026862fe4d507b"}, "stderr": ""}

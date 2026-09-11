@@ -1,0 +1,59 @@
+{
+    "channels": [
+        {
+            "active": true,
+            "remote_pubkey": "0203692afabd31195b4c27e28c4f8ee76bfb651c84c17b1acab85b1a6219bde1ae",
+            "channel_point": "6e1b28f974579138d8cc31ad1ad9f21eaf627a2c6f37e42851e3d946b07a1b72:0",
+            "chan_id": "721b7ab046d9e35128e4376f2c7a62af1ef2d91aad31ccd838915774f9281b6e",
+            "scid": "112150186098688",
+            "scid_str": "102x1x0",
+            "capacity": "1000000",
+            "local_balance": "596530",
+            "remote_balance": "400000",
+            "commit_fee": "2810",
+            "commit_weight": "1116",
+            "fee_per_kw": "2500",
+            "unsettled_balance": "0",
+            "total_satoshis_sent": "0",
+            "total_satoshis_received": "0",
+            "num_updates": "0",
+            "pending_htlcs": [],
+            "csv_delay": 1008,
+            "private": true,
+            "initiator": true,
+            "chan_status_flags": "ChanStatusDefault",
+            "local_chan_reserve_sat": "10000",
+            "remote_chan_reserve_sat": "10000",
+            "static_remote_key": false,
+            "commitment_type": "ANCHORS",
+            "lifetime": "26",
+            "uptime": "26",
+            "close_address": "",
+            "push_amount_sat": "400000",
+            "thaw_height": 0,
+            "local_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "10000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "990000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "remote_constraints": {
+                "csv_delay": 1008,
+                "chan_reserve_sat": "10000",
+                "dust_limit_sat": "354",
+                "max_pending_amt_msat": "990000000",
+                "min_htlc_msat": "1",
+                "max_accepted_htlcs": 483
+            },
+            "alias_scids": [],
+            "zero_conf": false,
+            "zero_conf_confirmed_scid": "0",
+            "peer_alias": "lnmesh-b",
+            "peer_scid_alias": "0",
+            "memo": "",
+            "custom_channel_data": ""
+        }
+    ]
+}

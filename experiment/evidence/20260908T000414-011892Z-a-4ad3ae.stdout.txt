@@ -1,0 +1,24 @@
+10.10.0.2 dev bat0 lladdr 7a:10:33:e5:ac:5e REACHABLE 
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+   Client             VID Flags Last ttvn     Via        ttvn  (CRC       )
+ * 82:d6:e3:11:03:bf   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+ * 33:33:ff:11:03:bf   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+ * 33:33:00:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   33:33:00:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:07:ac (  3) (0xe654b01b)
+ * 01:00:5e:00:00:01   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   01:00:5e:00:00:01   -1 [....] (  2) 2c:cf:67:3c:07:ac (  3) (0xe654b01b)
+ * 01:00:5e:00:00:fb   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   01:00:5e:00:00:fb   -1 [....] (  2) 2c:cf:67:3c:07:ac (  3) (0xe654b01b)
+ * fa:44:a1:34:a7:71   -1 [....] (  1) 2c:cf:67:3c:07:ac (  3) (0xe654b01b)
+ * 33:33:ff:34:a7:71   -1 [....] (  2) 2c:cf:67:3c:07:ac (  3) (0xe654b01b)
+ * 33:33:00:00:00:01   -1 [....] (  3) 2c:cf:67:3c:09:e6 (  3) (0x48cdc2ed)
+   33:33:00:00:00:01   -1 [....] (  2) 2c:cf:67:3c:07:ac (  3) (0xe654b01b)
+PING 10.10.0.2 (10.10.0.2) 56(84) bytes of data.
+64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=6.66 ms
+64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=7.13 ms
+64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=8.87 ms
+
+--- 10.10.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 6.663/7.554/8.871/0.950 ms
+10.10.0.2 dev bat0 lladdr 82:d6:e3:11:03:bf REACHABLE 

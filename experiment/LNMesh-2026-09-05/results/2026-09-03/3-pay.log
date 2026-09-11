@@ -1,0 +1,42 @@
+
+##### 3-pay start 2026-09-03T20:32:50-05:00
+== Demo 3: offline pay
+[20:32:51] c$ lncli-mesh addinvoice --amt 10000 --memo 'B to C'   -> lnbcrt100u1p4f587rpp5m3u834uw00n...
+[20:32:51] b$ lncli-mesh payinvoice --force lnbcrt100u1p4f587rpp5m3u834uw00n0zy3qyr8h2jjdhkcrf88usl0xt287823f5j3azvjsdq2ggs8gmeqgvcqzzsxqyz5vqsp57z4vscgnr5073rzqyaz3dmp63x2rhxhvy3zq5t2x42g9w6483ceq9qxpqysgqmej7jjvsdhqwat4zjkyll6x8tc27z2d2ckn6eu87r70ypdd2gjnsnz92sv46z6rmw5khz7le94cgh06yxcflgpkct89dkm7sm8vxd3qpnye8ln 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+-----------------+----------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT        | ROUTE    |
++------------+--------------+--------------+--------------+-----+----------+-----------------+----------+
+| SUCCEEDED  |        0.035 |        0.333 | 10000        | 0   |      208 | 125344325632001 | lnmesh-c |
++------------+--------------+--------------+--------------+-----+----------+-----------------+----------+
+Amount + fee:   10000 + 0 sat
+Payment hash:   dc7878d78e7be6f1122020cf754a4dbdb0349cfc87de65a8fe3aa29a4a3d1325
+Payment status: SUCCEEDED, preimage: 0da729d26f14bf86dbae710a7032d152623864ee75925535d39ecfc2d6ef8b08
+[20:32:52] a$ lncli-mesh addinvoice --amt 10000 --memo 'B to A'   -> lnbcrt100u1p4f587ypp5yh6xnzx50zz...
+[20:32:52] b$ lncli-mesh payinvoice --force lnbcrt100u1p4f587ypp5yh6xnzx50zzpgh5u5splhnmycp962eclu4r3ztl3k0ctztdeek2sdq2ggs8gmeqgycqzzsxqyz5vqsp5uhetxhl6w0vvecpn9fvrwvnhlhnnxtshw7tqfdaqmsvmfwvq3plq9qxpqysgqlxaq4nqf5j08kjvnhedyxnjf4edx05wfe7c3pxtg4hlrjxhg5u0huhs466sckmlsjygmjzy44m6ek7zu97kw0kjmgzntgle6yp8ur7sq3njfhn 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+-----------------+----------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT        | ROUTE    |
++------------+--------------+--------------+--------------+-----+----------+-----------------+----------+
+| SUCCEEDED  |        0.025 |        0.262 | 10000        | 0   |      208 | 112150186098688 | lnmesh-a |
++------------+--------------+--------------+--------------+-----+----------+-----------------+----------+
+Amount + fee:   10000 + 0 sat
+Payment hash:   25f46988d47884145e9ca403fbcf64c04ba5671fe547112ff1b3f0b12db9cd95
+Payment status: SUCCEEDED, preimage: 0ce300da172d31005dd3f9c4873f10a72e0e4848a2be5249338131cc16f4dec7
+[20:32:53] b$ lncli-mesh addinvoice --amt 10000 --memo 'A to B'   -> lnbcrt100u1p4f5879pp52pamnt3rquu...
+[20:32:53] a$ lncli-mesh payinvoice --force lnbcrt100u1p4f5879pp52pamnt3rquueckqz3ve4c0wa2srdz6mu5weytq68u47fcjezaz5qdq2gys8gmeqggcqzzsxqyz5vqsp58ezd2h0tvnc2fyllavwwz2fu5ffp9w8lj2wgkc22jhjfmz9zc2rs9qxpqysgq8vaudelmp9x4uc83k3lf5fgfcx7pddvqq2gleamfrt5awjhww95zu8c540r67ph4uydmcgp0e9w9fmnpdfqc6wvx52vn0rar44w3npqpyfrue6 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+-----------------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT        | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+-----------------+-------+
+| SUCCEEDED  |        0.025 |        0.261 | 10000        | 0   |      208 | 112150186098688 |       |
++------------+--------------+--------------+--------------+-----+----------+-----------------+-------+
+Amount + fee:   10000 + 0 sat
+Payment hash:   507bb9ae2307399c58028b335c3ddd5406d16b7ca3b2458347e57c9c4b22e8a8
+Payment status: SUCCEEDED, preimage: 25bba4eedca156105b79a5db5726fb2febfa25e8529e8e15722aa4cbc1ee24ae
+[20:32:54] b$ lncli-mesh listpayments | jq -c '.payments[] | {value_sat, status, memo: (.htlcs[0].route.hops[-1].pub_key[0:10]), ms: (((.htlcs[0].resolve_time_ns|tonumber) - (.creation_time_ns|tonumber))/1e6|floor)}'
+{"value_sat":"10000","status":"SUCCEEDED","memo":"03d2650dba","ms":333}
+{"value_sat":"10000","status":"SUCCEEDED","memo":"0216fff02e","ms":262}
+[20:32:54] a$ lncli-mesh listpayments | jq -c '.payments[] | {value_sat, status, ms: (((.htlcs[0].resolve_time_ns|tonumber) - (.creation_time_ns|tonumber))/1e6|floor)}'
+{"value_sat":"10000","status":"SUCCEEDED","ms":261}
+-- a: on-chain confirmed=129993999378 sat, channel local=1193060 sat, height=125
+-- b: on-chain confirmed=999845 sat, channel local=1386530 sat, height=125
+-- c: on-chain confirmed=2000000 sat, channel local=410000 sat, height=125
+##### 3-pay end 2026-09-03T20:32:57-05:00

@@ -1,0 +1,1 @@
+{"hostname": "pi1gateway", "started_utc": "2026-09-07T23:38:39.053725+00:00", "ended_utc": "2026-09-07T23:38:39.131990+00:00", "elapsed_ns": 78229733, "returncode": 0, "result": {"txid": "2a67f7c5c2567800ba48760ae4a3028710429a6959f210ec25fa0bac014605a1"}, "stderr": ""}

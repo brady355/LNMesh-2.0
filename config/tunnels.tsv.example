@@ -1,0 +1,2 @@
+# node-name<TAB>mesh-ip<TAB>leaf-loopback-rpc-port<TAB>gateway-private-key-path
+# n01	10.77.0.2	18443	/etc/lnmesh/keys/n01-tunnel

@@ -1,0 +1,21 @@
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+IF             Neighbor              last-seen
+        wlan0	  2c:cf:67:3c:09:e6    1.004s
+        wlan0	  2c:cf:67:3c:07:ac    0.316s
+[B.A.T.M.A.N. adv 2025.4, MainIF/MAC: wlan0/2c:cf:67:f4:eb:c5 (bat0/42:dd:83:e7:7e:8b BATMAN_IV)]
+   Originator        last-seen (#/255) Nexthop           [outgoingIF]
+   2c:cf:67:3c:09:e6    0.892s   (162) 2c:cf:67:3c:07:ac [     wlan0]
+ * 2c:cf:67:3c:09:e6    0.892s   (209) 2c:cf:67:3c:09:e6 [     wlan0]
+   2c:cf:67:3c:07:ac    0.204s   (137) 2c:cf:67:3c:09:e6 [     wlan0]
+ * 2c:cf:67:3c:07:ac    0.204s   (243) 2c:cf:67:3c:07:ac [     wlan0]
+10.17.4.54 dev eth0 lladdr 10:7c:61:b5:bb:8a REACHABLE 
+10.17.4.57 dev eth0 lladdr 2c:cf:67:3c:07:ab STALE 
+10.17.4.1 dev eth0 lladdr 04:f4:1c:1f:92:2c STALE 
+10.17.4.56 dev eth0 lladdr 2c:cf:67:3c:09:e5 STALE 
+10.10.0.2 dev bat0 lladdr 7a:10:33:e5:ac:5e REACHABLE 
+10.10.0.3 dev bat0 lladdr fa:44:a1:34:a7:71 REACHABLE 
+PING 10.10.0.2 (10.10.0.2) 56(84) bytes of data.
+
+--- 10.10.0.2 ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1022ms
+

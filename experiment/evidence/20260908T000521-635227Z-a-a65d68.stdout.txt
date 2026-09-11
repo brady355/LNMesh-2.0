@@ -1,0 +1,7 @@
+10.10.0.3 dev bat0 lladdr fa:44:a1:34:a7:71 DELAY 
+PING 10.10.0.3 (10.10.0.3) 56(84) bytes of data.
+
+--- 10.10.0.3 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2054ms
+
+10.10.0.3 dev bat0 lladdr fa:44:a1:34:a7:71 REACHABLE 

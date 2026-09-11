@@ -1,0 +1,9 @@
+{
+  "generated_utc": "2026-09-08T00:24:59.087981+00:00",
+  "source_file": "analysis.json",
+  "source_sha256": "aa88956bfe02135bd6e4c5ea03278440847384de54b54ac08159013404c2ccdd",
+  "artifacts": {
+    "LNMesh-headline-findings.pdf": "4745127db127f24c129fae99800e23daf8803dab09bb8072e053d88553a17729",
+    "LNMesh-headline-findings.md": "faeab44113081b7409d5a186f95c6bf51c89bbe5226b9ea23518fa7f652148fb"
+  }
+}

@@ -1,0 +1,1 @@
+{"hostname": "pi1gateway", "time_ns": 1788826420873579852}

@@ -1,0 +1,33 @@
+try: 1, refid: 00000000, correction: 0.000000000, skew: 0.000
+try: 2, refid: 00000000, correction: 0.000000000, skew: 0.000
+try: 3, refid: 00000000, correction: 0.000000000, skew: 0.000
+try: 4, refid: 6C205D39, correction: 0.000019116, skew: 5.806
+Reference ID    : 6C205D39 (108.32.93.57)
+Stratum         : 3
+Ref time (UTC)  : Mon Sep 07 23:33:49 2026
+System time     : 0.000019053 seconds fast of NTP time
+Last offset     : -0.007799783 seconds
+RMS offset      : 0.007799783 seconds
+Frequency       : 1.201 ppm fast
+Residual freq   : -4.984 ppm
+Skew            : 5.806 ppm
+Root delay      : 0.043712258 seconds
+Root dispersion : 0.003315531 seconds
+Update interval : 0.0 seconds
+Leap status     : Normal
+
+  .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+ / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+| /             'x' = may be in error, '~' = too variable, '?' = unusable.
+||                                                 .- xxxx [ yyyy ] +/- zzzz
+||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+||                                \     |          |  zzzz = estimated error.
+||                                 |    |           \
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^* 108.32.93.57                  2   6     7     1  +1818us[-5982us] +/-   23ms
+^- 97.107.136.23                 2   6     7     2  -8010us[  -16ms] +/-   26ms
+^- 23.93.251.54                  1   6     7     2  +5846us[-1953us] +/-  133ms
+^- 23.172.120.58                 2   6     7     1  -3867us[  -12ms] +/-   68ms
+2026-09-07T23:33:50,357523027+00:00

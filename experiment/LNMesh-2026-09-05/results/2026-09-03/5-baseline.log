@@ -1,0 +1,71 @@
+
+##### 5-baseline start 2026-09-03T20:37:43-05:00
+== Demo 5: pay with bitcoind stopped
+[20:37:43] a$ sudo systemctl stop bitcoind
+[20:37:46] a$ systemctl is-active bitcoind || true
+inactive
+[20:37:49] c$ lncli-mesh addinvoice --amt 5000 --memo 'B to C with bitcoind stopped'   -> lnbcrt50u1p4f5g8dpp54k980vxqv55c...
+[20:37:49] b$ lncli-mesh payinvoice --force lnbcrt50u1p4f5g8dpp54k980vxqv55cvh040ce0lps2ae8pujngm7rcskna6q3rh3x0l2usdpdggs8gmeqgvs8w6t5dqsxy6t5vdhkjmnyypehgmmswpjkgcqzzsxqyz5vqsp5pkjj2k6m3wf259slvmm8kmxktrv3p8wxw206jztax4jgclpjk6eq9qxpqysgqkj04rhzvy8yzvf2qthstkac76mgm3lrxxfn42qx6asr3q3ytk8azu7xv2ktwahc6dp82ymtpc6r0j68m6nzkxpetnzw9f8qvmrs0ckqpcnt9l8 2>&1 | grep -vE '^\s*$' | tail -8
++------------+--------------+--------------+--------------+-----+----------+----------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+----------+-------+
++------------+--------------+--------------+--------------+-----+----------+----------+-------+
+Amount + fee:   0 + 0 sat
+Payment hash:   ad8a77b0c06529865df57e32ff860aee4e1e4a68df87885a7dd0223bc4cffab9
+Payment status: IN_FLIGHT
+[lncli] rpc error: code = Unknown desc = routerrpc server shutting down
+[20:43:07] b$ lncli-mesh listpayments | jq -c '.payments[-1] | {value_sat, status}'
+[lncli] rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 127.0.0.1:10009: connect: connection refused"
+[20:43:08] a$ sudo systemctl start bitcoind
+
+##### 5-baseline start 2026-09-03T20:51:29-05:00
+== Demo 5: pay with bitcoind stopped
+[20:51:30] a$ sudo systemctl stop bitcoind
+[20:51:34] a$ systemctl is-active bitcoind || true
+inactive
+[20:51:35] c$ lncli-mesh addinvoice --amt 5000 --memo 'B to C with bitcoind stopped'   -> lnbcrt50u1p4f5fp8pp5k4u6grdkj8sr...
+[20:51:35] b$ lncli-mesh payinvoice --force lnbcrt50u1p4f5fp8pp5k4u6grdkj8srp0y8rmcg5uw3v57crxe5527zw2zmsjkd6kzs3hqqdpdggs8gmeqgvs8w6t5dqsxy6t5vdhkjmnyypehgmmswpjkgcqzzsxqyz5vqsp5hegz53ulccm5d433qf6hf20ln4qfg8qswf7k4pz5qnvxnvg65e7s9qxpqysgq7tx3tzy056e2jv9yp7uluxqggs6tq9lj0dawvh2z8q5tjkwdzsay78hdrnpvzgpw0hpzs09acjvtzk5zqlv0m4y9725358rk36598jcpu24l4m 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT         | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| SUCCEEDED  |        0.032 |        0.281 | 5000         | 0   |     2248 | 2374945116061697 |       |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+Amount + fee:   5000 + 0 sat
+Payment hash:   b579a40db691e030bc871ef08a71d1653d819b34a2bc27285b84acdd58508dc0
+Payment status: SUCCEEDED, preimage: 164923a944e6df966af294b92e21c89e540f98c184fe3a8980d1008de182f042
+[20:51:35] b$ lncli-mesh listpayments | jq -c '.payments[-1] | {value_sat, status}'
+{"value_sat":"5000","status":"SUCCEEDED"}
+[20:51:36] a$ sudo systemctl start bitcoind
+[20:54:01] a$ lncli-mesh getinfo | jq -c '{alias, synced_to_chain, block_height}'
+[lncli] rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 127.0.0.1:10009: connect: connection refused"
+[20:54:02] b$ lncli-mesh getinfo | jq -c '{alias, synced_to_chain, block_height}'
+{"alias":"lnmesh-b","synced_to_chain":true,"block_height":2165}
+[20:54:02] c$ lncli-mesh getinfo | jq -c '{alias, synced_to_chain, block_height}'
+{"alias":"lnmesh-c","synced_to_chain":true,"block_height":2165}
+##### 5-baseline end 2026-09-03T20:54:02-05:00
+
+##### 5-baseline start 2026-09-03T20:54:38-05:00
+== Demo 5: pay with bitcoind stopped
+[20:54:38] a$ sudo systemctl stop bitcoind
+[20:54:42] a$ systemctl is-active bitcoind || true
+inactive
+[20:54:42] c$ lncli-mesh addinvoice --amt 5000 --memo 'B to C with bitcoind stopped'   -> lnbcrt50u1p4f5f8zpp50jjlkq2np3eq...
+[20:54:42] b$ lncli-mesh payinvoice --force lnbcrt50u1p4f5f8zpp50jjlkq2np3eqmtf7rclyqmu04yy4un6xunpnwejlxtv5zaz5tfnsdpdggs8gmeqgvs8w6t5dqsxy6t5vdhkjmnyypehgmmswpjkgcqzzsxqyz5vqsp52j0tx9gfj28zzr4zdhmmqp3w8gs7wfravm2n9lfmlxmr8n3w7pgs9qxpqysgqs04jeytsmuudnna892f4rqs4uzdh0jcqf7uh45waft7z0wxdz63h9k57jhvcdr983xwnzu2w7ad0jxlarrvwpgsdhwa8pr4r2l2yltqpz8rh44 2>&1 | grep -vE '^\s*$' | tail -8
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K+------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| HTLC_STATE | ATTEMPT_TIME | RESOLVE_TIME | RECEIVER_AMT | FEE | TIMELOCK | CHAN_OUT         | ROUTE |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+| SUCCEEDED  |        0.019 |        0.256 | 5000         | 0   |     2248 | 2374945116061697 |       |
++------------+--------------+--------------+--------------+-----+----------+------------------+-------+
+Amount + fee:   5000 + 0 sat
+Payment hash:   7ca5fb01530c720dad3e1e3e406f8fa9095e4f46e4c337665f32d94174545a67
+Payment status: SUCCEEDED, preimage: cd68928ad99690d394251325f3dfee45b213cf1afccb417c1dfbda3619d286d4
+[20:54:43] b$ lncli-mesh listpayments | jq -c '.payments[-1] | {value_sat, status}'
+{"value_sat":"5000","status":"SUCCEEDED"}
+[20:54:43] a$ sudo systemctl start bitcoind
+[20:54:54] a$ lncli-mesh getinfo | jq -c '{alias, synced_to_chain, block_height}'
+{"alias":"lnmesh-a","synced_to_chain":true,"block_height":2165}
+[20:54:55] b$ lncli-mesh getinfo | jq -c '{alias, synced_to_chain, block_height}'
+{"alias":"lnmesh-b","synced_to_chain":true,"block_height":2165}
+[20:54:55] c$ lncli-mesh getinfo | jq -c '{alias, synced_to_chain, block_height}'
+{"alias":"lnmesh-c","synced_to_chain":true,"block_height":2165}
+##### 5-baseline end 2026-09-03T20:54:55-05:00

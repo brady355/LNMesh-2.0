@@ -1,0 +1,11 @@
+[Unit]
+Description=LNMesh leaf first-boot identity initialization
+ConditionPathExists=!/var/lib/lnmesh/.firstboot-complete
+Before=lnmesh-ibss.service lightningd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/lnmesh/leaf-firstboot.sh
+
+[Install]
+WantedBy=multi-user.target

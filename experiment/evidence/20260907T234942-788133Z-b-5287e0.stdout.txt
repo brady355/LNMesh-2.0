@@ -1,0 +1,24 @@
+{
+    "channels": [
+        {
+            "channel_point": "6e1b28f974579138d8cc31ad1ad9f21eaf627a2c6f37e42851e3d946b07a1b72:0",
+            "chan_id": "721b7ab046d9e35128e4376f2c7a62af1ef2d91aad31ccd838915774f9281b6e",
+            "scid": "112150186098688",
+            "scid_str": "102x1x0",
+            "chain_hash": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+            "closing_tx_hash": "d166db642dac138b247cc6d9faabe632fcfedf60088203ff913ce47a24b3a6fc",
+            "remote_pubkey": "0230b0c300e03818338183dea06ab1ce43f7533dc5e524df2c2052cfc66a97916d",
+            "capacity": "1000000",
+            "close_height": 126,
+            "settled_balance": "400000",
+            "time_locked_balance": "0",
+            "close_type": "COOPERATIVE_CLOSE",
+            "open_initiator": "INITIATOR_REMOTE",
+            "close_initiator": "INITIATOR_LOCAL",
+            "resolutions": [],
+            "alias_scids": [],
+            "zero_conf_confirmed_scid": "0",
+            "custom_channel_data": ""
+        }
+    ]
+}

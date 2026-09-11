@@ -1,0 +1,14 @@
+[Unit]
+Description=LNMesh reverse Bitcoin RPC tunnel for %i
+After=lnmesh-ibss.service bitcoind.service
+Requires=lnmesh-ibss.service bitcoind.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+EnvironmentFile=/etc/lnmesh/lnmesh.env
+ExecStart=/usr/local/lib/lnmesh/gateway-reverse-tunnels.sh %i
+
+[Install]
+WantedBy=multi-user.target

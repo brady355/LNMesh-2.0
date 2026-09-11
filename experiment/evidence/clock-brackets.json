@@ -1,0 +1,74 @@
+[
+  {
+    "host": "a",
+    "controller_start_utc": "2026-09-08T00:13:41.558751+00:00",
+    "controller_end_utc": "2026-09-08T00:13:41.742048+00:00",
+    "remote_epoch_ns": 1788826420693952544,
+    "remote_minus_controller_lower_seconds": -1.048095464706421,
+    "remote_minus_controller_upper_seconds": -0.8647985458374023
+  },
+  {
+    "host": "a",
+    "controller_start_utc": "2026-09-08T00:13:41.744004+00:00",
+    "controller_end_utc": "2026-09-08T00:13:41.921341+00:00",
+    "remote_epoch_ns": 1788826420873579852,
+    "remote_minus_controller_lower_seconds": -1.0477612018585205,
+    "remote_minus_controller_upper_seconds": -0.8704242706298828
+  },
+  {
+    "host": "a",
+    "controller_start_utc": "2026-09-08T00:13:41.923295+00:00",
+    "controller_end_utc": "2026-09-08T00:13:42.105000+00:00",
+    "remote_epoch_ns": 1788826421057475923,
+    "remote_minus_controller_lower_seconds": -1.0475242137908936,
+    "remote_minus_controller_upper_seconds": -0.8658192157745361
+  },
+  {
+    "host": "b",
+    "controller_start_utc": "2026-09-08T00:13:43.473652+00:00",
+    "controller_end_utc": "2026-09-08T00:13:43.813475+00:00",
+    "remote_epoch_ns": 1788826422764480061,
+    "remote_minus_controller_lower_seconds": -1.048994779586792,
+    "remote_minus_controller_upper_seconds": -0.7091717720031738
+  },
+  {
+    "host": "b",
+    "controller_start_utc": "2026-09-08T00:13:43.815429+00:00",
+    "controller_end_utc": "2026-09-08T00:13:44.182970+00:00",
+    "remote_epoch_ns": 1788826423133456523,
+    "remote_minus_controller_lower_seconds": -1.049513339996338,
+    "remote_minus_controller_upper_seconds": -0.6819722652435303
+  },
+  {
+    "host": "b",
+    "controller_start_utc": "2026-09-08T00:13:44.184921+00:00",
+    "controller_end_utc": "2026-09-08T00:13:44.555992+00:00",
+    "remote_epoch_ns": 1788826423505534672,
+    "remote_minus_controller_lower_seconds": -1.050457239151001,
+    "remote_minus_controller_upper_seconds": -0.6793863773345947
+  },
+  {
+    "host": "c",
+    "controller_start_utc": "2026-09-08T00:13:45.915051+00:00",
+    "controller_end_utc": "2026-09-08T00:13:46.270603+00:00",
+    "remote_epoch_ns": 1788826425225246304,
+    "remote_minus_controller_lower_seconds": -1.0453567504882812,
+    "remote_minus_controller_upper_seconds": -0.6898047924041748
+  },
+  {
+    "host": "c",
+    "controller_start_utc": "2026-09-08T00:13:46.272557+00:00",
+    "controller_end_utc": "2026-09-08T00:13:46.645377+00:00",
+    "remote_epoch_ns": 1788826425598822675,
+    "remote_minus_controller_lower_seconds": -1.0465543270111084,
+    "remote_minus_controller_upper_seconds": -0.6737344264984131
+  },
+  {
+    "host": "c",
+    "controller_start_utc": "2026-09-08T00:13:46.647331+00:00",
+    "controller_end_utc": "2026-09-08T00:13:46.987331+00:00",
+    "remote_epoch_ns": 1788826425941817390,
+    "remote_minus_controller_lower_seconds": -1.04551362991333,
+    "remote_minus_controller_upper_seconds": -0.7055137157440186
+  }
+]

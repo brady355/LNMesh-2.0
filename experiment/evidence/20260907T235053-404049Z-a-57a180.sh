@@ -1,0 +1,2 @@
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+bcli getblockchaininfo; lncli-mesh getinfo | jq "{synced_to_chain,block_height,block_hash,best_header_timestamp}"; journalctl -u lnd --no-pager -n 18 -o short-iso-precise

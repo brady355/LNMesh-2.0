@@ -1,0 +1,39 @@
+
+##### 1-fund start 2026-09-03T20:31:44-05:00
+== Demo 1: offline funding
+-- a: on-chain confirmed=10000000000 sat, channel local=0 sat, height=101
+-- b: on-chain confirmed=0 sat, channel local=0 sat, height=101
+-- c: on-chain confirmed=0 sat, channel local=0 sat, height=101
+[20:31:50] a$ lncli-mesh openchannel --node_key 0273d7f102445b9bb25164fb53abe690816a622526e5c1591bf7ad98d39b8cfa51 --local_amt 1000000 --push_amt 400000 --private --sat_per_vbyte 1
+{
+    "funding_txid": "8d01d5db8ac1c2cba89b825dc980328085757adf454303880dc59c3a906c12a1"
+}
+A-B funding channel point: 8d01d5db8ac1c2cba89b825dc980328085757adf454303880dc59c3a906c12a1:0
+[20:31:51] a$ bcli getrawmempool
+[
+  "8d01d5db8ac1c2cba89b825dc980328085757adf454303880dc59c3a906c12a1"
+]
+[20:31:51] a$ mine 6
+A-B active on A
+A-B active on B
+>> B channel balance 400000 sat, B on-chain 0 sat  (balance with zero on-chain funds)
+[20:31:58] b$ lncli-mesh newaddress p2tr   -> bcrt1p5szpxd858zhct640myyuwk8l73adjagzg0kgtmhkl7d8ml46scaqpvz6u6
+[20:31:58] a$ lncli-mesh sendcoins --addr bcrt1p5szpxd858zhct640myyuwk8l73adjagzg0kgtmhkl7d8ml46scaqpvz6u6 --amt 2000000 --sat_per_vbyte 1
+{
+    "txid": "8ab09158ca430b8849b35c16598a4bf664e8dedf04917be302e68995c67c43c1"
+}
+[20:31:59] c$ lncli-mesh newaddress p2tr   -> bcrt1p4c56nyh9l83acl24pxu9d04rcfnf92y5jgfetlck5jlry3mqvz3qsw437p
+[20:31:59] a$ lncli-mesh sendcoins --addr bcrt1p4c56nyh9l83acl24pxu9d04rcfnf92y5jgfetlck5jlry3mqvz3qsw437p --amt 2000000 --sat_per_vbyte 1
+{
+    "txid": "9f9b4631328b65aec1078e92fbb3fe67273e9fc582657fb7f27cb0e9ab2ee4c5"
+}
+[20:31:59] a$ bcli getrawmempool
+[
+  "9f9b4631328b65aec1078e92fbb3fe67273e9fc582657fb7f27cb0e9ab2ee4c5",
+  "8ab09158ca430b8849b35c16598a4bf664e8dedf04917be302e68995c67c43c1"
+]
+[20:31:59] a$ mine 6
+-- a: on-chain confirmed=69994999533 sat, channel local=596530 sat, height=113
+-- b: on-chain confirmed=2000000 sat, channel local=400000 sat, height=113
+-- c: on-chain confirmed=2000000 sat, channel local=0 sat, height=113
+##### 1-fund end 2026-09-03T20:32:06-05:00

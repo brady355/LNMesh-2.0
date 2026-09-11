@@ -1,0 +1,33 @@
+{
+    "total_limbo_balance": "696860",
+    "pending_open_channels": [],
+    "pending_closing_channels": [],
+    "pending_force_closing_channels": [
+        {
+            "channel": {
+                "remote_node_pub": "030b7a54e192c3c99b05b97e3a90e3598e44173726b0f0a889e07c3bc82495f2c1",
+                "channel_point": "6d4a0f8487a7ccd0e67c4ef24bf96fd1b5a4a655be58962a56026862fe4d507b:1",
+                "capacity": "1000000",
+                "local_balance": "696530",
+                "remote_balance": "300000",
+                "local_chan_reserve_sat": "0",
+                "remote_chan_reserve_sat": "0",
+                "initiator": "INITIATOR_LOCAL",
+                "commitment_type": "ANCHORS",
+                "num_forwarding_packages": "0",
+                "chan_status_flags": "",
+                "private": true,
+                "memo": "",
+                "custom_channel_data": ""
+            },
+            "closing_txid": "6e01af20d747b63a0846646738a9810cda42f6ee2d1fe468762c869cacfa662f",
+            "limbo_balance": "696860",
+            "maturity_height": 1135,
+            "blocks_til_maturity": 1008,
+            "recovered_balance": "0",
+            "pending_htlcs": [],
+            "anchor": "LIMBO"
+        }
+    ],
+    "waiting_close_channels": []
+}

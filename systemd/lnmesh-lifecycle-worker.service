@@ -1,0 +1,11 @@
+[Unit]
+Description=LNMesh lifecycle reconciliation worker
+After=bitcoind.service lnmesh-ibss.service
+Requires=bitcoind.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+EnvironmentFile=/etc/lnmesh/lnmesh.env
+ExecStart=/usr/local/bin/lnmesh-lifecycle-worker --once

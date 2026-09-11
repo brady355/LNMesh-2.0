@@ -1,0 +1,209 @@
+#!/usr/bin/env bash
+# Discover and enroll leaves from the gateway.  This is intentionally
+# interactive on first use so serials, MACs, and SSH fingerprints are visible.
+set -euo pipefail
+IFS=$'\n\t'
+
+die() { echo "enroll-leaf: $*" >&2; exit 1; }
+[[ ${EUID} -eq 0 ]] || die "must run as root"
+[[ $# -eq 2 && "$1" == "--expect" && "$2" =~ ^[1-7]$ ]] || die "usage: $0 --expect 1..7"
+readonly EXPECT="$2"
+readonly INVENTORY=/etc/lnmesh/inventory.tsv
+readonly TUNNELS=/etc/lnmesh/tunnels.tsv
+readonly KNOWN_HOSTS=/etc/lnmesh/known_hosts
+readonly KEY_DIR=/etc/lnmesh/keys
+# shellcheck source=/dev/null
+source /etc/lnmesh/lnmesh.env
+readonly NETWORK="${LN_MESH_NETWORK:?}"
+readonly CORE_PORT="${LN_MESH_CORE_TARGET##*:}"
+
+install -d -m 0700 "$KEY_DIR"
+touch "$INVENTORY" "$TUNNELS" "$KNOWN_HOSTS"
+chmod 0600 "$INVENTORY" "$TUNNELS" "$KNOWN_HOSTS"
+
+existing_count="$(awk 'NF && $1 !~ /^#/' "$INVENTORY" | wc -l)"
+if (( existing_count == EXPECT )); then
+  echo "Enrollment records already contain $EXPECT leaves; reconciling services."
+fi
+(( existing_count <= EXPECT )) || die "inventory already contains $existing_count leaves, more than --expect $EXPECT"
+needed=$(( EXPECT - existing_count ))
+
+hosts=()
+if (( needed > 0 )); then
+  echo "Discovering $needed un-enrolled leaf/leaves for up to 90 seconds..."
+  deadline=$(( SECONDS + 90 ))
+  while (( SECONDS < deadline )); do
+    mapfile -t hosts < <(timeout 8 avahi-browse -rtp _lnmesh-enroll._tcp 2>/dev/null | awk -F ';' '$1 == "=" {print $7}' | sort -u)
+    (( ${#hosts[@]} >= needed )) && break
+    sleep 2
+  done
+  (( ${#hosts[@]} == needed )) || die "found ${#hosts[@]} available leaves; expected exactly $needed"
+fi
+
+declare -a descriptions=()
+for host in "${hosts[@]}"; do
+  description="$(ssh -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new \
+    -o UserKnownHostsFile="$KNOWN_HOSTS" -i "$KEY_DIR/bootstrap" "root@$host" describe)" || die "could not identify $host"
+  descriptions+=("$description")
+done
+
+if (( needed > 0 )); then echo "Leaves awaiting enrollment:"; fi
+for index in "${!hosts[@]}"; do
+  next=$(( existing_count + index + 1 ))
+  printf '  n%02d / 10.77.0.%d  host=%s  serial=%s  mac=%s  ssh=%s\n' \
+    "$next" "$((next + 1))" "${hosts[$index]}" \
+    "$(jq -r .serial <<<"${descriptions[$index]}")" \
+    "$(jq -r .mac <<<"${descriptions[$index]}")" \
+    "$(jq -r .ssh_fingerprint <<<"${descriptions[$index]}")"
+done
+if (( needed > 0 )); then
+  read -r -p "Enroll exactly these leaves? [y/N] " confirmation
+  [[ "$confirmation" == "y" || "$confirmation" == "Y" ]] || die "cancelled"
+fi
+
+rpcauth_lines=()
+for index in "${!hosts[@]}"; do
+  number=$(( existing_count + index + 1 ))
+  node="$(printf 'n%02d' "$number")"
+  address="10.77.0.$((number + 1))"
+  host="${hosts[$index]}"
+  control_key="$KEY_DIR/${node}-control"
+  tunnel_key="$KEY_DIR/${node}-tunnel"
+  rpc_secret_file="$KEY_DIR/${node}-rpc"
+  [[ -s "$control_key" ]] || ssh-keygen -q -t ed25519 -N '' -C "lnmesh-control-$node" -f "$control_key"
+  [[ -s "$tunnel_key" ]] || ssh-keygen -q -t ed25519 -N '' -C "lnmesh-tunnel-$node" -f "$tunnel_key"
+  if [[ ! -s "$rpc_secret_file" ]]; then
+    umask 077
+    printf '%s\n' "$(openssl rand -hex 32)" > "$rpc_secret_file"
+  fi
+  rpc_password="$(tr -d '[:space:]' < "$rpc_secret_file")"
+  rpc_user="lnmesh_$node"
+  salt="$(openssl rand -hex 16)"
+  password_hmac="$(/usr/bin/python3 -c 'import hashlib,hmac,sys; print(hmac.new(sys.argv[1].encode(),sys.argv[2].encode(),hashlib.sha256).hexdigest())' "$salt" "$rpc_password")"
+  rpcauth_lines+=("rpcauth=${rpc_user}:${salt}\$${password_hmac}")
+  rpcauth_lines+=("rpcwhitelist=${rpc_user}:getblockchaininfo,getblockhash,getblock,sendrawtransaction,gettxout,estimatesmartfee,getmempoolinfo,testmempoolaccept")
+  for line in "${rpcauth_lines[@]}"; do
+    grep -Fqx "$line" /etc/lnmesh/bitcoin.conf || printf '%s\n' "$line" >> /etc/lnmesh/bitcoin.conf
+  done
+  rpcauth_lines=()
+
+  payload="$(jq -cn \
+    --arg name "$node" --arg address "$address" --arg network "$NETWORK" \
+    --arg rpc_user "$rpc_user" --arg rpc_password "$rpc_password" \
+    --arg control_public_key "$(cat "${control_key}.pub")" \
+    --arg tunnel_public_key "$(cat "${tunnel_key}.pub")" \
+    --argjson rpc_port "$CORE_PORT" \
+    '{name:$name,address:$address,network:$network,rpc_port:$rpc_port,rpc_user:$rpc_user,rpc_password:$rpc_password,control_public_key:$control_public_key,tunnel_public_key:$tunnel_public_key}')"
+  printf '%s' "$payload" | ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$KNOWN_HOSTS" \
+    -i "$KEY_DIR/bootstrap" "root@$host" enroll
+
+  description="${descriptions[$index]}"
+  printf '%s\t%s\t%s\t%s\t%s\n' "$node" "$address" \
+    "$(jq -r .serial <<<"$description")" "$(jq -r .mac <<<"$description")" \
+    "$(jq -r .ssh_fingerprint <<<"$description")" >> "$INVENTORY"
+  printf '%s\t%s\t%s\t%s\n' "$node" "$address" "$CORE_PORT" "$tunnel_key" >> "$TUNNELS"
+  lnmeshctl node register --name "$node" --address "$address" \
+    --serial "$(jq -r .serial <<<"$description")" --mac "$(jq -r .mac <<<"$description")" \
+    --ssh-fingerprint "$(jq -r .ssh_fingerprint <<<"$description")" >/dev/null
+done
+
+while IFS=$'\t' read -r existing_node existing_address existing_serial existing_mac existing_fingerprint; do
+  [[ -n "$existing_node" ]] || continue
+  existing_rpc_file="$KEY_DIR/${existing_node}-rpc"
+  [[ -s "$existing_rpc_file" ]] || die "missing RPC credential for $existing_node"
+  existing_rpc_user="lnmesh_$existing_node"
+  if ! grep -q "^rpcauth=${existing_rpc_user}:" /etc/lnmesh/bitcoin.conf; then
+    existing_password="$(tr -d '[:space:]' < "$existing_rpc_file")"
+    existing_salt="$(openssl rand -hex 16)"
+    existing_hmac="$(/usr/bin/python3 -c 'import hashlib,hmac,sys; print(hmac.new(sys.argv[1].encode(),sys.argv[2].encode(),hashlib.sha256).hexdigest())' "$existing_salt" "$existing_password")"
+    printf 'rpcauth=%s:%s$%s\n' "$existing_rpc_user" "$existing_salt" "$existing_hmac" >> /etc/lnmesh/bitcoin.conf
+    printf 'rpcwhitelist=%s:%s\n' "$existing_rpc_user" 'getblockchaininfo,getblockhash,getblock,sendrawtransaction,gettxout,estimatesmartfee,getmempoolinfo,testmempoolaccept' >> /etc/lnmesh/bitcoin.conf
+  fi
+done < "$INVENTORY"
+systemctl restart bitcoind.service
+
+btc() {
+  runuser -u bitcoin -- /usr/local/bin/bitcoin-cli -conf=/etc/lnmesh/bitcoin.conf -datadir=/var/lib/bitcoin "$@"
+}
+if [[ "$NETWORK" != "regtest" ]]; then
+  btc setnetworkactive true >/dev/null
+  echo "Bitcoin Core is synchronizing before fresh Lightning databases are started."
+  while true; do
+    chain_info="$(btc getblockchaininfo)"
+    ibd="$(jq -r .initialblockdownload <<<"$chain_info")"
+    blocks="$(jq -r .blocks <<<"$chain_info")"
+    headers="$(jq -r .headers <<<"$chain_info")"
+    printf '\r  blocks=%s headers=%s' "$blocks" "$headers"
+    [[ "$ibd" == "false" && "$blocks" == "$headers" ]] && break
+    sleep 30
+  done
+  printf '\n'
+fi
+
+echo "Waiting for leaves to apply their static addresses..."
+sleep 8
+while IFS=$'\t' read -r node address serial mac fingerprint; do
+  [[ -n "$node" ]] || continue
+  lnmeshctl node register --name "$node" --address "$address" --serial "$serial" \
+    --mac "$mac" --ssh-fingerprint "$fingerprint" >/dev/null
+  # Authenticate once with the control key so the same confirmed host key is
+  # recorded for the new static address before autossh is allowed to connect.
+  ssh -o BatchMode=yes -o ConnectTimeout=4 -o StrictHostKeyChecking=accept-new \
+    -o UserKnownHostsFile="$KNOWN_HOSTS" -i "$KEY_DIR/${node}-control" "root@$address" status >/dev/null 2>&1 || true
+  systemctl enable --now "lnmesh-reverse-tunnel@${node}.service" >/dev/null
+  for attempt in {1..12}; do
+    if ssh -o BatchMode=yes -o ConnectTimeout=3 -o StrictHostKeyChecking=accept-new \
+      -o UserKnownHostsFile="$KNOWN_HOSTS" -i "$KEY_DIR/${node}-control" "root@$address" start >/dev/null 2>&1; then
+      break
+    fi
+    (( attempt < 12 )) || die "$node did not become ready at $address"
+    sleep 2
+  done
+  initial_height=""
+  for attempt in {1..30}; do
+    initial_height="$(ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=yes \
+      -o UserKnownHostsFile="$KNOWN_HOSTS" -i "$KEY_DIR/${node}-control" "root@$address" height 2>/dev/null || true)"
+    [[ "$initial_height" =~ ^[0-9]+$ ]] && break
+    (( attempt < 30 )) || die "$node Lightning RPC did not become ready"
+    sleep 2
+  done
+  if ! grep -q "^${node}[[:space:]]" /etc/lnmesh/retention.tsv; then
+    printf '%s\t%s\t0\n' "$node" "$initial_height" >> /etc/lnmesh/retention.tsv
+  fi
+  echo "  $node ready at $address"
+done < "$INVENTORY"
+
+if [[ "$NETWORK" == "regtest" ]]; then
+  echo "Preparing regtest mining wallet and funding fresh leaves..."
+  btc createwallet lnmesh-miner >/dev/null 2>&1 || btc loadwallet lnmesh-miner >/dev/null 2>&1 || true
+  miner_address="$(btc -rpcwallet=lnmesh-miner getnewaddress)"
+  block_count="$(btc getblockcount)"
+  if (( block_count < 101 )); then
+    btc -rpcwallet=lnmesh-miner generatetoaddress "$((101 - block_count))" "$miner_address" >/dev/null
+  fi
+  funded_any=0
+  while IFS=$'\t' read -r node address serial mac fingerprint; do
+    [[ -n "$node" ]] || continue
+    funded_marker="$KEY_DIR/${node}-regtest-funded"
+    [[ ! -e "$funded_marker" ]] || continue
+    response=""
+    for attempt in {1..20}; do
+      response="$(printf '%s' '{"method":"newaddr","params":{"addresstype":"bech32"}}' | \
+        ssh -o BatchMode=yes -o ConnectTimeout=3 -o StrictHostKeyChecking=yes \
+        -o UserKnownHostsFile="$KNOWN_HOSTS" -i "$KEY_DIR/${node}-control" "root@$address" rpc 2>/dev/null || true)"
+      [[ -n "$response" ]] && break
+      (( attempt < 20 )) || die "$node did not provide a regtest deposit address"
+      sleep 2
+    done
+    deposit_address="$(jq -er '.bech32 // .p2tr // .bech32m' <<<"$response")"
+    btc -rpcwallet=lnmesh-miner sendtoaddress "$deposit_address" 1.0 >/dev/null
+    touch "$funded_marker"
+    chmod 0600 "$funded_marker"
+    funded_any=1
+  done < "$INVENTORY"
+  if (( funded_any == 1 )); then
+    btc -rpcwallet=lnmesh-miner generatetoaddress 1 "$miner_address" >/dev/null
+  fi
+fi
+
+echo "Enrollment complete."

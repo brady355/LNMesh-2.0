@@ -1,0 +1,16 @@
+[Unit]
+Description=LND for LNMesh
+Requires=lnmesh-mesh.service
+After=lnmesh-mesh.service chrony.service __AFTER_EXTRA__
+
+[Service]
+User=lnd
+Group=lnd
+ExecStartPre=/usr/local/sbin/lnmesh-wait-bitcoind.sh
+ExecStart=/usr/local/bin/lnd --lnddir=/var/lib/lnd --configfile=/etc/lnd/lnd.conf
+Restart=always
+RestartSec=5
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ $# -eq 2 && "$2" == "height" ]] || { echo "usage: $0 NODE height" >&2; exit 2; }
+node="$1"
+[[ "$node" =~ ^n0[1-7]$ ]] || { echo "invalid node" >&2; exit 2; }
+address="$(awk -F '\t' -v wanted="$node" '$1 == wanted {print $2; exit}' /etc/lnmesh/inventory.tsv)"
+[[ -n "$address" ]] || { echo "unknown node" >&2; exit 2; }
+exec ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=yes \
+  -o UserKnownHostsFile=/etc/lnmesh/known_hosts -i "/etc/lnmesh/keys/${node}-control" \
+  "root@${address}" height

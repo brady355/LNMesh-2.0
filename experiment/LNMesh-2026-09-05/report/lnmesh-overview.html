@@ -1,0 +1,242 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0">
+<title>LNMesh Build Report</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#17211F; --muted:#5C6B67; --line:#D3DAD7;
+  --accent:#0E7C6D; --accent-soft:#DDEFEB; --signal:#B7791F; --signal-soft:#F6ECD6;
+  --good:#2F7D4F; --code-bg:#E9EEEC;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121716; --surface:#1A2120; --ink:#E6ECEA; --muted:#98A6A2; --line:#2C3634;
+    --accent:#42B8A5; --accent-soft:#183430; --signal:#D9A24A; --signal-soft:#3A2F16;
+    --good:#6FC28F; --code-bg:#1F2827; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121716; --surface:#1A2120; --ink:#E6ECEA; --muted:#98A6A2; --line:#2C3634;
+  --accent:#42B8A5; --accent-soft:#183430; --signal:#D9A24A; --signal-soft:#3A2F16;
+  --good:#6FC28F; --code-bg:#1F2827; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;font-variant-numeric:tabular-nums}
+.page{max-width:72ch;margin:0 auto;padding:40px 22px 80px}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","Arial Narrow",sans-serif;font-weight:600;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:2.6rem;letter-spacing:-0.01em}
+h2{font-size:1.5rem;margin-top:52px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:1.12rem;margin-top:26px}
+p{margin:12px 0}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+.sub{color:var(--muted);font-size:1.05rem;margin:10px 0 0;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px;font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--muted)}
+.tldr{margin-top:34px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);padding:18px 22px}
+.tldr h2{margin:0;padding:0;border:0;font-size:1.05rem;letter-spacing:.02em;text-transform:uppercase;color:var(--accent)}
+.tldr ul{margin:10px 0 0;padding-left:18px}
+.tldr li{margin:7px 0}
+.tldr li strong{font-weight:500;color:var(--ink)}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:14px 0}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.num{text-align:right;white-space:nowrap}
+.scroll{overflow-x:auto}
+code,.mono{font-family:"IBM Plex Mono",monospace;font-size:.86em}
+code{background:var(--code-bg);padding:1px 5px;border-radius:3px}
+pre{background:var(--code-bg);padding:12px 14px;overflow-x:auto;font-size:.82rem;line-height:1.5;margin:12px 0}
+pre code{background:none;padding:0;font-size:inherit}
+.pass{display:inline-block;padding:1px 8px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.06em;color:var(--good);border:1px solid var(--good)}
+.finding{margin:18px 0;background:var(--signal-soft);border-left:4px solid var(--signal);padding:14px 18px}
+.finding .eyebrow{color:var(--signal)}
+.finding p{margin:8px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+@media (max-width:600px){.two{grid-template-columns:1fr}}
+.case{background:var(--surface);border:1px solid var(--line);padding:14px 16px}
+.case h3{margin-top:0;font-size:1rem}
+ul{padding-left:20px}
+li{margin:5px 0}
+figure{margin:18px 0}
+figcaption{font-size:.84rem;color:var(--muted);margin-top:6px}
+svg text{font-family:"IBM Plex Mono",monospace}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.files td:first-child{white-space:nowrap}
+</style>
+
+<div class="page">
+  <p class="eyebrow">Proof of concept · regtest · 3 × Raspberry Pi 5</p>
+  <h1>LNMesh: Offline Lightning Channels over a Raspberry Pi Mesh</h1>
+  <p class="sub">Two Lightning nodes with no internet connection open, use, and close payment channels through a gateway on a WiFi mesh. Every on-chain byte crosses the mesh; nothing else does.</p>
+  <div class="meta"><span>Built and demonstrated 2026-09-03</span><span>LND 0.19.2 · Bitcoin Core 29.1 · batman-adv 2025.4</span><span>Debian 13 on Pi OS Lite</span></div>
+
+  <section class="tldr">
+    <h2>TL;DR</h2>
+    <ul>
+      <li><strong>Prior work showed offline nodes can pay.</strong> This project shows they can also <em>fund, open, and close</em> channels, and punish a cheating counterparty, with no internet and no prior setup, because a gateway node on the mesh relays their transactions and their view of the chain.</li>
+      <li><strong>All six demos pass</strong> on real hardware: offline funding, offline open, offline pay, cooperative and force close, paying with the gateway's Bitcoin node switched off, and a breach that gets punished one block later.</li>
+      <li><strong>Nothing custom.</strong> Stock LND and Bitcoin Core, configured so the gateway serves compact block filters over the mesh and the offline nodes run as Neutrino light clients with the gateway as their only peer.</li>
+      <li><strong>One finding changed the design:</strong> LND with a remote <code>bitcoind</code> backend cannot even <em>start</em> a payment while that backend is unreachable. Moving the offline nodes to Neutrino fixed it and also upgraded the trust model, from "the gateway is trusted" to "the gateway can censor but cannot lie".</li>
+      <li><strong>Numbers:</strong> payments settle in about 260 ms over one mesh hop, an offline node's transaction reaches the gateway's mempool in about 1 s, the mesh carries 48 Mbit/s, and a breach was detected 4 s after the victim came back online.</li>
+    </ul>
+  </section>
+
+  <h2>What the contribution is</h2>
+  <p>A Lightning payment needs only a connection to the channel peer. Opening a channel, closing one, or catching a cheat needs the blockchain: a UTXO to spend, a way to broadcast, and confirmations to watch. LNMesh (Kurt, Sahin, Harrilal-Parchment, Akkaya; WoWMoM 2023) demonstrated the first part over a mesh and assumed channels were opened while online.</p>
+  <p>This build removes that assumption. Nodes B and C have no cable and no internet. Node A has both and sits on the same mesh. A relays B's and C's transactions to the chain and serves them block headers and compact block filters, so B and C can do everything a Lightning node does while remaining physically offline. The point of the proof of concept is to show that end to end and to name the trust it requires.</p>
+
+  <h2>The build</h2>
+  <figure>
+    <svg viewBox="0 0 560 250" width="100%" role="img" aria-label="Topology: A at top with Ethernet to the home LAN, B and C below, all three joined by a batman-adv mesh">
+      <defs><marker id="dot" markerWidth="6" markerHeight="6" refX="3" refY="3"><circle cx="3" cy="3" r="2.2" fill="var(--muted)"/></marker></defs>
+      <line x1="280" y1="10" x2="280" y2="52" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4"/>
+      <text x="292" y="30" font-size="11" fill="var(--muted)">eth0 · home LAN · internet</text>
+      <rect x="200" y="52" width="160" height="62" rx="4" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="280" y="76" text-anchor="middle" font-size="14" font-weight="500" fill="var(--ink)">A · gateway</text>
+      <text x="280" y="94" text-anchor="middle" font-size="11" fill="var(--muted)">bitcoind + filters, lnd, chrony</text>
+      <text x="280" y="107" text-anchor="middle" font-size="11" fill="var(--accent)">10.10.0.1</text>
+      <line x1="230" y1="114" x2="120" y2="176" stroke="var(--accent)" stroke-width="2"/>
+      <line x1="330" y1="114" x2="440" y2="176" stroke="var(--accent)" stroke-width="2"/>
+      <line x1="180" y1="210" x2="380" y2="210" stroke="var(--accent)" stroke-width="2"/>
+      <text x="280" y="160" text-anchor="middle" font-size="11" fill="var(--accent)">WiFi ad-hoc · batman-adv · bat0</text>
+      <rect x="40" y="176" width="140" height="62" rx="4" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+      <text x="110" y="200" text-anchor="middle" font-size="14" font-weight="500" fill="var(--ink)">B · offline</text>
+      <text x="110" y="218" text-anchor="middle" font-size="11" fill="var(--muted)">lnd (Neutrino)</text>
+      <text x="110" y="231" text-anchor="middle" font-size="11" fill="var(--accent)">10.10.0.2</text>
+      <rect x="380" y="176" width="140" height="62" rx="4" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+      <text x="450" y="200" text-anchor="middle" font-size="14" font-weight="500" fill="var(--ink)">C · offline</text>
+      <text x="450" y="218" text-anchor="middle" font-size="11" fill="var(--muted)">lnd (Neutrino)</text>
+      <text x="450" y="231" text-anchor="middle" font-size="11" fill="var(--accent)">10.10.0.3</text>
+    </svg>
+    <figcaption>Lightning channels A–B, A–C, B–C, all private. B and C have their wired profile disabled and Bluetooth blocked; their only interface is the mesh. The laptop that drives the experiment reaches them by SSH-jumping through A.</figcaption>
+  </figure>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Hardware</td><td>3 × Raspberry Pi 5, 8 GB</td><td>On hand. Onboard radio supports ad-hoc (IBSS) mode, so no USB adapters.</td></tr>
+      <tr><td>Mesh</td><td>batman-adv over IBSS, channel 1</td><td>Layer-2 multi-hop; fixed IPs survive path changes. Fixed BSSID prevents cell partitioning.</td></tr>
+      <tr><td>Chain</td><td>regtest on A</td><td>Blocks on demand, no real money. A mines after every broadcast.</td></tr>
+      <tr><td>Lightning</td><td>LND on all three</td><td>One static arm64 binary; non-interactive wallet creation on regtest.</td></tr>
+      <tr><td>Chain view for B, C</td><td>Neutrino, A as sole peer</td><td>A serves compact block filters; B and C verify headers themselves. Adopted mid-build (see findings).</td></tr>
+      <tr><td>Timelock</td><td>1008-block remote delay</td><td>Wide window for an offline node to return and punish a cheat.</td></tr>
+      <tr><td>Time</td><td>chrony, A serves the mesh</td><td>Pis have no clock; HTLC timeouts need one.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>The six demonstrations</h2>
+  <p>Each demo is a script that prints every command before running it and logs the output. All ran on 2026-09-03; the raw logs are in the repository under <code>results/</code>.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Demo</th><th>What it shows</th><th>Result</th><th>Key numbers</th></tr></thead>
+    <tbody>
+      <tr><td>1 Offline funding</td><td>B and C receive funds through A alone: an inbound channel with pushed balance, and on-chain payments.</td><td><span class="pass">PASS</span></td><td>B: 400,000 sat channel balance with 0 sat on-chain. B and C each +2,000,000 sat on-chain, confirmed at height 113.</td></tr>
+      <tr><td>2 Offline open</td><td>B opens a channel to C. Funding tx is relayed and confirmed by A.</td><td><span class="pass">PASS</span></td><td>Funding tx in A's mempool 1 s after the command; confirmed at 114; active on both sides 7 s after the open.</td></tr>
+      <tr><td>3 Offline pay</td><td>B→C, B→A, A→B over the mesh.</td><td><span class="pass">PASS</span></td><td>All SUCCEEDED; 333, 262, 261 ms end to end. Chain untouched.</td></tr>
+      <tr><td>4 Offline close</td><td>B cooperatively closes A–B, then force-closes B–C and sweeps after the timelock.</td><td><span class="pass">PASS</span> (run 2)</td><td>Coop close +400,000 sat. Force close reported exactly 1008 blocks to maturity; sweep confirmed one block after, +986,263 sat.</td></tr>
+      <tr><td>5 No chain at all</td><td>Bitcoin Core on A stopped; B pays C anyway. The LNMesh 2023 result, reproduced.</td><td><span class="pass">PASS</span> (run 2)</td><td>Payment SUCCEEDED in 256 ms with no chain backend reachable. All three nodes re-synced within 12 s of restart.</td></tr>
+      <tr><td>6 Breach response</td><td>C rewinds its channel database and publishes an old state while B is off. B returns and takes the whole channel.</td><td><span class="pass">PASS</span></td><td>Stale commitment confirmed at 2166. B detected it 4 s after starting; penalty tx confirmed at 2167. B +984,230 sat, C +0.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Two findings that changed the design</h2>
+  <p>Both demos that failed on their first run failed for real reasons, and the fixes are part of the build.</p>
+  <div class="finding">
+    <p class="eyebrow">Finding 1 · Demo 5, run 1</p>
+    <p><strong>LND with a remote Bitcoin Core backend cannot start a payment while that backend is unreachable.</strong> With A's <code>bitcoind</code> stopped, B's payment sat in flight with no HTLC attempt. B's log showed the router failing on a live <code>getblockchaininfo</code> call. Five minutes later LND's chain health check shut every node down, and a clean exit is not restarted by <code>Restart=on-failure</code>.</p>
+    <p><strong>Fix:</strong> B and C run Neutrino with A as their only peer; A serves compact block filters over the mesh. The best-block view is then local, so payments need only the peer link. The systemd units use <code>Restart=always</code>. This was the plan's first follow-up item, pulled forward.</p>
+  </div>
+  <div class="finding">
+    <p class="eyebrow">Finding 2 · Demo 4, run 1</p>
+    <p><strong>After mining 1008 blocks at once, a wallet needs seconds to rescan before it can fund a channel.</strong> The reopen of A–B failed with "channels cannot be created before the wallet is fully synced". A regtest artifact, since mainnet never jumps 1008 blocks, but the scripts now wait for sync and retry.</p>
+  </div>
+
+  <h2>How an offline node does each thing</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Operation</th><th>Needs from A</th><th>Demo</th></tr></thead>
+    <tbody>
+      <tr><td>Receive on-chain funds</td><td>See the transaction in a block (via filters)</td><td>1</td></tr>
+      <tr><td>Open a channel</td><td>Broadcast the funding tx; watch confirmations</td><td>2</td></tr>
+      <tr><td>Pay</td><td>Nothing. Peer connection only.</td><td>3, 5</td></tr>
+      <tr><td>Cooperative close</td><td>Broadcast the closing tx</td><td>4</td></tr>
+      <tr><td>Force close</td><td>Broadcast the commitment, then the sweep after 1008 blocks</td><td>4</td></tr>
+      <tr><td>Detect and punish a breach</td><td>See the old commitment in a block; broadcast the penalty</td><td>6</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Threat model</h2>
+  <p>A is both the chain oracle for B and C and a channel counterparty on A–B and A–C. That conflict has to be stated plainly.</p>
+  <div class="two">
+    <div class="case">
+      <h3>Case 1: A honest, C cheats while B is away</h3>
+      <p>The 1008-block remote delay keeps C's funds locked long enough for B to come back. Demo 6 shows exactly this: B returned, saw the stale state through A, and took the channel one block later. A watchtower on A for the B–C channel would remove even the need to return in time; A is not a party to that channel, so A as tower is sound.</p>
+    </div>
+    <div class="case">
+      <h3>Case 2: A cheats</h3>
+      <p>A could publish an old A–B state and hide it from B. With the original RPC backend B would have trusted A completely. With Neutrino, B verifies headers and proof of work itself: A can withhold blocks but cannot forge them. Withholding is still not detected automatically; that is the main open item.</p>
+    </div>
+  </div>
+
+  <h2>Measurements</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Quantity</th><th class="num">Value</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Mesh link quality, every pair</td><td class="num">251–255 / 255</td><td>batman-adv TQ, one hop</td></tr>
+      <tr><td>Round-trip time over the mesh</td><td class="num">0.7–8 ms</td><td>10 pings per pair</td></tr>
+      <tr><td>Throughput B → A</td><td class="num">48 Mbit/s</td><td>iperf3, TCP, 10 s</td></tr>
+      <tr><td>Offline broadcast to A's mempool</td><td class="num">≈ 1 s</td><td>Demos 1, 2, 4, 6</td></tr>
+      <tr><td>Channel open to active, both sides</td><td class="num">7 s</td><td>Demos 1, 2 (includes mining 6 blocks)</td></tr>
+      <tr><td>Payment, one hop</td><td class="num">≈ 260 ms</td><td>9 payments across Demos 3, 5, 6; unchanged with bitcoind stopped</td></tr>
+      <tr><td>Breach detected after victim restarts</td><td class="num">4 s</td><td>Demo 6, B's journal</td></tr>
+      <tr><td>Blocks from stale commit to penalty</td><td class="num">1</td><td>Demo 6, heights 2166 → 2167</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Known gaps</h2>
+  <ul>
+    <li>A can still censor. B and C see only what A relays; a withheld block is invisible until someone notices stale timestamps. Not tested.</li>
+    <li>No watchtower. Case 1 relies on the timelock alone.</li>
+    <li>The gateway itself still uses the RPC backend and shares LND's can't-pay-without-chain limitation.</li>
+    <li>The ad-hoc WiFi link is unencrypted. Lightning traffic on it is end-to-end encrypted; the P2P block feed is authenticated by proof of work.</li>
+    <li>Regtest only. No public nodes, no real fees, wallets without seed backups.</li>
+  </ul>
+
+  <h2>What comes next, in order of value</h2>
+  <ol>
+    <li><strong>Watchtower on A for B–C.</strong> Closes case 1 without depending on the timelock. Built into LND.</li>
+    <li><strong>Detect a withholding gateway.</strong> Alert when the newest header is older than expected.</li>
+    <li><strong>Signet.</strong> A opens a channel to a public node; B pays someone on the internet through A, and opens a channel to a public node through A. "Offline node reaches the world."</li>
+    <li><strong>Isolation tests.</strong> Take B off the mesh during a pending close and measure recovery.</li>
+    <li><strong>Multi-hop reroute.</strong> Block the B–A radio path and show B still reaches A via C.</li>
+    <li><strong>Phone app layer.</strong> One web page on B: invoice QR, pay invoice, phone on B's hotspot pays C.</li>
+    <li><strong>Encrypt the mesh link</strong> (IBSS-RSN), then a second implementation (Core Lightning) on one node.</li>
+  </ol>
+
+  <h2>Reproduce it</h2>
+  <p>The repository holds everything needed to rebuild from blank SD cards. Phase 0 (flashing, cabling, SSH keys) is done by hand; everything after that is scripted and was driven over SSH.</p>
+  <div class="scroll"><table class="files">
+    <thead><tr><th>File</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td><code>PLAN.md</code></td><td>Why: decisions, threat model, gaps, follow-ups. Updated after the build.</td></tr>
+      <tr><td><code>DOCUMENTATION.md</code></td><td>How: every phase and demo with exact commands, verification steps, and the observed result, including both first-run failures.</td></tr>
+      <tr><td><code>README.md</code></td><td>Runbook: results summary and the six demo logs verbatim.</td></tr>
+      <tr><td><code>results/2026-09-03/</code></td><td>Raw demo logs, link measurements, <code>measurements.md</code>.</td></tr>
+      <tr><td><code>scripts/</code>, <code>units/</code></td><td>Everything run on the Pis: base OS, mesh unit, chrony, bitcoind, LND, isolation, and the six demo scripts.</td></tr>
+      <tr><td><code>hosts.env</code></td><td>Addresses, users, node public keys, RPC password. Keep out of version control.</td></tr>
+    </tbody>
+  </table></div>
+  <pre><code># from the laptop, with hosts.env filled in
+./scripts/demo/1-fund.sh      # inbound channel + on-chain relay
+./scripts/demo/2-open.sh      # B opens B-C through A
+./scripts/demo/3-pay.sh       # three payments
+./scripts/demo/4-close.sh     # coop close, force close, sweep
+./scripts/demo/5-baseline.sh  # pay with bitcoind stopped
+./scripts/demo/6-breach.sh    # stale channel.db, penalty tx (regtest only)</code></pre>
+
+  <h2>References</h2>
+  <ul>
+    <li>Kurt, Sahin, Harrilal-Parchment, Akkaya. "LNMesh: Who Said You Need Internet to Send Bitcoin? Offline Lightning Network Payments Using Community Wireless Mesh Networks." WoWMoM 2023. <a href="https://arxiv.org/abs/2304.14559">arXiv 2304.14559</a></li>
+    <li>Aumayr et al. "Securing Lightning Channels Against Rational Miners." CCS 2024. doi:10.1145/3658644.3670373</li>
+    <li>Ying et al. "A New Bi-Directional Payment Channel Without Third-Party Monitoring." ACISP 2024. doi:10.1007/978-981-97-5101-3_7</li>
+    <li><a href="https://www.open-mesh.org/projects/batman-adv/wiki">batman-adv</a> · <a href="https://docs.lightning.engineering">LND</a> · <a href="https://bitcoincore.org/en/doc/">Bitcoin Core</a> · <a href="https://github.com/lightning/bolts">BOLTs</a></li>
+  </ul>
+</div>
+</body></html>

@@ -1,0 +1,5 @@
+ping: connect: Network is unreachable
+ping: connect: Network is unreachable
+ping: connect: Network is unreachable
+curl: (6) Could not resolve host: example.com
+curl: (7) Failed to connect to 1.1.1.1 port 443 after 0 ms: Could not connect to server

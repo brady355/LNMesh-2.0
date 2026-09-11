@@ -1,0 +1,15 @@
+PING 10.10.0.1 (10.10.0.1) from 10.10.0.2 bat0: 56(84) bytes of data.
+64 bytes from 10.10.0.1: icmp_seq=1 ttl=64 time=9.01 ms
+64 bytes from 10.10.0.1: icmp_seq=2 ttl=64 time=10.5 ms
+
+--- 10.10.0.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 9.014/9.774/10.535/0.760 ms
+Device 'eth0' successfully disconnected.
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             
+wlan0            UP             fe80::2ecf:67ff:fe3c:9e6/64 
+bat0             UNKNOWN        10.10.0.2/24 fe80::7810:33ff:fee5:ac5e/64 
+[{"dst":"10.10.0.0/24","dev":"bat0","protocol":"kernel","scope":"link","prefsrc":"10.10.0.2","flags":[]}]
+[{"dst":"fe80::/64","dev":"bat0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"},{"dst":"fe80::/64","dev":"wlan0","protocol":"kernel","metric":256,"flags":[],"pref":"medium"}]
+2026-09-07T23:35:37,646853949+00:00

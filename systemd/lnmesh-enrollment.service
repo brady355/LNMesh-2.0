@@ -1,0 +1,14 @@
+[Unit]
+Description=Advertise this LNMesh leaf for gateway enrollment
+After=lnmesh-ibss.service avahi-daemon.service ssh.service
+Requires=lnmesh-ibss.service avahi-daemon.service ssh.service
+ConditionPathExists=!/var/lib/lnmesh/enrolled
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/lib/lnmesh/publish-enrollment.sh start
+ExecStop=/usr/local/lib/lnmesh/publish-enrollment.sh stop
+
+[Install]
+WantedBy=multi-user.target
