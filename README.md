@@ -15,6 +15,37 @@ Start with the recorded experiment:
 The results are from one close-range regtest deployment. The reports document
 the scope, limitations, implementation fixes, and known evidence defects.
 
+## Mesh recovery update
+
+The September 12 update adds boot retries and a small systemd health timer to
+the deployed LND mesh. It checks traffic over `bat0` and restarts an isolated
+mesh after three failed checks. All three Pis recovered from injected faults
+and rejoined after individual reboots. The final six-path check received all
+138 packets with zero loss.
+
+On each already configured experiment Pi, run:
+
+```bash
+sudo bash experiment/scripts/install-mesh-recovery.sh
+```
+
+See the [recovery report](experiment/report/mesh-recovery-2026-09-12.md) and
+[timestamped evidence bundle](experiment/report/mesh-recovery-2026-09-12.zip)
+for the configuration, measured recovery times, and test limits. The original
+September 7-8 evidence and its checksum manifest remain unchanged.
+
+SSH from the PC can use its existing key through the gateway:
+
+```bash
+ssh -J brady@pi1gateway -o HostKeyAlias=pi2 brady@10.10.0.2
+ssh -J brady@pi1gateway -o HostKeyAlias=pi3 brady@10.10.0.3
+```
+
+Direct SSH from the gateway uses the gateway's own key, which is authorized
+on the deployed nodes. Those runtime credentials are provisioned on the Pis.
+Ethernet management is currently enabled on both leaves; the recovery tests
+bound their traffic to `bat0` to verify the mesh paths.
+
 ## Separate Core Lightning implementation
 
 The root-level installers and `lnmeshctl/` below implement a separate Core
