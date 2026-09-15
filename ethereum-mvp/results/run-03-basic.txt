@@ -1,0 +1,79 @@
+[05:18:16.022] === step 0: reset channel databases, restart nodes and tower ===
+2026/09/15 05:18:16.967009 tower ready: account=0x90F79bf6EB2c4f870365E785982E1f101E93b906 balance=9999.999842 ETH adjudicator=0x5FbDB2315678afecb367f032d93F642f64180aa3 listen=0.0.0.0:6500 rpc=ws://127.0.0.1:8545
+2026/09/15 05:18:19.687597 node ready: eth=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 wire=pi2 listen=0.0.0.0:6000 peer=pi3@10.10.0.3:6000 rpc=ws://10.10.0.1:8545 ctl=127.0.0.1:7000 tower="10.10.0.1:6500"
+2026/09/15 05:18:23.365794 node ready: eth=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC wire=pi3 listen=0.0.0.0:6000 peer=pi2@10.10.0.2:6000 rpc=ws://10.10.0.1:8545 ctl=127.0.0.1:7000 tower="10.10.0.1:6500"
+05:18:28.322 pi2 internet: no
+05:18:28.473 pi3 internet: no
+05:18:28.631 pi2> onchain
+OK 2ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9993.755696
+05:18:28.804 pi3> onchain
+OK 1ms addr=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC eth=9997.487266
+[05:18:28.981] === run 1, step 1: open channel 1 ETH + 1 ETH, challenge 60s ===
+05:18:28.984 pi2> open 1 1 60
+OK 1173ms channel=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e
+[05:18:30.328] === run 1, step 2: five payments pi2 -> pi3, two payments pi3 -> pi2 (0.01 ETH) ===
+05:18:30.331 pi2> pay 0.01
+OK 6ms version=1
+05:18:30.503 pi2> pay 0.01
+OK 6ms version=2
+05:18:30.675 pi2> pay 0.01
+OK 5ms version=3
+05:18:30.862 pi2> pay 0.01
+OK 7ms version=4
+05:18:31.028 pi2> pay 0.01
+OK 4ms version=5
+05:18:31.192 pi3> pay 0.01
+OK 7ms version=6
+05:18:31.377 pi3> pay 0.01
+OK 6ms version=7
+05:18:31.542 pi2> bal
+OK 0ms id=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e idx=0 version=7 final=false phase=Acting bal0=0.970000 bal1=1.030000
+05:18:31.711 pi3> bal
+OK 0ms id=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e idx=1 version=7 final=false phase=Acting bal0=0.970000 bal1=1.030000
+[05:18:31.884] === run 1, step 3: cooperative close by pi2, withdrawal by pi3 ===
+05:18:31.887 pi2> close
+OK 22171ms settled version=8 bal0=0.970000 bal1=1.030000
+05:18:54.224 pi3> close
+OK 12075ms settled version=8 bal0=0.970000 bal1=1.030000
+05:19:06.483 pi2> onchain
+OK 2ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9993.725454
+05:19:06.653 pi3> onchain
+OK 3ms addr=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC eth=9997.517178
+[05:19:06.826] === run 2, step 1: open again and pay twice ===
+05:19:06.829 pi2> open 1 1 60
+OK 12140ms channel=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff
+05:19:19.131 pi2> pay 0.01
+OK 8ms version=1
+05:19:19.300 pi2> pay 0.01
+OK 7ms version=2
+[05:19:19.470] === run 2, step 2: unilateral close by pi2 (register, challenge 60s, conclude, withdraw) ===
+05:19:19.473 pi2> forceclose
+OK 106708ms settled version=2 bal0=0.980000 bal1=1.020000
+05:21:06.367 pi3> withdraw
+OK 12069ms settled version=2 bal0=0.980000 bal1=1.020000
+05:21:18.606 pi2> onchain
+OK 1ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9993.705149
+05:21:18.791 pi3> onchain
+OK 3ms addr=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC eth=9997.537089
+[05:21:18.976] === logs ===
+--- tower ---
+2026/09/15 05:18:30.839506 WATCHING channel=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e version=2 challenge=60s parties=2
+2026/09/15 05:18:42.171230 ADJUDICATOR EVENT *channel.ConcludedEvent channel=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e version=8 timeout=<Block timeout: 1789449522>
+2026/09/15 05:18:54.220175 STOPPED channel=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e
+2026/09/15 05:19:19.635493 WATCHING channel=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff version=2 challenge=60s parties=2
+2026/09/15 05:19:30.173207 ADJUDICATOR EVENT *channel.RegisteredEvent channel=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff version=2 timeout=<Block timeout: 1789449630>
+2026/09/15 05:20:54.170718 ADJUDICATOR EVENT *channel.ConcludedEvent channel=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff version=2 timeout=<Block timeout: 1789449630>
+2026/09/15 05:21:06.363274 STOPPED channel=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff
+--- pi3 ---
+2026/09/15 05:18:31.190574 TOWER ack update version=5 in 4ms
+2026/09/15 05:18:31.379313 TOWER ack update version=6 in 7ms
+2026/09/15 05:18:31.543660 TOWER ack update version=7 in 5ms
+2026/09/15 05:18:32.056952 TOWER ack update version=8 in 3ms
+2026/09/15 05:18:42.175686 ADJUDICATOR EVENT *channel.ConcludedEvent id=01f97971a7f6e8476b5974c153fd972f73c03cbcae57982f91dddc5176dfe82e version=8 timeout=<Block timeout: 1789449522>
+2026/09/15 05:19:06.474791 ctl close ok 12075ms
+2026/09/15 05:19:06.479942 TOWER ack stop in 5ms
+2026/09/15 05:19:19.641119 TOWER ack start version=2 in 9ms
+2026/09/15 05:19:30.182306 ADJUDICATOR EVENT *channel.RegisteredEvent id=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff version=2 timeout=<Block timeout: 1789449630>
+2026/09/15 05:20:54.177749 ADJUDICATOR EVENT *channel.ConcludedEvent id=c5e53560780c879e78fb38d4053d2f69f52ad77c2b771dbd44dc16a601c186ff version=2 timeout=<Block timeout: 1789449630>
+2026/09/15 05:21:18.600717 ctl withdraw ok 12069ms
+2026/09/15 05:21:18.605407 TOWER ack stop in 4ms

@@ -1,0 +1,121 @@
+[05:22:07.886] === step 0: reset head state, restart nodes (contestation 60s, tower 1) ===
+05:22:09.290 pi2 funds address holds 1 output
+Transaction successfully submitted. Transaction hash is:
+05:22:31.969 pi3 funds address merged from 6 outputs into 1 in 23 s
+mirror of pi2: {"contents":{"chainState":{"recordedAt":null,"spendableUTxO"
+
+mirror of pi3: {"contents":{"chainState":{"recordedAt":null,"spendableUTxO"
+
+{"contents":{"chainState":{"recordedAt":null,"spendableUTxO":{}}},"tag":"Idle"}
+
+05:22:43.290 GREETINGS head Idle synced InSync node 2.4.1-UNKNOWN cp 60s peers {'10.10.0.1:5002': True, '10.10.0.1:5003': True}
+{"contents":{"chainState":{"recordedAt":null,"spendableUTxO":{}}},"tag":"Idle"}
+
+05:22:49.160 GREETINGS head Idle synced InSync node 2.4.1-UNKNOWN cp 60s peers {'10.10.0.1:5002': True, '10.10.0.1:5003': True, '10.10.0.2:5001': True}
+05:22:52.835 pi2 internet: no
+05:22:53.014 pi3 internet: no
+05:22:53.180 pi2> info
+OK address addr_test1vzq8l9r0g7k9gtq4dfta8jwewdwt6pytyxhamnf3wxgn6vsetgxd3 peer addr_test1vrnsv3njvd3lh45kwhfjyz4renv6c0hkkx7gru4mde536tsryrd6h api http://127.0.0.1:4001 head Idle synced InSync node 2.4.1-UNKNOWN cp 60s snapshot None utxos 0 mine 0 ADA
+05:22:54.917 pi3> info
+OK address addr_test1vrnsv3njvd3lh45kwhfjyz4renv6c0hkkx7gru4mde536tsryrd6h peer addr_test1vzq8l9r0g7k9gtq4dfta8jwewdwt6pytyxhamnf3wxgn6vsetgxd3 api http://127.0.0.1:4001 head Idle synced InSync node 2.4.1-UNKNOWN cp 60s snapshot None utxos 0 mine 0 ADA
+05:22:56.665 pi2 funds on L1: 41.530486
+05:22:56.681 pi3 funds on L1: 156.675427
+[05:22:56.695] === step 1: init the head and deposit on each side ===
+05:22:56.698 pi2> init
+OK head open ab3933aa68b2ee70 in 5960 ms
+05:23:04.338 pi2> deposit
+OK deposited 41.530486 ADA: draft 305 ms, submitted 322 ms, CommitRecorded 16243 ms, DepositActivated 207231 ms, CommitFinalized 208245 ms, total 208245 ms, mine in head 41.530486 ADA
+05:26:34.293 pi3> deposit
+OK deposited 156.675427 ADA: draft 317 ms, submitted 7569 ms, CommitRecorded 10271 ms, DepositActivated 215275 ms, CommitFinalized 228280 ms, total 228282 ms, mine in head 156.675427 ADA
+05:30:24.318 pi2> bal
+OK head Open snapshot 2 utxos 1 mine 41.530486 ADA peer 0 ADA other 0 ADA
+05:30:26.058 pi3> bal
+OK head Open snapshot 2 utxos 2 mine 156.675427 ADA peer 41.530486 ADA other 0 ADA
+[05:30:27.749] === step 2: five payments of 1 ADA pi2 -> pi3, two payments pi3 -> pi2 ===
+05:30:27.752 pi2> pay 1
+OK paid 1 ADA mine 40.530486 ADA snapshot 3 in 47 ms (sign 0.9 ms, http 18 ms)
+05:30:29.499 pi2> pay 1
+OK paid 1 ADA mine 39.530486 ADA snapshot 4 in 52 ms (sign 0.7 ms, http 16 ms)
+05:30:31.248 pi2> pay 1
+OK paid 1 ADA mine 38.530486 ADA snapshot 5 in 56 ms (sign 0.7 ms, http 16 ms)
+05:30:33.023 pi2> pay 1
+OK paid 1 ADA mine 37.530486 ADA snapshot 6 in 44 ms (sign 0.8 ms, http 16 ms)
+05:30:34.767 pi2> pay 1
+OK paid 1 ADA mine 36.530486 ADA snapshot 7 in 63 ms (sign 0.7 ms, http 24 ms)
+05:30:36.557 pi3> pay 1
+OK paid 1 ADA mine 160.675427 ADA snapshot 8 in 53 ms (sign 0.9 ms, http 22 ms)
+05:30:38.344 pi3> pay 1
+OK paid 1 ADA mine 159.675427 ADA snapshot 9 in 56 ms (sign 0.7 ms, http 21 ms)
+05:30:40.129 pi2> bal
+OK head Open snapshot 9 utxos 9 mine 38.530486 ADA peer 159.675427 ADA other 0 ADA
+05:30:41.859 pi3> bal
+OK head Open snapshot 9 utxos 9 mine 159.675427 ADA peer 38.530486 ADA other 0 ADA
+05:30:43.588 pi2> snapshot
+OK ConfirmedSnapshot number 9 version 2 utxos 9
+05:30:45.273 pi3m> snapshot
+OK ConfirmedSnapshot number 9 version 2 utxos 9
+05:30:46.887 pi3m> bal
+OK head Open snapshot 9 utxos 9 mine 0 ADA peer 0 ADA other 198.205913 ADA
+[05:30:48.484] === step 3: close by pi2 (waits out the contestation period, then fans out) ===
+05:30:48.486 pi2> close
+OK closed with snapshot 9 in 7121 ms, deadline 2026-09-15T05:32:48Z; ready to fanout at 119100 ms, finalized at 134166 ms: mine 38.530486 ADA peer 159.675427 ADA
+05:33:04.362 pi3> head
+OK Idle
+05:33:06.128 pi2 funds on L1: 38.530486
+05:33:06.141 pi3 funds on L1: 159.675427
+[05:33:06.154] === logs ===
+--- pi2 ---
+05:22:58.096 ctl init
+05:23:04.056 HEAD open ab3933aa68b2ee70 parties 2
+05:23:05.757 ctl deposit
+05:23:22.022 DEPOSIT CommitRecorded a65705309828de7b deadline 2026-09-15T05:35:20.78Z
+05:26:33.009 DEPOSIT DepositActivated a65705309828de7b deadline 2026-09-15T05:35:20.78Z
+05:26:34.023 DEPOSIT CommitFinalized a65705309828de7b deadline 
+05:26:46.017 DEPOSIT CommitRecorded 2a38953d45abc8fe deadline 2026-09-15T05:38:50.746Z
+05:30:11.021 DEPOSIT DepositActivated 2a38953d45abc8fe deadline 2026-09-15T05:38:50.746Z
+05:30:24.025 DEPOSIT CommitFinalized 2a38953d45abc8fe deadline 
+05:30:29.184 ctl pay 1
+05:30:29.230 SNAPSHOT 3 confirmed, 1 tx, 3 utxo
+05:30:30.919 ctl pay 1
+05:30:30.971 SNAPSHOT 4 confirmed, 1 tx, 4 utxo
+05:30:32.695 ctl pay 1
+05:30:32.752 SNAPSHOT 5 confirmed, 1 tx, 5 utxo
+05:30:34.453 ctl pay 1
+05:30:34.496 SNAPSHOT 6 confirmed, 1 tx, 6 utxo
+05:30:36.219 ctl pay 1
+05:30:36.282 SNAPSHOT 7 confirmed, 1 tx, 7 utxo
+05:30:38.073 SNAPSHOT 8 confirmed, 1 tx, 8 utxo
+05:30:39.854 SNAPSHOT 9 confirmed, 1 tx, 9 utxo
+05:30:49.909 ctl close
+05:30:57.030 HEAD closed with snapshot 9 contestation deadline 2026-09-15T05:32:48Z
+05:32:49.010 HEAD ready to fanout
+05:33:04.075 HEAD finalized: vsetgxd3=38.530486 tsryrd6h=159.675427 acfqj0ys=68.850426
+--- pi3 ---
+05:30:24.025 DEPOSIT CommitFinalized 2a38953d45abc8fe deadline 
+05:30:24.027 ctl reply: OK deposited 156.675427 ADA: draft 317 ms, submitted 7569 ms, CommitRecorded 10271 ms, DepositActivated 215275 ms, CommitFinalized 228280 ms, total 228282 ms, mine in head 156.675427 ADA
+05:30:27.484 ctl bal
+05:30:27.484 ctl reply: OK head Open snapshot 2 utxos 2 mine 156.675427 ADA peer 41.530486 ADA other 0 ADA
+05:30:38.020 ctl pay 1
+05:30:38.074 ctl reply: OK paid 1 ADA mine 160.675427 ADA snapshot 8 in 53 ms (sign 0.9 ms, http 22 ms)
+05:30:39.805 ctl pay 1
+05:30:39.861 ctl reply: OK paid 1 ADA mine 159.675427 ADA snapshot 9 in 56 ms (sign 0.7 ms, http 21 ms)
+05:30:43.322 ctl bal
+05:30:43.323 ctl reply: OK head Open snapshot 9 utxos 9 mine 159.675427 ADA peer 38.530486 ADA other 0 ADA
+05:30:57.029 HEAD closed with snapshot 9 contestation deadline 2026-09-15T05:32:48Z
+05:32:49.010 HEAD ready to fanout
+05:33:04.079 HEAD finalized: vsetgxd3=38.530486 tsryrd6h=159.675427 acfqj0ys=68.850426
+05:33:05.862 ctl head
+05:33:05.863 ctl reply: OK Idle
+--- mirror of pi3 ---
+05:22:39.473 GREETINGS head Idle synced InSync node 2.4.1-UNKNOWN cp 60s peers {}
+05:23:04.173 HEAD open ab3933aa68b2ee70 parties 2
+05:30:29.232 SNAPSHOT 3 confirmed, 1 tx, 3 utxo
+05:30:30.975 SNAPSHOT 4 confirmed, 1 tx, 4 utxo
+05:30:32.755 SNAPSHOT 5 confirmed, 1 tx, 5 utxo
+05:30:34.505 SNAPSHOT 6 confirmed, 1 tx, 6 utxo
+05:30:36.285 SNAPSHOT 7 confirmed, 1 tx, 7 utxo
+05:30:38.077 SNAPSHOT 8 confirmed, 1 tx, 8 utxo
+05:30:39.857 SNAPSHOT 9 confirmed, 1 tx, 9 utxo
+05:30:57.024 HEAD closed with snapshot 9 contestation deadline 2026-09-15T05:32:48Z
+05:32:49.009 HEAD ready to fanout
+05:33:04.071 HEAD finalized: vsetgxd3=38.530486 tsryrd6h=159.675427 acfqj0ys=68.850426

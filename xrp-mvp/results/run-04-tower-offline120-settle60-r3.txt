@@ -1,0 +1,94 @@
+[06:28:56.704] === step 0: reset node state, restart nodes (settle 60s, victim offline:120, tower 1) ===
+06:29:06.170 pi2 internet: no
+06:29:06.343 pi3 internet: no
+[06:29:06.505] === step 1: open channel 1 XRP, settle 60s ===
+06:29:06.508 pi2> onchain
+OK 9999.49969 XRP ledger 1151 close_time 842768950
+06:29:07.299 pi3> onchain
+OK 10000.49979 XRP ledger 1151 close_time 842768950
+06:29:08.092 pi2> open 1 60
+OK channel 12E765DE4E384F4C9691E272098DE9A2AF845B7FB97E2B6DAF7B499419000389 funded 1 XRP settle 60s ledger 1152 chain 2258 ms peer_ack ok
+[06:29:11.072] === step 2: pi2 pays pi3 five times (0.01 XRP) ===
+06:29:11.075 pi2> pay 0.01
+OK paid 0.01 XRP total 0.01 XRP version 1 in 47 ms (sign 6.6 ms)
+06:29:11.796 pi2> pay 0.01
+OK paid 0.01 XRP total 0.02 XRP version 2 in 36 ms (sign 6.5 ms)
+06:29:12.497 pi2> pay 0.01
+OK paid 0.01 XRP total 0.03 XRP version 3 in 48 ms (sign 6.4 ms)
+06:29:13.204 pi2> pay 0.01
+OK paid 0.01 XRP total 0.04 XRP version 4 in 45 ms (sign 6.4 ms)
+06:29:13.913 pi2> pay 0.01
+OK paid 0.01 XRP total 0.05 XRP version 5 in 36 ms (sign 6.4 ms)
+06:29:20.621 pi3> bal
+OK
+out none
+in channel 12E765DE4E384F4C9691E272098DE9A2AF845B7FB97E2B6DAF7B499419000389 funded 1 received 0.05 redeemed 0 unredeemed 0.05 version 5 tower 0.05 ticket 30
+06:29:21.311 pi3> tower
+OK {"ok": true, "payee": "rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx", "amount": "50000", "ticket": 30, "hash": "379B880AE430A64E556899102DA83BB2B9AD01E393CD7E83BB9659A58E7AC53C", "received": "06:29:15.351", "submitted": false, "done": false}
+[06:29:21.971] === victim pi3 goes offline ===
+[06:29:23.121] === step 3: pi2 requests the close (background, it waits out the settle delay) ===
+[06:29:35.124] channel after the close request:
+06:29:35.127 pi2> chan out
+OK out channel 12E765DE4E384F4C9691E272098DE9A2AF845B7FB97E2B6DAF7B499419000389 not on ledger (ledger 1158 close_time 842768972)
+06:29:35.825 pi2> ledger
+OK ledger 1158 close_time 842768972 (06:29:32Z)
+[06:29:36.544] tower so far:
+06:22:18.572 VALIDATED 1B5B3DA593A0D1E8 tesSUCCESS ledger 1049, 2068 ms after the submission
+06:29:28.338 WATCH payer scheduled close of 12E765DE (expiration 842769021, ledger 1156 close_time 842768970); submitting the payee's claim 0.05 XRP
+06:29:28.362 SUBMIT 379B880AE430A64E: tesSUCCESS (24 ms)
+06:29:31.419 VALIDATED 379B880AE430A64E tesSUCCESS ledger 1157, 3081 ms after the submission
+[06:29:36.546] victim stays offline until 120s after the close request
+[06:31:23.797] === victim pi3 comes back ===
+06:31:32.648 pi3> watch
+OK 06:31:27.222 channel gone at ledger 1186
+[06:31:33.340] waiting for the close of pi2 to return...
+[06:31:33.342] pi2 close result:
+06:29:23.125 pi2> close out
+OK channel closed after settle delay: request 3263 ms, total 7413 ms, finalize txs 0
+[06:31:33.343] === step 4: pi3 view ===
+06:31:33.346 pi3> bal
+OK
+out none
+in channel 12E765DE4E384F4C9691E272098DE9A2AF845B7FB97E2B6DAF7B499419000389 funded 1 received 0.05 redeemed 0.05 unredeemed 0 version 5 tower 0.05 ticket 30 CLOSED
+06:31:34.010 pi3> chan in
+OK in channel 12E765DE4E384F4C9691E272098DE9A2AF845B7FB97E2B6DAF7B499419000389 not on ledger (ledger 1188 close_time 842769092)
+06:31:34.733 pi3> redeem
+ERR nothing new to redeem
+06:31:35.401 pi2> onchain
+OK 9999.44967 XRP ledger 1188 close_time 842769092
+06:31:36.135 pi3> onchain
+OK 10000.54977 XRP ledger 1188 close_time 842769092
+[06:31:36.853] === logs ===
+--- tower ---
+06:22:02.810 HOLD channel A719160D payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.05 XRP ticket 25 blob 304 bytes
+06:22:16.503 WATCH payer scheduled close of A719160D (expiration 842768591, ledger 1048 close_time 842768532); submitting the payee's claim 0.05 XRP
+06:22:16.535 SUBMIT 1B5B3DA593A0D1E8: tesSUCCESS (31 ms)
+06:22:18.572 VALIDATED 1B5B3DA593A0D1E8 tesSUCCESS ledger 1049, 2068 ms after the submission
+06:29:15.362 HOLD channel 12E765DE payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.05 XRP ticket 30 blob 304 bytes
+06:29:28.338 WATCH payer scheduled close of 12E765DE (expiration 842769021, ledger 1156 close_time 842768970); submitting the payee's claim 0.05 XRP
+06:29:28.362 SUBMIT 379B880AE430A64E: tesSUCCESS (24 ms)
+06:29:31.419 VALIDATED 379B880AE430A64E tesSUCCESS ledger 1157, 3081 ms after the submission
+--- pi3 ---
+06:28:40.219 node ready
+06:28:42.317 WATCHER channel AF1FE51F gone from ledger (ledger 1144); unredeemed 0.05 XRP
+06:28:50.424 ctl redeem
+06:29:02.623 node ready
+06:29:11.700 CLAIM v1 +0.01 total 0.01 XRP, verify 7.3 ms, handled 15.2 ms
+06:29:12.409 CLAIM v2 +0.01 total 0.02 XRP, verify 7.4 ms, handled 19.9 ms
+06:29:13.117 CLAIM v3 +0.01 total 0.03 XRP, verify 11.8 ms, handled 22.2 ms
+06:29:13.823 CLAIM v4 +0.01 total 0.04 XRP, verify 11.8 ms, handled 20.2 ms
+06:29:14.529 CLAIM v5 +0.01 total 0.05 XRP, verify 11.8 ms, handled 19.8 ms
+06:29:15.330 TOWER ticket 30 reserved in ledger 1153 (4340 ms)
+06:29:15.377 TOWER holds claim 0.05 XRP (presign 14.1 ms, round trip 47 ms)
+06:31:25.105 node ready
+06:31:27.222 WATCHER channel 12E765DE gone from ledger (ledger 1186); the tower redeemed 0.05 XRP for me in ledger 1157 (379B880AE430A64E)
+06:31:35.313 ctl redeem
+--- pi2 ---
+06:24:51.106 CLOSE requested; expiration 842768750 = 06:25:50Z (settle 60s); ledger 1087; 1230 ms
+06:25:18.762 OUT channel 43C83CBE956AB42364CA1C82A4677664B57FA0C72F76837871E9BC08BE7A1CF7 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (1230 ms)
+06:25:35.338 CLOSE requested; expiration 842768791 = 06:26:31Z (settle 60s); ledger 1098; 4252 ms
+06:26:27.457 OUT channel AF1FE51FD99E0D06A99877C1B9B5D8E5DDE2CD20C1458AD9F52CBFA47A1E807D to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (2203 ms)
+06:26:42.880 CLOSE requested; expiration 842768860 = 06:27:40Z (settle 60s); ledger 1115; 3234 ms
+06:27:42.674 CLOSE finalize attempt 1: tesSUCCESS ledger 1130 (2233 ms)
+06:29:10.952 OUT channel 12E765DE4E384F4C9691E272098DE9A2AF845B7FB97E2B6DAF7B499419000389 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (2258 ms)
+06:29:27.067 CLOSE requested; expiration 842769021 = 06:30:21Z (settle 60s); ledger 1156; 3263 ms

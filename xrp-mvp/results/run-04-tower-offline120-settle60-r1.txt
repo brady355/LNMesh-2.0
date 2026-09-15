@@ -1,0 +1,94 @@
+[06:14:33.139] === step 0: reset node state, restart nodes (settle 60s, victim offline:120, tower 1) ===
+06:14:42.708 pi2 internet: no
+06:14:42.868 pi3 internet: no
+[06:14:43.017] === step 1: open channel 1 XRP, settle 60s ===
+06:14:43.019 pi2> onchain
+OK 9999.79987 XRP ledger 935 close_time 842768081
+06:14:43.865 pi3> onchain
+OK 10000.19989 XRP ledger 935 close_time 842768081
+06:14:44.707 pi2> open 1 60
+OK channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 funded 1 XRP settle 60s ledger 936 chain 1205 ms peer_ack ok
+[06:14:46.709] === step 2: pi2 pays pi3 five times (0.01 XRP) ===
+06:14:46.712 pi2> pay 0.01
+OK paid 0.01 XRP total 0.01 XRP version 1 in 36 ms (sign 6.6 ms)
+06:14:47.505 pi2> pay 0.01
+OK paid 0.01 XRP total 0.02 XRP version 2 in 36 ms (sign 6.7 ms)
+06:14:48.298 pi2> pay 0.01
+OK paid 0.01 XRP total 0.03 XRP version 3 in 55 ms (sign 6.5 ms)
+06:14:49.091 pi2> pay 0.01
+OK paid 0.01 XRP total 0.04 XRP version 4 in 43 ms (sign 6.5 ms)
+06:14:49.850 pi2> pay 0.01
+OK paid 0.01 XRP total 0.05 XRP version 5 in 43 ms (sign 6.6 ms)
+06:14:56.645 pi3> bal
+OK
+out none
+in channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 funded 1 received 0.05 redeemed 0 unredeemed 0.05 version 5 tower 0.05 ticket 20
+06:14:57.290 pi3> tower
+OK {"ok": true, "payee": "rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx", "amount": "50000", "ticket": 20, "hash": "B1C372C5F932E2AB49F256F8ECB8E690D52B59E81F72E823BDA5749565EE5632", "received": "06:14:50.961", "submitted": false, "done": false}
+[06:14:57.955] === victim pi3 goes offline ===
+[06:14:59.112] === step 3: pi2 requests the close (background, it waits out the settle delay) ===
+[06:15:11.115] channel after the close request:
+06:15:11.118 pi2> chan out
+OK out channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 not on ledger (ledger 942 close_time 842768111)
+06:15:11.897 pi2> ledger
+OK ledger 942 close_time 842768111 (06:15:11Z)
+[06:15:12.700] tower so far:
+05:22:03.593 WATCH channel D44AFA7C gone from ledger (ledger 145), submitted False
+06:15:02.750 WATCH payer scheduled close of E4E18A39 (expiration 842768160, ledger 940 close_time 842768101); submitting the payee's claim 0.05 XRP
+06:15:02.779 SUBMIT B1C372C5F932E2AB: tesSUCCESS (29 ms)
+06:15:06.867 VALIDATED B1C372C5F932E2AB tesSUCCESS ledger 941, 4117 ms after the submission
+[06:15:12.703] victim stays offline until 120s after the close request
+[06:16:59.924] === victim pi3 comes back ===
+06:17:08.801 pi3> watch
+OK 06:17:03.373 channel gone at ledger 970
+[06:17:09.518] waiting for the close of pi2 to return...
+[06:17:09.520] pi2 close result:
+06:14:59.116 pi2> close out
+OK channel closed after settle delay: request 3283 ms, total 7425 ms, finalize txs 0
+[06:17:09.522] === step 4: pi3 view ===
+06:17:09.524 pi3> bal
+OK
+out none
+in channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 funded 1 received 0.05 redeemed 0.05 unredeemed 0 version 5 tower 0.05 ticket 20 CLOSED
+06:17:10.200 pi3> chan in
+OK in channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 not on ledger (ledger 972 close_time 842768231)
+06:17:10.908 pi3> redeem
+ERR nothing new to redeem
+06:17:11.558 pi2> onchain
+OK 9999.74985 XRP ledger 972 close_time 842768231
+06:17:12.315 pi3> onchain
+OK 10000.24987 XRP ledger 972 close_time 842768231
+[06:17:13.035] === logs ===
+--- tower ---
+05:21:54.241 HOLD channel 99D8371F payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.07 XRP ticket 12 blob 304 bytes
+05:21:54.688 HOLD channel D44AFA7C payee rLM1pTCEyWNvnakeaY1q93BPEbfFLpUjXZ claim 0.02 XRP ticket 11 blob 304 bytes
+05:21:59.476 WATCH channel 99D8371F gone from ledger (ledger 144), submitted False
+05:22:03.593 WATCH channel D44AFA7C gone from ledger (ledger 145), submitted False
+06:14:50.972 HOLD channel E4E18A39 payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.05 XRP ticket 20 blob 304 bytes
+06:15:02.750 WATCH payer scheduled close of E4E18A39 (expiration 842768160, ledger 940 close_time 842768101); submitting the payee's claim 0.05 XRP
+06:15:02.779 SUBMIT B1C372C5F932E2AB: tesSUCCESS (29 ms)
+06:15:06.867 VALIDATED B1C372C5F932E2AB tesSUCCESS ledger 941, 4117 ms after the submission
+--- pi3 ---
+06:14:19.800 node ready
+06:14:21.900 WATCHER channel 39800297 gone from ledger (ledger 929); unredeemed 0.05 XRP
+06:14:30.076 ctl redeem
+06:14:39.150 node ready
+06:14:47.397 CLAIM v1 +0.01 total 0.01 XRP, verify 7.4 ms, handled 15.5 ms
+06:14:48.185 CLAIM v2 +0.01 total 0.02 XRP, verify 7.3 ms, handled 19.3 ms
+06:14:48.986 CLAIM v3 +0.01 total 0.03 XRP, verify 7.3 ms, handled 22.4 ms
+06:14:49.750 CLAIM v4 +0.01 total 0.04 XRP, verify 11.7 ms, handled 20.2 ms
+06:14:50.538 CLAIM v5 +0.01 total 0.05 XRP, verify 10.9 ms, handled 19.5 ms
+06:14:50.944 TOWER ticket 20 reserved in ledger 937 (4332 ms)
+06:14:50.985 TOWER holds claim 0.05 XRP (presign 13.3 ms, round trip 40 ms)
+06:17:01.249 node ready
+06:17:03.373 WATCHER channel E4E18A39 gone from ledger (ledger 970); the tower redeemed 0.05 XRP for me in ledger 941 (B1C372C5F932E2AB)
+06:17:11.473 ctl redeem
+--- pi2 ---
+06:10:34.739 CLOSE requested; expiration 842767891 = 06:11:31Z (settle 60s); ledger 873; 4352 ms
+06:10:59.284 OUT channel 52B9EAA1F3B3121C94DC227CC58C432394997F993B9E884A38F77D3F5314C64A to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (1176 ms)
+06:11:14.832 CLOSE requested; expiration 842767931 = 06:12:11Z (settle 60s); ledger 883; 3316 ms
+06:12:07.191 OUT channel 39800297059538CC10E54AFBF8F06691CDA0A57F27A9AD3B464F83D1EAE0835E to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (2241 ms)
+06:12:22.831 CLOSE requested; expiration 842768000 = 06:13:20Z (settle 60s); ledger 900; 3331 ms
+06:13:22.920 CLOSE finalize attempt 1: tesSUCCESS ledger 915 (4393 ms)
+06:14:46.568 OUT channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (1205 ms)
+06:15:03.028 CLOSE requested; expiration 842768160 = 06:16:00Z (settle 60s); ledger 940; 3283 ms

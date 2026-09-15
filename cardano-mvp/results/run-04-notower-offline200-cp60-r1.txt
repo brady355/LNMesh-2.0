@@ -1,0 +1,80 @@
+[09:30:21.697] === step 0: reset head state, restart nodes (contestation 60s, victim offline:200, tower 0) ===
+09:30:23.095 pi2 funds address holds 1 output
+Transaction successfully submitted. Transaction hash is:
+09:30:31.598 pi3 funds address merged from 6 outputs into 1 in 9 s
+09:30:48.389 pi2 internet: no
+09:30:48.545 pi3 internet: no
+09:30:48.715 pi2 funds on L1: 42.886495
+09:30:48.729 pi3 funds on L1: 251.762142
+[09:30:48.743] === step 1: init, deposits on both sides ===
+09:30:48.745 pi2> init
+OK head open 97db26a944c52fb8 in 6860 ms
+09:30:57.351 pi2> deposit
+OK deposited 42.886495 ADA: draft 326 ms, submitted 342 ms, CommitRecorded 10220 ms, DepositActivated 202218 ms, CommitFinalized 212507 ms, total 212509 ms, mine in head 42.886495 ADA
+09:34:31.585 pi3> deposit
+OK deposited 251.762142 ADA: draft 332 ms, submitted 348 ms, CommitRecorded 5951 ms, DepositActivated 204952 ms, CommitFinalized 222962 ms, total 222963 ms, mine in head 251.762142 ADA
+09:38:16.310 pi2> bal
+OK head Open snapshot 2 utxos 1 mine 42.886495 ADA peer 0 ADA other 0 ADA
+[09:38:18.051] === step 2: pi2 copies its hydra-node persistence, restarts ===
+bin etcd hydra.db last-known-revision pending-broadcast 
+09:38:29.091 pi2> snapshot
+OK ConfirmedSnapshot number 2 version 1 utxos 1
+[09:38:30.838] === step 3: pi2 pays pi3 five times (1 ADA) ===
+09:38:30.841 pi2> pay 1
+OK paid 1 ADA mine 41.886495 ADA snapshot 3 in 35 ms (sign 0.9 ms, http 19 ms)
+09:38:32.548 pi2> pay 1
+OK paid 1 ADA mine 40.886495 ADA snapshot 4 in 39 ms (sign 0.8 ms, http 20 ms)
+09:38:34.287 pi2> pay 1
+OK paid 1 ADA mine 39.886495 ADA snapshot 5 in 41 ms (sign 0.7 ms, http 26 ms)
+09:38:36.048 pi2> pay 1
+OK paid 1 ADA mine 38.886495 ADA snapshot 6 in 43 ms (sign 0.7 ms, http 17 ms)
+09:38:37.773 pi2> pay 1
+OK paid 1 ADA mine 37.886495 ADA snapshot 7 in 40 ms (sign 0.8 ms, http 22 ms)
+09:38:39.523 pi3> bal
+OK head Open snapshot 7 utxos 7 mine 256.762142 ADA peer 37.886495 ADA other 0 ADA
+09:38:41.275 pi3> snapshot
+OK ConfirmedSnapshot number 7 version 2 utxos 7
+[09:38:42.970] === step 4: victim pi3 goes offline, pi2 restores the stale copy and restarts ===
+09:38:57.218 pi2> snapshot
+OK ConfirmedSnapshot number 2 version 1 utxos 1
+09:38:58.963 pi2> bal
+OK head Open snapshot None utxos 2 mine 42.886495 ADA peer 251.762142 ADA other 0 ADA
+[09:39:00.657] === step 5: pi2 closes with what it has, then fans out as soon as its node allows (background) ===
+09:39:00.660 pi2> closeonly
+OK closed with snapshot 2 in 5949 ms, deadline 2026-09-15T09:41:02Z
+[09:39:08.319] victim stays offline until 200s after the close
+[09:42:28.740] === step 6: victim pi3 comes back ===
+09:42:39.653 pi3> head
+OK Idle
+[09:42:41.401] contest as seen by the hydra-node of pi3 and by the client of pi2:
+pi3 hydra-node 09:42:32.886 posts a contest with snapshot 7
+pi3 hydra-node 09:42:33.105 the contest failed with the validator errors H30, PT5
+[09:42:41.754] === step 7: fanout, waiting for every fanout ===
+09:42:41.757 pi3> fanout
+OK ERR head is already Idle: the peer fanned out before this node could
+pi2 fanout result:
+09:39:08.321 pi2> fanout
+OK ready to fanout at 118280 ms, finalized at 120329 ms: mine 42.886495 ADA peer 251.762142 ADA
+09:42:43.438 pi2 funds on L1: 42.886495
+09:42:43.452 pi3 funds on L1: 251.762142
+[09:42:43.466] === logs ===
+--- pi3 ---
+09:28:02.032 HEAD contested with snapshot 7 new deadline 2026-09-15T09:30:01Z
+09:30:05.015 HEAD ready to fanout
+09:30:21.077 HEAD finalized: tsryrd6h=251.960731 vsetgxd3=42.886495 7g5kk3de=71.183631
+09:30:44.687 node ready
+09:30:57.144 HEAD open 97db26a944c52fb8 parties 2
+09:38:08.288 POST TX FAILED IncrementTx: {"failureReason": "TxValidationErrorInCardanoMode (ShelleyTxValidationError ShelleyBasedEraConway (ConwayApplyTxError (ConwayUtxowFailure (UtxoFailure (BadInputsUTxO (NonEmptySet (fromList [TxIn (TxId {unTxId = SafeHash \"1d3d408feb1d36bacd7a0b96d5e94439dd44b
+09:42:34.032 node ready
+09:42:43.163 ctl fanout
+--- pi2 ---
+09:30:38.831 node ready
+09:30:57.049 HEAD open 97db26a944c52fb8 parties 2
+09:34:31.301 POST TX FAILED IncrementTx: {"failureReason": "TxValidationErrorInCardanoMode (ShelleyTxValidationError ShelleyBasedEraConway (ConwayApplyTxError (ConwayUtxowFailure (UtxoFailure (BadInputsUTxO (NonEmptySet (fromList [TxIn (TxId {unTxId = SafeHash \"3963221bd6ca73392338464a15e2c8e3e153013940710732fd6ae1fc8de0d92b\"}) (TxIx {unTxIx = 0}),TxIn (TxId {unTxId = SafeHash \"b1b646fc012de608d4047b689016ada8b6bc6a9995a15cc7cd853c295a3440f6\"}) (TxIx {unTxIx = 0})])))) :| [ConwayUtxowFailure (UtxoFailure (ValueNotConservedUTxO Mismatch (RelEQ) {supplied: MaryValue (Coin 22674071) (MultiAsset (fromList [])), expected: MaryValue (C
+09:38:25.391 node ready
+09:38:51.491 node ready
+09:39:02.082 ctl closeonly
+09:39:08.030 HEAD closed with snapshot 2 contestation deadline 2026-09-15T09:41:02Z
+09:39:09.734 ctl fanout
+09:41:08.013 HEAD ready to fanout
+09:41:10.063 HEAD finalized: vsetgxd3=42.886495 tsryrd6h=251.762142 acfqj0ys=22.606785

@@ -1,0 +1,66 @@
+[05:48:19.159] === step 0: reset channel databases, restart nodes (challenge 60s, victim offline:20, tower 0) ===
+05:48:29.472 pi2 internet: no
+05:48:29.621 pi3 internet: no
+[05:48:29.773] === step 1: open channel 1 ETH + 1 ETH ===
+05:48:29.775 pi2> onchain
+OK 1ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9989.704050
+05:48:29.947 pi3> onchain
+OK 1ms addr=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC eth=9996.735640
+05:48:30.108 pi2> open 1 1 60
+OK 12179ms channel=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c
+[05:48:42.446] === step 2: pi2 stops, copies its database at version 0, restarts ===
+05:48:49.400 pi2> bal
+OK 0ms id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c idx=0 version=0 final=false phase=Acting bal0=1.000000 bal1=1.000000
+[05:48:49.564] === step 3: pi2 pays pi3 five times (0.01 ETH) ===
+05:48:49.567 pi2> pay 0.01
+OK 33ms version=1
+05:48:49.776 pi2> pay 0.01
+OK 10ms version=2
+05:48:49.975 pi2> pay 0.01
+OK 9ms version=3
+05:48:50.160 pi2> pay 0.01
+OK 3ms version=4
+05:48:50.338 pi2> pay 0.01
+OK 6ms version=5
+05:48:50.519 pi3> bal
+OK 0ms id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c idx=1 version=5 final=false phase=Acting bal0=0.950000 bal1=1.050000
+[05:48:50.714] === step 4: pi2 stops, restores the stale copy, restarts ===
+05:48:57.667 pi2> bal
+OK 0ms id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c idx=0 version=0 final=false phase=Acting bal0=1.000000 bal1=1.000000
+[05:48:57.817] === victim pi3 goes offline ===
+[05:48:58.994] === step 5: pi2 force-closes with the stale state (background) ===
+[05:49:07.208] stale state registered on chain at 05:49:06, timeout 05:50:06, 8 s after the command
+[05:49:07.211] victim stays offline until 20s after the registration
+[05:49:26.253] === victim pi3 comes back ===
+pi3 2026/09/15 05:49:30.629549 ADJUDICATOR EVENT *channel.RegisteredEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=0 timeout=<Block timeout: 1789451406>
+pi3 2026/09/15 05:49:30.630596 ADJUDICATOR EVENT *channel.RegisteredEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=5 timeout=<Block timeout: 1789451406>
+[05:49:35.172] === step 6: pi3 settles with its latest state ===
+05:49:35.174 pi3> forceclose
+OK 67007ms settled version=5 bal0=0.950000 bal1=1.050000
+[05:50:42.377] waiting for the force close of pi2 to return...
+[05:50:42.379] pi2 force close result:
+05:48:59.000 pi2> forceclose
+ERR 103186ms settle: calling Withdraw: check concluded state: wrong version: expected 0, got 5
+05:50:42.383 pi2> onchain
+OK 2ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9988.703850
+05:50:42.567 pi3> onchain
+OK 2ms addr=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC eth=9996.785367
+[05:50:42.737] === logs ===
+--- pi3 ---
+2026/09/15 05:48:18.387168 ADJUDICATOR EVENT *channel.ConcludedEvent id=c0a151caac427d8de3cd743a9d9a615ed7fb3bed9a69ca65369a6bcc5bb0d7c8 version=5 timeout=<Block timeout: 1789451250>
+2026/09/15 05:48:18.390088 ctl forceclose ok 105900ms
+2026/09/15 05:48:24.529419 node ready: eth=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC wire=pi3 listen=0.0.0.0:6000 peer=pi2@10.10.0.2:6000 rpc=ws://10.10.0.1:8545 ctl=127.0.0.1:7000 tower=""
+2026/09/15 05:49:27.054952 node ready: eth=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC wire=pi3 listen=0.0.0.0:6000 peer=pi2@10.10.0.2:6000 rpc=ws://10.10.0.1:8545 ctl=127.0.0.1:7000 tower=""
+2026/09/15 05:49:30.629549 ADJUDICATOR EVENT *channel.RegisteredEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=0 timeout=<Block timeout: 1789451406>
+2026/09/15 05:49:30.630596 ADJUDICATOR EVENT *channel.RegisteredEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=5 timeout=<Block timeout: 1789451406>
+2026/09/15 05:50:42.366655 ADJUDICATOR EVENT *channel.ConcludedEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=5 timeout=<Block timeout: 1789451406>
+2026/09/15 05:50:42.373988 ctl forceclose ok 67007ms
+--- pi2 ---
+2026/09/15 05:48:06.344599 ctl forceclose failed after 104287ms: settle: calling Withdraw: check concluded state: wrong version: expected 0, got 5
+2026/09/15 05:48:06.344648 ADJUDICATOR EVENT *channel.ConcludedEvent id=c0a151caac427d8de3cd743a9d9a615ed7fb3bed9a69ca65369a6bcc5bb0d7c8 version=5 timeout=<Block timeout: 1789451250>
+2026/09/15 05:49:06.229732 ADJUDICATOR EVENT *channel.RegisteredEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=0 timeout=<Block timeout: 1789451406>
+2026/09/15 05:50:06.187649 ADJUDICATOR EVENT *channel.RegisteredEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=5 timeout=<Block timeout: 1789451406>
+time="05:50:42.304" level=error msg="TX failed; error determining reason: CallContract: execution reverted: invalid state"
+time="05:50:42.304" level=warning msg="Calling conclude(Final) failed, waiting for event anyways..." error="calling conclude: mining transaction: transaction failed" txSender=0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+2026/09/15 05:50:42.369892 ctl forceclose failed after 103186ms: settle: calling Withdraw: check concluded state: wrong version: expected 0, got 5
+2026/09/15 05:50:42.369960 ADJUDICATOR EVENT *channel.ConcludedEvent id=869ac578ea776306646f596f6ce5caa42e099c8317a9e9d05927b5cdb024317c version=5 timeout=<Block timeout: 1789451406>

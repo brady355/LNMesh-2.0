@@ -1,0 +1,78 @@
+[06:17:54.320] === step 0: reset node state, restart nodes (settle 60s, victim offline:30, tower 0) ===
+06:18:02.890 pi2 internet: no
+06:18:03.051 pi3 internet: no
+[06:18:03.225] === step 1: open channel 1 XRP, settle 60s ===
+06:18:03.228 pi2> onchain
+OK 9999.69983 XRP ledger 985 close_time 842768281
+06:18:04.011 pi3> onchain
+OK 10000.29986 XRP ledger 985 close_time 842768281
+06:18:04.793 pi2> open 1 60
+OK channel 08CBBA01D305838F3569E412BFDCF5EBACA3BA54B6A6318654CFA12C53995E57 funded 1 XRP settle 60s ledger 986 chain 1186 ms peer_ack ok
+[06:18:06.684] === step 2: pi2 pays pi3 five times (0.01 XRP) ===
+06:18:06.687 pi2> pay 0.01
+OK paid 0.01 XRP total 0.01 XRP version 1 in 40 ms (sign 6.5 ms)
+06:18:07.414 pi2> pay 0.01
+OK paid 0.01 XRP total 0.02 XRP version 2 in 32 ms (sign 6.5 ms)
+06:18:08.155 pi2> pay 0.01
+OK paid 0.01 XRP total 0.03 XRP version 3 in 37 ms (sign 6.5 ms)
+06:18:08.885 pi2> pay 0.01
+OK paid 0.01 XRP total 0.04 XRP version 4 in 37 ms (sign 6.5 ms)
+06:18:09.598 pi2> pay 0.01
+OK paid 0.01 XRP total 0.05 XRP version 5 in 38 ms (sign 6.5 ms)
+06:18:16.331 pi3> bal
+OK
+out none
+in channel 08CBBA01D305838F3569E412BFDCF5EBACA3BA54B6A6318654CFA12C53995E57 funded 1 received 0.05 redeemed 0 unredeemed 0.05 version 5 tower 0 ticket None
+[06:18:17.033] === victim pi3 goes offline ===
+[06:18:18.194] === step 3: pi2 requests the close (background, it waits out the settle delay) ===
+[06:18:30.199] channel after the close request:
+06:18:30.201 pi2> chan out
+OK out channel 08CBBA01D305838F3569E412BFDCF5EBACA3BA54B6A6318654CFA12C53995E57 amount 1 balance 0 settle 60 expiration 842768360 cancel_after None ledger 992 close_time 842768311
+06:18:30.938 pi2> ledger
+OK ledger 992 close_time 842768311 (06:18:31Z)
+[06:18:31.628] victim stays offline until 30s after the close request
+[06:18:48.665] === victim pi3 comes back ===
+06:18:57.526 pi3> watch
+OK 06:18:52.081 ledger 997 close_time 842768331 amount 1 balance 0 expiration 842768360
+[06:18:58.246] waiting for the close of pi2 to return...
+[06:18:58.247] pi2 close result:
+06:18:18.199 pi2> close out
+OK channel closed after settle delay: request 4294 ms, total 37303 ms, finalize txs 0
+[06:18:58.249] === step 4: pi3 view ===
+06:18:58.252 pi3> bal
+OK
+out none
+in channel 08CBBA01D305838F3569E412BFDCF5EBACA3BA54B6A6318654CFA12C53995E57 funded 1 received 0.05 redeemed 0.05 unredeemed 0 version 5 tower 0 ticket None CLOSED
+06:18:58.914 pi3> chan in
+OK in channel 08CBBA01D305838F3569E412BFDCF5EBACA3BA54B6A6318654CFA12C53995E57 not on ledger (ledger 999 close_time 842768340)
+06:18:59.635 pi3> redeem
+ERR nothing new to redeem
+06:19:00.319 pi2> onchain
+OK 9999.64981 XRP ledger 999 close_time 842768340
+06:19:01.024 pi3> onchain
+OK 10000.34985 XRP ledger 999 close_time 842768340
+[06:19:01.760] === logs ===
+--- pi3 ---
+06:17:30.262 CLAIM v5 +0.01 total 0.05 XRP, verify 11.7 ms, handled 53.1 ms
+06:17:38.632 WATCHER payer scheduled close (expiration 842768312, ledger close_time 842768260); redeeming best claim 0.05 XRP with close
+06:17:43.007 WATCHER OK redeem+close claim 0.05 XRP: paid out 0.05 XRP, channel closed, tesSUCCESS ledger 980 in 4313 ms (total 4375 ms)
+06:17:52.486 ctl redeem
+06:17:59.340 node ready
+06:18:07.319 CLAIM v1 +0.01 total 0.01 XRP, verify 7.6 ms, handled 18.0 ms
+06:18:08.066 CLAIM v2 +0.01 total 0.02 XRP, verify 7.5 ms, handled 15.7 ms
+06:18:08.795 CLAIM v3 +0.01 total 0.03 XRP, verify 7.2 ms, handled 15.8 ms
+06:18:09.504 CLAIM v4 +0.01 total 0.04 XRP, verify 9.9 ms, handled 17.5 ms
+06:18:10.240 CLAIM v5 +0.01 total 0.05 XRP, verify 11.6 ms, handled 19.5 ms
+06:18:49.984 node ready
+06:18:52.082 WATCHER payer scheduled close (expiration 842768360, ledger close_time 842768331); redeeming best claim 0.05 XRP with close
+06:18:55.462 WATCHER OK redeem+close claim 0.05 XRP: paid out 0.05 XRP, channel closed, tesSUCCESS ledger 998 in 3302 ms (total 3380 ms)
+06:19:00.230 ctl redeem
+--- pi2 ---
+06:12:22.831 CLOSE requested; expiration 842768000 = 06:13:20Z (settle 60s); ledger 900; 3331 ms
+06:13:22.920 CLOSE finalize attempt 1: tesSUCCESS ledger 915 (4393 ms)
+06:14:46.568 OUT channel E4E18A39FB1C2D3C8BFEB5645D4A1EE7ADA94C1682E578DBBD7F2228D5832DD0 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (1205 ms)
+06:15:03.028 CLOSE requested; expiration 842768160 = 06:16:00Z (settle 60s); ledger 940; 3283 ms
+06:17:26.601 OUT channel 64819ECE46F567D78D3BD6753644D68123AC9FBEDD7553109B83827F604A7556 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (2251 ms)
+06:17:38.847 CLOSE requested; expiration 842768312 = 06:18:32Z (settle 60s); ledger 979; 1155 ms
+06:18:06.558 OUT channel 08CBBA01D305838F3569E412BFDCF5EBACA3BA54B6A6318654CFA12C53995E57 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (1186 ms)
+06:18:23.147 CLOSE requested; expiration 842768360 = 06:19:20Z (settle 60s); ledger 990; 4294 ms

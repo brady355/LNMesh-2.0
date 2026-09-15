@@ -1,0 +1,117 @@
+[09:16:01.003] === reset nodes (tower on) ===
+09:16:13.310 pi2 internet: no
+09:16:13.474 pi3 internet: no
+[09:16:13.648] === open ===
+09:16:13.651 pi2> open 1 1 60
+OK 5175ms channel=dce6d6389f7eb89bc29e9b0a7f90be2113406d495d1cd910e92a0fe78a5e8d0f
+[09:16:19.011] === series A: 50 payments pi2 -> pi3 (0.001 ETH) ===
+A 1 OK 3ms version=1
+A 2 OK 9ms version=2
+A 3 OK 15ms version=3
+A 4 OK 3ms version=4
+A 5 OK 3ms version=5
+A 6 OK 4ms version=6
+A 7 OK 6ms version=7
+A 8 OK 6ms version=8
+A 9 OK 8ms version=9
+A 10 OK 6ms version=10
+A 11 OK 12ms version=11
+A 12 OK 9ms version=12
+A 13 OK 6ms version=13
+A 14 OK 10ms version=14
+A 15 OK 10ms version=15
+A 16 OK 6ms version=16
+A 17 OK 6ms version=17
+A 18 OK 10ms version=18
+A 19 OK 7ms version=19
+A 20 OK 6ms version=20
+A 21 OK 3ms version=21
+A 22 OK 7ms version=22
+A 23 OK 4ms version=23
+A 24 OK 8ms version=24
+A 25 OK 6ms version=25
+A 26 OK 6ms version=26
+A 27 OK 7ms version=27
+A 28 OK 6ms version=28
+A 29 OK 12ms version=29
+A 30 OK 10ms version=30
+A 31 OK 6ms version=31
+A 32 OK 3ms version=32
+A 33 OK 6ms version=33
+A 34 OK 5ms version=34
+A 35 OK 7ms version=35
+A 36 OK 6ms version=36
+A 37 OK 6ms version=37
+A 38 OK 8ms version=38
+A 39 OK 11ms version=39
+A 40 OK 7ms version=40
+A 41 OK 7ms version=41
+A 42 OK 8ms version=42
+A 43 OK 7ms version=43
+A 44 OK 7ms version=44
+A 45 OK 5ms version=45
+A 46 OK 11ms version=46
+A 47 OK 6ms version=47
+A 48 OK 7ms version=48
+A 49 OK 6ms version=49
+A 50 OK 4ms version=50
+[09:16:27.901] === series B: 20 payments pi3 -> pi2 ===
+B 1 OK 9ms version=51
+B 2 OK 9ms version=52
+B 3 OK 7ms version=53
+B 4 OK 9ms version=54
+B 5 OK 5ms version=55
+B 6 OK 11ms version=56
+B 7 OK 9ms version=57
+B 8 OK 6ms version=58
+B 9 OK 8ms version=59
+B 10 OK 3ms version=60
+B 11 OK 6ms version=61
+B 12 OK 3ms version=62
+B 13 OK 8ms version=63
+B 14 OK 6ms version=64
+B 15 OK 7ms version=65
+B 16 OK 7ms version=66
+B 17 OK 6ms version=67
+B 18 OK 6ms version=68
+B 19 OK 9ms version=69
+B 20 OK 7ms version=70
+09:16:31.685 pi2> bal
+OK 0ms id=dce6d6389f7eb89bc29e9b0a7f90be2113406d495d1cd910e92a0fe78a5e8d0f idx=0 version=70 final=false phase=Acting bal0=0.970000 bal1=1.030000
+[09:16:31.850] === freeze anvil (SIGSTOP): chain RPC unreachable ===
+[09:16:36.880] rpc frozen (no answer within 3s)
+[09:16:36.881] === series C: 10 payments pi2 -> pi3 with the chain frozen ===
+C 1 OK 9ms version=71
+C 2 OK 9ms version=72
+C 3 OK 7ms version=73
+C 4 OK 8ms version=74
+C 5 OK 6ms version=75
+C 6 OK 8ms version=76
+C 7 OK 6ms version=77
+C 8 OK 8ms version=78
+C 9 OK 6ms version=79
+C 10 OK 10ms version=80
+09:16:38.725 pi3> bal
+OK 0ms id=dce6d6389f7eb89bc29e9b0a7f90be2113406d495d1cd910e92a0fe78a5e8d0f idx=1 version=80 final=false phase=Acting bal0=0.960000 bal1=1.040000
+[09:16:38.894] === unfreeze anvil ===
+09:16:51.914 pi2> onchain
+OK 4ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9983.702406
+[09:16:52.102] === tower acknowledgements seen by pi2 ===
+acks 110
+2026/09/15 09:16:38.530983 TOWER ack update version=79 in 4ms
+2026/09/15 09:16:38.724474 TOWER ack update version=80 in 9ms
+[09:16:52.261] === cooperative close ===
+09:16:52.263 pi2> close
+OK 14164ms settled version=81 bal0=0.960000 bal1=1.040000
+09:17:06.597 pi3> close
+OK 12125ms settled version=81 bal0=0.960000 bal1=1.040000
+09:17:18.901 pi2> onchain
+OK 1ms addr=0x70997970C51812dc3A010C7d01b50e0d17dc79C8 eth=9984.662209
+09:17:19.092 pi3> onchain
+OK 5ms addr=0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC eth=9995.023667
+[09:17:19.280] === resource use (RSS KiB, %CPU, uptime s) ===
+pi2 perunpay 23072  0.2      74
+pi3 perunpay 23296  0.2      71
+gw tower 17712  0.0      77
+gw anvil 211216 0.0  103873
+binary bytes 16858888

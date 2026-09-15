@@ -1,0 +1,69 @@
+[06:10:07.013] === step 0: reset node state, restart nodes (settle 60s, victim online, tower 0) ===
+06:10:15.601 pi2 internet: no
+06:10:15.786 pi3 internet: no
+[06:10:15.953] === step 1: open channel 1 XRP, settle 60s ===
+06:10:15.955 pi2> onchain
+OK 9999.89994 XRP ledger 868 close_time 842767812
+06:10:16.735 pi3> onchain
+OK 10000.09992 XRP ledger 868 close_time 842767812
+06:10:17.511 pi2> open 1 60
+OK channel 70644296674590ABDFF379E490F4FF488843FC532F5460497B26346D5E0F8347 funded 1 XRP settle 60s ledger 869 chain 1204 ms peer_ack ok
+[06:10:19.463] === step 2: pi2 pays pi3 five times (0.01 XRP) ===
+06:10:19.465 pi2> pay 0.01
+OK paid 0.01 XRP total 0.01 XRP version 1 in 32 ms (sign 6.7 ms)
+06:10:20.154 pi2> pay 0.01
+OK paid 0.01 XRP total 0.02 XRP version 2 in 37 ms (sign 6.4 ms)
+06:10:20.854 pi2> pay 0.01
+OK paid 0.01 XRP total 0.03 XRP version 3 in 36 ms (sign 6.4 ms)
+06:10:21.593 pi2> pay 0.01
+OK paid 0.01 XRP total 0.04 XRP version 4 in 37 ms (sign 6.4 ms)
+06:10:22.310 pi2> pay 0.01
+OK paid 0.01 XRP total 0.05 XRP version 5 in 37 ms (sign 6.5 ms)
+06:10:29.004 pi3> bal
+OK
+out none
+in channel 70644296674590ABDFF379E490F4FF488843FC532F5460497B26346D5E0F8347 funded 1 received 0.05 redeemed 0 unredeemed 0.05 version 5 tower 0 ticket None
+[06:10:29.697] === step 3: pi2 requests the close (background, it waits out the settle delay) ===
+[06:10:41.700] channel after the close request:
+06:10:41.703 pi2> chan out
+OK out channel 70644296674590ABDFF379E490F4FF488843FC532F5460497B26346D5E0F8347 not on ledger (ledger 874 close_time 842767840)
+06:10:42.426 pi2> ledger
+OK ledger 875 close_time 842767841 (06:10:41Z)
+[06:10:43.116] waiting for the close of pi2 to return...
+[06:10:43.117] pi2 close result:
+06:10:29.701 pi2> close out
+OK channel closed after settle delay: request 4352 ms, total 8493 ms, finalize txs 0
+[06:10:43.119] === step 4: pi3 view ===
+06:10:43.122 pi3> bal
+OK
+out none
+in channel 70644296674590ABDFF379E490F4FF488843FC532F5460497B26346D5E0F8347 funded 1 received 0.05 redeemed 0.05 unredeemed 0 version 5 tower 0 ticket None CLOSED
+06:10:43.834 pi3> chan in
+OK in channel 70644296674590ABDFF379E490F4FF488843FC532F5460497B26346D5E0F8347 not on ledger (ledger 875 close_time 842767841)
+06:10:44.547 pi3> redeem
+ERR nothing new to redeem
+06:10:45.215 pi2> onchain
+OK 9999.84992 XRP ledger 875 close_time 842767841
+06:10:45.966 pi3> onchain
+OK 10000.14991 XRP ledger 876 close_time 842767850
+[06:10:46.685] === logs ===
+--- pi3 ---
+05:21:53.516 CLAIM v6 +0.01 total 0.06 XRP, verify 7.2 ms, handled 15.0 ms
+05:21:53.551 TOWER holds claim 0.06 XRP (presign 9.0 ms, round trip 35 ms)
+05:21:54.218 CLAIM v7 +0.01 total 0.07 XRP, verify 7.4 ms, handled 15.2 ms
+05:21:54.252 TOWER holds claim 0.07 XRP (presign 9.0 ms, round trip 34 ms)
+05:21:57.678 ctl close in
+06:10:12.068 node ready
+06:10:20.059 CLAIM v1 +0.01 total 0.01 XRP, verify 7.5 ms, handled 15.5 ms
+06:10:20.764 CLAIM v2 +0.01 total 0.02 XRP, verify 7.3 ms, handled 15.5 ms
+06:10:21.502 CLAIM v3 +0.01 total 0.03 XRP, verify 7.3 ms, handled 20.2 ms
+06:10:22.216 CLAIM v4 +0.01 total 0.04 XRP, verify 10.2 ms, handled 18.3 ms
+06:10:22.914 CLAIM v5 +0.01 total 0.05 XRP, verify 11.1 ms, handled 19.5 ms
+06:10:34.513 WATCHER payer scheduled close (expiration 842767891, ledger close_time 842767832); redeeming best claim 0.05 XRP with close
+06:10:38.906 WATCHER OK redeem+close claim 0.05 XRP: paid out 0.05 XRP, channel closed, tesSUCCESS ledger 874 in 4319 ms (total 4393 ms)
+06:10:45.124 ctl redeem
+--- pi2 ---
+05:21:35.215 OUT channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (2200 ms)
+05:22:04.991 ctl reply: OK | out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 sent 0.07 remaining 0.93 version 7 | in channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 received 0.02 redeemed 0.02 unredeemed 0 version 2 tower 0.02 ticket 11 CLOSED
+06:10:19.322 OUT channel 70644296674590ABDFF379E490F4FF488843FC532F5460497B26346D5E0F8347 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (1204 ms)
+06:10:34.739 CLOSE requested; expiration 842767891 = 06:11:31Z (settle 60s); ledger 873; 4352 ms

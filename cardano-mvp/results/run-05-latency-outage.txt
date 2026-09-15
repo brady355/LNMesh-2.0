@@ -1,0 +1,141 @@
+[09:02:08.688] === reset nodes (contestation 60s, tower 1) ===
+09:02:10.053 pi2 funds address holds 1 output
+Transaction successfully submitted. Transaction hash is:
+09:02:12.443 pi3 funds address merged from 6 outputs into 1 in 3 s
+mirror of pi2: {"contents":{"chainState":{"recordedAt":null,"spendableUTxO"
+
+mirror of pi3: {"contents":{"chainState":{"recordedAt":null,"spendableUTxO"
+
+{"contents":{"chainState":{"recordedAt":null,"spendableUTxO":{}}},"tag":"Idle"}
+
+09:02:24.089 GREETINGS head Idle synced InSync node 2.4.1-UNKNOWN cp 60s peers {'10.10.0.1:5002': True, '10.10.0.1:5003': True}
+{"contents":{"chainState":{"recordedAt":null,"spendableUTxO":{}}},"tag":"Idle"}
+
+09:02:29.899 GREETINGS head Idle synced InSync node 2.4.1-UNKNOWN cp 60s peers {'10.10.0.1:5002': True, '10.10.0.1:5003': True, '10.10.0.2:5001': True}
+09:02:33.607 pi2 internet: no
+09:02:33.773 pi3 internet: no
+[09:02:33.957] === open ===
+09:02:33.960 pi2> init
+OK head open de47a5baeac20f4b in 4620 ms
+09:02:40.336 pi2> deposit
+OK deposited 88.175504 ADA: draft 321 ms, submitted 336 ms, CommitRecorded 2238 ms, DepositActivated 201237 ms, CommitFinalized 211528 ms, total 211533 ms, mine in head 88.175504 ADA
+09:06:13.595 pi3> deposit
+OK deposited 207.490948 ADA: draft 327 ms, submitted 346 ms, CommitRecorded 3937 ms, DepositActivated 198934 ms, CommitFinalized 209220 ms, total 209225 ms, mine in head 207.490948 ADA
+[09:09:44.584] === series A: 50 payments pi2 -> pi3 (1 ADA) ===
+A 1 OK paid 1 ADA mine 87.175504 ADA snapshot 3 in 41 ms (sign 0.9 ms, http 16 ms)
+A 2 OK paid 1 ADA mine 86.175504 ADA snapshot 4 in 50 ms (sign 0.7 ms, http 11 ms)
+A 3 OK paid 1 ADA mine 85.175504 ADA snapshot 5 in 42 ms (sign 0.7 ms, http 12 ms)
+A 4 OK paid 1 ADA mine 84.175504 ADA snapshot 6 in 57 ms (sign 0.7 ms, http 23 ms)
+A 5 OK paid 1 ADA mine 83.175504 ADA snapshot 7 in 62 ms (sign 0.7 ms, http 13 ms)
+A 6 OK paid 1 ADA mine 82.175504 ADA snapshot 8 in 52 ms (sign 0.8 ms, http 17 ms)
+A 7 OK paid 1 ADA mine 81.175504 ADA snapshot 9 in 50 ms (sign 0.7 ms, http 11 ms)
+A 8 OK paid 1 ADA mine 80.175504 ADA snapshot 10 in 60 ms (sign 0.7 ms, http 17 ms)
+A 9 OK paid 1 ADA mine 79.175504 ADA snapshot 11 in 39 ms (sign 0.7 ms, http 13 ms)
+A 10 OK paid 1 ADA mine 78.175504 ADA snapshot 12 in 66 ms (sign 0.8 ms, http 13 ms)
+A 11 OK paid 1 ADA mine 77.175504 ADA snapshot 13 in 56 ms (sign 0.7 ms, http 14 ms)
+A 12 OK paid 1 ADA mine 76.175504 ADA snapshot 14 in 50 ms (sign 0.7 ms, http 19 ms)
+A 13 OK paid 1 ADA mine 75.175504 ADA snapshot 15 in 82 ms (sign 0.8 ms, http 16 ms)
+A 14 OK paid 1 ADA mine 74.175504 ADA snapshot 16 in 51 ms (sign 0.8 ms, http 19 ms)
+A 15 OK paid 1 ADA mine 73.175504 ADA snapshot 17 in 67 ms (sign 0.8 ms, http 14 ms)
+A 16 OK paid 1 ADA mine 72.175504 ADA snapshot 18 in 58 ms (sign 0.7 ms, http 22 ms)
+A 17 OK paid 1 ADA mine 71.175504 ADA snapshot 19 in 49 ms (sign 0.7 ms, http 18 ms)
+A 18 OK paid 1 ADA mine 70.175504 ADA snapshot 20 in 53 ms (sign 0.7 ms, http 16 ms)
+A 19 OK paid 1 ADA mine 69.175504 ADA snapshot 21 in 57 ms (sign 0.7 ms, http 21 ms)
+A 20 OK paid 1 ADA mine 68.175504 ADA snapshot 22 in 54 ms (sign 0.7 ms, http 20 ms)
+A 21 OK paid 1 ADA mine 67.175504 ADA snapshot 23 in 55 ms (sign 0.7 ms, http 22 ms)
+A 22 OK paid 1 ADA mine 66.175504 ADA snapshot 24 in 78 ms (sign 0.7 ms, http 18 ms)
+A 23 OK paid 1 ADA mine 65.175504 ADA snapshot 25 in 54 ms (sign 0.7 ms, http 18 ms)
+A 24 OK paid 1 ADA mine 64.175504 ADA snapshot 26 in 53 ms (sign 0.7 ms, http 17 ms)
+A 25 OK paid 1 ADA mine 63.175504 ADA snapshot 27 in 57 ms (sign 0.8 ms, http 17 ms)
+A 26 OK paid 1 ADA mine 62.175504 ADA snapshot 28 in 78 ms (sign 0.7 ms, http 21 ms)
+A 27 OK paid 1 ADA mine 61.175504 ADA snapshot 29 in 57 ms (sign 0.7 ms, http 20 ms)
+A 28 OK paid 1 ADA mine 60.175504 ADA snapshot 30 in 72 ms (sign 0.9 ms, http 24 ms)
+A 29 OK paid 1 ADA mine 59.175504 ADA snapshot 31 in 81 ms (sign 0.7 ms, http 17 ms)
+A 30 OK paid 1 ADA mine 58.175504 ADA snapshot 32 in 54 ms (sign 0.8 ms, http 24 ms)
+A 31 OK paid 1 ADA mine 57.175504 ADA snapshot 33 in 64 ms (sign 0.9 ms, http 17 ms)
+A 32 OK paid 1 ADA mine 56.175504 ADA snapshot 34 in 60 ms (sign 0.7 ms, http 17 ms)
+A 33 OK paid 1 ADA mine 55.175504 ADA snapshot 35 in 64 ms (sign 0.7 ms, http 19 ms)
+A 34 OK paid 1 ADA mine 54.175504 ADA snapshot 36 in 55 ms (sign 0.7 ms, http 15 ms)
+A 35 OK paid 1 ADA mine 53.175504 ADA snapshot 37 in 62 ms (sign 0.7 ms, http 27 ms)
+A 36 OK paid 1 ADA mine 52.175504 ADA snapshot 38 in 75 ms (sign 0.7 ms, http 21 ms)
+A 37 OK paid 1 ADA mine 51.175504 ADA snapshot 39 in 54 ms (sign 0.8 ms, http 19 ms)
+A 38 OK paid 1 ADA mine 50.175504 ADA snapshot 40 in 54 ms (sign 0.7 ms, http 17 ms)
+A 39 OK paid 1 ADA mine 49.175504 ADA snapshot 41 in 63 ms (sign 0.8 ms, http 21 ms)
+A 40 OK paid 1 ADA mine 48.175504 ADA snapshot 42 in 75 ms (sign 0.7 ms, http 31 ms)
+A 41 OK paid 1 ADA mine 47.175504 ADA snapshot 43 in 50 ms (sign 0.7 ms, http 16 ms)
+A 42 OK paid 1 ADA mine 46.175504 ADA snapshot 44 in 73 ms (sign 0.7 ms, http 21 ms)
+A 43 OK paid 1 ADA mine 45.175504 ADA snapshot 45 in 75 ms (sign 0.7 ms, http 24 ms)
+A 44 OK paid 1 ADA mine 44.175504 ADA snapshot 46 in 67 ms (sign 0.7 ms, http 33 ms)
+A 45 OK paid 1 ADA mine 43.175504 ADA snapshot 47 in 59 ms (sign 0.7 ms, http 21 ms)
+A 46 OK paid 1 ADA mine 42.175504 ADA snapshot 48 in 74 ms (sign 0.7 ms, http 25 ms)
+A 47 OK paid 1 ADA mine 41.175504 ADA snapshot 49 in 63 ms (sign 0.7 ms, http 24 ms)
+A 48 OK paid 1 ADA mine 40.175504 ADA snapshot 50 in 67 ms (sign 0.7 ms, http 17 ms)
+A 49 OK paid 1 ADA mine 39.175504 ADA snapshot 51 in 114 ms (sign 0.7 ms, http 76 ms)
+A 50 OK paid 1 ADA mine 38.175504 ADA snapshot 52 in 93 ms (sign 0.7 ms, http 27 ms)
+[09:11:13.532] === series B: 20 payments pi3 -> pi2 ===
+B 1 OK paid 1 ADA mine 256.490948 ADA snapshot 53 in 62 ms (sign 0.9 ms, http 23 ms)
+B 2 OK paid 1 ADA mine 255.490948 ADA snapshot 54 in 84 ms (sign 0.7 ms, http 31 ms)
+B 3 OK paid 1 ADA mine 254.490948 ADA snapshot 55 in 57 ms (sign 0.7 ms, http 23 ms)
+B 4 OK paid 1 ADA mine 253.490948 ADA snapshot 56 in 73 ms (sign 0.7 ms, http 20 ms)
+B 5 OK paid 1 ADA mine 252.490948 ADA snapshot 57 in 71 ms (sign 0.7 ms, http 20 ms)
+B 6 OK paid 1 ADA mine 251.490948 ADA snapshot 58 in 62 ms (sign 0.7 ms, http 22 ms)
+B 7 OK paid 1 ADA mine 250.490948 ADA snapshot 59 in 84 ms (sign 0.7 ms, http 27 ms)
+B 8 OK paid 1 ADA mine 249.490948 ADA snapshot 60 in 70 ms (sign 0.7 ms, http 29 ms)
+B 9 OK paid 1 ADA mine 248.490948 ADA snapshot 61 in 62 ms (sign 0.7 ms, http 23 ms)
+B 10 OK paid 1 ADA mine 247.490948 ADA snapshot 62 in 93 ms (sign 0.7 ms, http 34 ms)
+B 11 OK paid 1 ADA mine 246.490948 ADA snapshot 63 in 112 ms (sign 0.7 ms, http 73 ms)
+B 12 OK paid 1 ADA mine 245.490948 ADA snapshot 64 in 72 ms (sign 0.7 ms, http 31 ms)
+B 13 OK paid 1 ADA mine 244.490948 ADA snapshot 65 in 52 ms (sign 0.7 ms, http 22 ms)
+B 14 OK paid 1 ADA mine 243.490948 ADA snapshot 66 in 97 ms (sign 0.7 ms, http 30 ms)
+B 15 OK paid 1 ADA mine 242.490948 ADA snapshot 67 in 70 ms (sign 0.8 ms, http 26 ms)
+B 16 OK paid 1 ADA mine 241.490948 ADA snapshot 68 in 78 ms (sign 7.1 ms, http 36 ms)
+B 17 OK paid 1 ADA mine 240.490948 ADA snapshot 69 in 83 ms (sign 0.7 ms, http 32 ms)
+B 18 OK paid 1 ADA mine 239.490948 ADA snapshot 70 in 60 ms (sign 0.7 ms, http 23 ms)
+B 19 OK paid 1 ADA mine 238.490948 ADA snapshot 71 in 57 ms (sign 0.7 ms, http 21 ms)
+B 20 OK paid 1 ADA mine 237.490948 ADA snapshot 72 in 69 ms (sign 0.7 ms, http 22 ms)
+09:11:49.447 pi2> bal
+OK head Open snapshot 72 utxos 72 mine 58.175504 ADA peer 237.490948 ADA other 0 ADA
+[09:11:51.149] === freeze cardano-node (SIGSTOP): chain unreachable for both leaves ===
+[09:11:56.175] node frozen (no answer within 3s)
+[09:11:56.176] === series C: up to 10 payments pi2 -> pi3 with the chain frozen ===
+C 1 +7s OK paid 1 ADA mine 57.175504 ADA snapshot 73 in 86 ms (sign 0.7 ms, http 27 ms)
+C 2 +11s OK paid 1 ADA mine 56.175504 ADA snapshot 74 in 82 ms (sign 0.7 ms, http 23 ms)
+C 3 +16s OK paid 1 ADA mine 55.175504 ADA snapshot 75 in 74 ms (sign 0.7 ms, http 37 ms)
+C 4 +21s OK paid 1 ADA mine 54.175504 ADA snapshot 76 in 76 ms (sign 0.7 ms, http 26 ms)
+C 5 +26s OK paid 1 ADA mine 53.175504 ADA snapshot 77 in 79 ms (sign 1.0 ms, http 31 ms)
+C 6 +30s OK paid 1 ADA mine 52.175504 ADA snapshot 78 in 77 ms (sign 0.8 ms, http 32 ms)
+C 7 +35s OK paid 1 ADA mine 51.175504 ADA snapshot 79 in 89 ms (sign 0.7 ms, http 28 ms)
+C 8 +40s OK paid 1 ADA mine 50.175504 ADA snapshot 80 in 97 ms (sign 0.8 ms, http 26 ms)
+C 9 +45s OK paid 1 ADA mine 49.175504 ADA snapshot 81 in 68 ms (sign 0.7 ms, http 25 ms)
+C 10 +50s OK paid 1 ADA mine 48.175504 ADA snapshot 82 in 72 ms (sign 0.7 ms, http 27 ms)
+09:12:44.278 pi2> info
+OK address addr_test1vzq8l9r0g7k9gtq4dfta8jwewdwt6pytyxhamnf3wxgn6vsetgxd3 peer addr_test1vrnsv3njvd3lh45kwhfjyz4renv6c0hkkx7gru4mde536tsryrd6h api http://127.0.0.1:4001 head Open synced InSync node 2.4.1-UNKNOWN cp 60s snapshot 82 utxos 82 mine 48.175504 ADA
+[09:12:46.007] === unfreeze cardano-node ===
+09:12:51.023 pi2> info
+OK address addr_test1vzq8l9r0g7k9gtq4dfta8jwewdwt6pytyxhamnf3wxgn6vsetgxd3 peer addr_test1vrnsv3njvd3lh45kwhfjyz4renv6c0hkkx7gru4mde536tsryrd6h api http://127.0.0.1:4001 head Open synced InSync node 2.4.1-UNKNOWN cp 60s snapshot 82 utxos 82 mine 48.175504 ADA
+[09:12:52.765] === close by pi3 ===
+09:12:52.768 pi3> close
+OK closed with snapshot 82 in 774 ms, deadline 2026-09-15T09:14:49Z; ready to fanout at 129758 ms, finalized at 185846 ms: mine 247.490948 ADA peer 48.175504 ADA
+09:16:00.384 pi2 funds on L1: 48.175504
+09:16:00.397 pi3 funds on L1: 247.490948
+[09:16:00.410] === resource use (RSS KiB, %CPU, uptime s) ===
+pi2 hydra-node 168624 5.8     820
+pi2 etcd (spawned by hydra-node) 53328  1.1     817
+pi2 hydrapay 82800  0.2     817
+pi2 sockfwd 20192
+pi3 hydra-node 169872 6.9     814
+pi3 etcd (spawned by hydra-node) 46320  0.7     812
+pi3 hydrapay 82752  0.2     812
+pi3 sockfwd 20208
+gw mirror-pi2 hydra-node 169200 5.9     827
+gw mirror-pi2 etcd 47104  0.9     825
+gw mirror-pi2 observer 79808  0.2     825
+gw mirror-pi3 hydra-node 163600 5.9     824
+gw mirror-pi3 etcd 44976  0.9     822
+gw mirror-pi3 observer 79776  0.2     822
+gw cardano-node 202032 0.3   89505
+size 276M	/home/brady/lnmesh-ada/hydra-image
+size 72M	/home/brady/lnmesh-ada/venv
+size 74M	/home/brady/lnmesh-ada/hydra-layer.tar.gz
+binary bytes 132238872 /home/brady/lnmesh-ada/cardano/bin/cardano-cli
+binary bytes 146402536 /home/brady/lnmesh-ada/cardano/bin/cardano-node

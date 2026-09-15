@@ -1,0 +1,134 @@
+[05:21:19.591] === step 0: reset node state, restart nodes and tower ===
+05:21:29.142 pi2 internet: no
+05:21:29.327 pi3 internet: no
+05:21:29.475 pi2> info
+OK address rLM1pTCEyWNvnakeaY1q93BPEbfFLpUjXZ
+pubkey EDF9C163521B935E0AA71DB0CD35FB567A40C3DAF80C376A479DDA1D3F4ED1F47C
+rpc http://10.10.0.1:5005
+peer rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx at 10.10.0.3:6100
+state /home/brady/lnmesh-xrp/state.json
+tower 10.10.0.1:6600
+server 3.2.1 ledger 136 complete_ledgers 2-136
+05:21:30.261 pi2> peerping
+OK peer {'ok': True} in 9.3 ms
+05:21:30.936 pi2> onchain
+OK 9999.94997 XRP ledger 137 close_time 842764891
+05:21:31.618 pi3> onchain
+OK 10000.04996 XRP ledger 137 close_time 842764891
+[05:21:32.419] === step 1: open channel pi2 -> pi3 (1 XRP, settle 60s) ===
+05:21:32.422 pi2> open 1 60
+OK channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 XRP settle 60s ledger 138 chain 2200 ms peer_ack ok
+05:21:35.347 pi2> chan out
+OK out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 amount 1 balance 0 settle 60 expiration None cancel_after None ledger 138 close_time 842764892
+05:21:36.056 pi3> chan in
+OK in channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 amount 1 balance 0 settle 60 expiration None cancel_after None ledger 138 close_time 842764892
+[05:21:36.763] === step 2: five payments of 0.01 XRP ===
+05:21:36.766 pi2> pay 0.01
+OK paid 0.01 XRP total 0.01 XRP version 1 in 41 ms (sign 6.5 ms)
+05:21:37.469 pi2> pay 0.01
+OK paid 0.01 XRP total 0.02 XRP version 2 in 39 ms (sign 6.4 ms)
+05:21:38.189 pi2> pay 0.01
+OK paid 0.01 XRP total 0.03 XRP version 3 in 39 ms (sign 6.4 ms)
+05:21:38.887 pi2> pay 0.01
+OK paid 0.01 XRP total 0.04 XRP version 4 in 38 ms (sign 6.4 ms)
+05:21:39.584 pi2> pay 0.01
+OK paid 0.01 XRP total 0.05 XRP version 5 in 36 ms (sign 6.4 ms)
+05:21:40.282 pi2> bal
+OK
+out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 sent 0.05 remaining 0.95 version 5
+in none
+05:21:41.002 pi3> bal
+OK
+out none
+in channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 received 0.05 redeemed 0 unredeemed 0.05 version 5 tower 0.05 ticket 12
+[05:21:41.704] === step 3: cheating attempts ===
+-- the payer signs a claim beyond the channel funding, so the payee must reject it offline
+05:21:41.706 pi2> pay 5 force
+ERR payee rejected claim: claim 5050000 exceeds channel funding 1000000 (16 ms)
+-- the payee forges a claim of 0.5 XRP with its own key, so the ledger must reject it
+05:21:42.372 pi3> forge 0.5
+ERR XRPLReliableSubmissionException: temBAD_SIGNER: Malformed: No signer may duplicate account or other signers.
+05:21:43.171 pi3> bal
+OK
+out none
+in channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 received 0.05 redeemed 0 unredeemed 0.05 version 5 tower 0.05 ticket 12
+[05:21:43.816] === step 4: checkpoint redeem by the payee (0.05 XRP), the channel stays open ===
+05:21:43.818 pi3> redeem
+OK redeem claim 0.05 XRP: paid out 0.05 XRP, channel open, tesSUCCESS ledger 141 in 2191 ms (total 2268 ms)
+05:21:46.771 pi3> chan in
+OK in channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 amount 1 balance 0.05 settle 60 expiration None cancel_after None ledger 141 close_time 842764910
+[05:21:47.483] === step 5: reverse channel pi3 -> pi2, two payments each way ===
+05:21:47.486 pi3> open 1 60
+OK channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 XRP settle 60s ledger 142 chain 3248 ms peer_ack ok
+05:21:51.461 pi3> pay 0.01
+OK paid 0.01 XRP total 0.01 XRP version 1 in 35 ms (sign 6.5 ms)
+05:21:52.211 pi3> pay 0.01
+OK paid 0.01 XRP total 0.02 XRP version 2 in 33 ms (sign 6.5 ms)
+05:21:52.917 pi2> pay 0.01
+OK paid 0.01 XRP total 0.06 XRP version 6 in 37 ms (sign 6.5 ms)
+05:21:53.606 pi2> pay 0.01
+OK paid 0.01 XRP total 0.07 XRP version 7 in 37 ms (sign 6.4 ms)
+05:21:54.312 pi2> bal
+OK
+out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 sent 0.07 remaining 0.93 version 7
+in channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 received 0.02 redeemed 0 unredeemed 0.02 version 2 tower 0.02 ticket 11
+05:21:55.021 pi3> bal
+OK
+out channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 sent 0.02 remaining 0.98 version 2
+in channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 received 0.07 redeemed 0.05 unredeemed 0.02 version 7 tower 0.07 ticket 12
+[05:21:55.691] === step 6: what the tower holds ===
+05:21:55.693 pi3> tower
+OK {"ok": true, "payee": "rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx", "amount": "70000", "ticket": 12, "hash": "FD29B0C72F42BFC8EB73E585A420646311BAF28739633BEF68B448D2400B731B", "received": "05:21:54.229", "submitted": false, "done": false}
+05:21:56.359 pi2> tower
+OK {"ok": true, "payee": "rLM1pTCEyWNvnakeaY1q93BPEbfFLpUjXZ", "amount": "20000", "ticket": 11, "hash": "7E028E7C7123B91DCED6724FD743AB9E80B4DD084C6F9E677E3C3864ABB4122E", "received": "05:21:54.677", "submitted": false, "done": false}
+[05:21:57.060] === step 7: cooperative close of both channels by the payees ===
+05:21:57.062 pi3> close in
+OK redeem+close claim 0.07 XRP: paid out 0.02 XRP, channel closed, tesSUCCESS ledger 144 in 1144 ms (total 1216 ms)
+05:21:58.980 pi2> close in
+OK redeem+close claim 0.02 XRP: paid out 0.02 XRP, channel closed, tesSUCCESS ledger 145 in 3257 ms (total 3341 ms)
+05:22:02.980 pi2> chan out
+OK out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 not on ledger (ledger 145 close_time 842764921)
+05:22:03.682 pi3> chan out
+OK out channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 not on ledger (ledger 145 close_time 842764921)
+05:22:04.423 pi2> bal
+OK
+out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 sent 0.07 remaining 0.93 version 7
+in channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 received 0.02 redeemed 0.02 unredeemed 0 version 2 tower 0.02 ticket 11 CLOSED
+05:22:05.079 pi3> bal
+OK
+out channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 sent 0.02 remaining 0.98 version 2
+in channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 received 0.07 redeemed 0.07 unredeemed 0 version 7 tower 0.07 ticket 12 CLOSED
+05:22:05.768 pi2> onchain
+OK 9999.89994 XRP ledger 145 close_time 842764921
+05:22:06.479 pi3> onchain
+OK 10000.09992 XRP ledger 146 close_time 842764930
+[05:22:07.228] === logs ===
+--- tower ---
+05:21:38.840 HOLD channel 99D8371F payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.03 XRP ticket 12 blob 304 bytes
+05:21:39.520 HOLD channel 99D8371F payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.04 XRP ticket 12 blob 304 bytes
+05:21:40.222 HOLD channel 99D8371F payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.05 XRP ticket 12 blob 304 bytes
+05:21:53.538 HOLD channel 99D8371F payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.06 XRP ticket 12 blob 304 bytes
+05:21:54.241 HOLD channel 99D8371F payee rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx claim 0.07 XRP ticket 12 blob 304 bytes
+05:21:54.688 HOLD channel D44AFA7C payee rLM1pTCEyWNvnakeaY1q93BPEbfFLpUjXZ claim 0.02 XRP ticket 11 blob 304 bytes
+05:21:59.476 WATCH channel 99D8371F gone from ledger (ledger 144), submitted False
+05:22:03.593 WATCH channel D44AFA7C gone from ledger (ledger 145), submitted False
+--- pi3 ---
+05:21:38.099 CLAIM v2 +0.01 total 0.02 XRP, verify 10.9 ms, handled 22.3 ms
+05:21:38.523 TOWER ticket 12 reserved in ledger 139 (3268 ms)
+05:21:38.558 TOWER holds claim 0.02 XRP (presign 12.1 ms, round trip 35 ms)
+05:21:38.785 CLAIM v3 +0.01 total 0.03 XRP, verify 11.8 ms, handled 19.5 ms
+05:21:38.851 TOWER holds claim 0.03 XRP (presign 37.8 ms, round trip 66 ms)
+05:21:39.493 CLAIM v4 +0.01 total 0.04 XRP, verify 11.9 ms, handled 21.9 ms
+05:21:39.530 TOWER holds claim 0.04 XRP (presign 14.3 ms, round trip 36 ms)
+05:21:40.192 CLAIM v5 +0.01 total 0.05 XRP, verify 12.2 ms, handled 20.0 ms
+05:21:40.234 TOWER holds claim 0.05 XRP (presign 14.5 ms, round trip 42 ms)
+05:21:42.280 CLAIM rejected: 5.05 XRP exceeds channel funding 1 XRP
+05:21:53.516 CLAIM v6 +0.01 total 0.06 XRP, verify 7.2 ms, handled 15.0 ms
+05:21:53.551 TOWER holds claim 0.06 XRP (presign 9.0 ms, round trip 35 ms)
+05:21:54.218 CLAIM v7 +0.01 total 0.07 XRP, verify 7.4 ms, handled 15.2 ms
+05:21:54.252 TOWER holds claim 0.07 XRP (presign 9.0 ms, round trip 34 ms)
+--- pi2 ---
+05:21:35.215 OUT channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 to rnF8e1SNYExyHxfLEyHk36KSH9GrrAcSwx funded 1 XRP settle 60s (2200 ms)
+05:21:54.665 TOWER ticket 11 reserved in ledger 143 (3281 ms)
+05:21:54.701 TOWER holds claim 0.02 XRP (presign 9.2 ms, round trip 35 ms)
+05:22:04.991 ctl reply: OK | out channel 99D8371FBE4612D3AB2874A21463F5638DBCB63E1E1AC984A602120DAAEF1452 funded 1 sent 0.07 remaining 0.93 version 7 | in channel D44AFA7CC341B2F421DED963AC8722BB5A371C0BCAF15F485486E4FB030E5CA9 funded 1 received 0.02 redeemed 0.02 unredeemed 0 version 2 tower 0.02 ticket 11 CLOSED

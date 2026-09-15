@@ -1,0 +1,101 @@
+[09:17:19.682] === reset nodes (tower on) ===
+09:17:29.226 pi2 internet: no
+09:17:29.381 pi3 internet: no
+[09:17:29.536] === open ===
+09:17:29.539 pi2> open 1 60
+OK channel 8D52B248A4928DC9CF34F0BDBF6F6C75FC86B6D5401CE3A32673324107D29643 funded 1 XRP settle 60s ledger 3677 chain 1229 ms peer_ack ok
+[09:17:31.600] === series A: 50 payments pi2 -> pi3 (0.001 XRP) ===
+A 1 OK paid 0.001 XRP total 0.001 XRP version 1 in 98 ms (sign 6.4 ms)
+A 2 OK paid 0.001 XRP total 0.002 XRP version 2 in 43 ms (sign 6.4 ms)
+A 3 OK paid 0.001 XRP total 0.003 XRP version 3 in 32 ms (sign 6.4 ms)
+A 4 OK paid 0.001 XRP total 0.004 XRP version 4 in 32 ms (sign 6.5 ms)
+A 5 OK paid 0.001 XRP total 0.005 XRP version 5 in 36 ms (sign 6.4 ms)
+A 6 OK paid 0.001 XRP total 0.006 XRP version 6 in 39 ms (sign 6.4 ms)
+A 7 OK paid 0.001 XRP total 0.007 XRP version 7 in 42 ms (sign 6.4 ms)
+A 8 OK paid 0.001 XRP total 0.008 XRP version 8 in 45 ms (sign 6.5 ms)
+A 9 OK paid 0.001 XRP total 0.009 XRP version 9 in 45 ms (sign 6.4 ms)
+A 10 OK paid 0.001 XRP total 0.01 XRP version 10 in 41 ms (sign 6.4 ms)
+A 11 OK paid 0.001 XRP total 0.011 XRP version 11 in 48 ms (sign 6.5 ms)
+A 12 OK paid 0.001 XRP total 0.012 XRP version 12 in 46 ms (sign 6.5 ms)
+A 13 OK paid 0.001 XRP total 0.013 XRP version 13 in 53 ms (sign 6.4 ms)
+A 14 OK paid 0.001 XRP total 0.014 XRP version 14 in 37 ms (sign 6.5 ms)
+A 15 OK paid 0.001 XRP total 0.015 XRP version 15 in 41 ms (sign 6.4 ms)
+A 16 OK paid 0.001 XRP total 0.016 XRP version 16 in 39 ms (sign 6.4 ms)
+A 17 OK paid 0.001 XRP total 0.017 XRP version 17 in 47 ms (sign 6.4 ms)
+A 18 OK paid 0.001 XRP total 0.018 XRP version 18 in 45 ms (sign 6.4 ms)
+A 19 OK paid 0.001 XRP total 0.019 XRP version 19 in 38 ms (sign 8.0 ms)
+A 20 OK paid 0.001 XRP total 0.02 XRP version 20 in 37 ms (sign 6.4 ms)
+A 21 OK paid 0.001 XRP total 0.021 XRP version 21 in 42 ms (sign 6.4 ms)
+A 22 OK paid 0.001 XRP total 0.022 XRP version 22 in 42 ms (sign 6.4 ms)
+A 23 OK paid 0.001 XRP total 0.023 XRP version 23 in 44 ms (sign 6.4 ms)
+A 24 OK paid 0.001 XRP total 0.024 XRP version 24 in 42 ms (sign 6.5 ms)
+A 25 OK paid 0.001 XRP total 0.025 XRP version 25 in 51 ms (sign 6.4 ms)
+A 26 OK paid 0.001 XRP total 0.026 XRP version 26 in 41 ms (sign 6.4 ms)
+A 27 OK paid 0.001 XRP total 0.027 XRP version 27 in 41 ms (sign 6.4 ms)
+A 28 OK paid 0.001 XRP total 0.028 XRP version 28 in 43 ms (sign 6.4 ms)
+A 29 OK paid 0.001 XRP total 0.029 XRP version 29 in 43 ms (sign 6.4 ms)
+A 30 OK paid 0.001 XRP total 0.03 XRP version 30 in 104 ms (sign 6.4 ms)
+A 31 OK paid 0.001 XRP total 0.031 XRP version 31 in 48 ms (sign 6.4 ms)
+A 32 OK paid 0.001 XRP total 0.032 XRP version 32 in 40 ms (sign 6.4 ms)
+A 33 OK paid 0.001 XRP total 0.033 XRP version 33 in 41 ms (sign 6.4 ms)
+A 34 OK paid 0.001 XRP total 0.034 XRP version 34 in 45 ms (sign 6.4 ms)
+A 35 OK paid 0.001 XRP total 0.035 XRP version 35 in 36 ms (sign 6.4 ms)
+A 36 OK paid 0.001 XRP total 0.036 XRP version 36 in 46 ms (sign 6.4 ms)
+A 37 OK paid 0.001 XRP total 0.037 XRP version 37 in 39 ms (sign 6.5 ms)
+A 38 OK paid 0.001 XRP total 0.038 XRP version 38 in 43 ms (sign 6.3 ms)
+A 39 OK paid 0.001 XRP total 0.039 XRP version 39 in 46 ms (sign 6.4 ms)
+A 40 OK paid 0.001 XRP total 0.04 XRP version 40 in 40 ms (sign 6.4 ms)
+A 41 OK paid 0.001 XRP total 0.041 XRP version 41 in 43 ms (sign 6.4 ms)
+A 42 OK paid 0.001 XRP total 0.042 XRP version 42 in 45 ms (sign 6.4 ms)
+A 43 OK paid 0.001 XRP total 0.043 XRP version 43 in 35 ms (sign 6.4 ms)
+A 44 OK paid 0.001 XRP total 0.044 XRP version 44 in 40 ms (sign 6.4 ms)
+A 45 OK paid 0.001 XRP total 0.045 XRP version 45 in 39 ms (sign 6.4 ms)
+A 46 OK paid 0.001 XRP total 0.046 XRP version 46 in 39 ms (sign 6.4 ms)
+A 47 OK paid 0.001 XRP total 0.047 XRP version 47 in 36 ms (sign 6.5 ms)
+A 48 OK paid 0.001 XRP total 0.048 XRP version 48 in 44 ms (sign 6.4 ms)
+A 49 OK paid 0.001 XRP total 0.049 XRP version 49 in 47 ms (sign 6.4 ms)
+A 50 OK paid 0.001 XRP total 0.05 XRP version 50 in 45 ms (sign 6.4 ms)
+09:18:07.397 pi2> bal
+OK
+out channel 8D52B248A4928DC9CF34F0BDBF6F6C75FC86B6D5401CE3A32673324107D29643 funded 1 sent 0.05 remaining 0.95 version 50
+in none
+[09:18:08.066] === freeze xrpld (SIGSTOP): chain RPC unreachable ===
+[09:18:13.092] rpc frozen (no answer within 3s)
+[09:18:13.093] === series C: 10 payments pi2 -> pi3 with the chain frozen ===
+C 1 OK paid 0.001 XRP total 0.051 XRP version 51 in 43 ms (sign 6.4 ms)
+C 2 OK paid 0.001 XRP total 0.052 XRP version 52 in 37 ms (sign 6.5 ms)
+C 3 OK paid 0.001 XRP total 0.053 XRP version 53 in 39 ms (sign 6.4 ms)
+C 4 OK paid 0.001 XRP total 0.054 XRP version 54 in 39 ms (sign 6.4 ms)
+C 5 OK paid 0.001 XRP total 0.055 XRP version 55 in 47 ms (sign 6.4 ms)
+C 6 OK paid 0.001 XRP total 0.056 XRP version 56 in 39 ms (sign 6.6 ms)
+C 7 OK paid 0.001 XRP total 0.057 XRP version 57 in 47 ms (sign 6.4 ms)
+C 8 OK paid 0.001 XRP total 0.058 XRP version 58 in 39 ms (sign 6.7 ms)
+C 9 OK paid 0.001 XRP total 0.059 XRP version 59 in 37 ms (sign 6.7 ms)
+C 10 OK paid 0.001 XRP total 0.06 XRP version 60 in 44 ms (sign 6.6 ms)
+09:18:20.272 pi3> bal
+OK
+out none
+in channel 8D52B248A4928DC9CF34F0BDBF6F6C75FC86B6D5401CE3A32673324107D29643 funded 1 received 0.06 redeemed 0 unredeemed 0.06 version 60 tower 0.06 ticket 32
+09:18:20.977 pi3> watch
+OK 09:18:18.748 chain unreachable
+[09:18:21.672] === unfreeze xrpld ===
+09:18:28.691 pi2> onchain
+OK 9998.44966 XRP ledger 3691 close_time 842779110
+[09:18:29.471] === tower pushes seen by pi3 ===
+pushes 67
+09:18:19.515 TOWER holds claim 0.059 XRP (presign 14.3 ms, round trip 41 ms)
+09:18:20.223 TOWER holds claim 0.06 XRP (presign 14.3 ms, round trip 41 ms)
+[09:18:29.638] === cooperative close by the payee ===
+09:18:29.640 pi3> close in
+OK redeem+close claim 0.06 XRP: paid out 0.06 XRP, channel closed, tesSUCCESS ledger 3692 in 1202 ms (total 1302 ms)
+09:18:31.664 pi2> onchain
+OK 9999.38966 XRP ledger 3692 close_time 842779111
+09:18:32.429 pi3> onchain
+OK 10000.60975 XRP ledger 3692 close_time 842779111
+[09:18:33.119] === resource use (RSS KiB, %CPU, uptime s) ===
+pi2 xrppay 48352  1.5      70 /home/brady/lnmesh-xrp/venv/bi
+pi3 xrppay 64960  5.0      68 /home/brady/lnmesh-xrp/venv/bi
+gw tower 53760  1.9      72
+gw xrpld 440272 0.1   14760
+xrpld binary bytes 52106416
+venv size 36M
